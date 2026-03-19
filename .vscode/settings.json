@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "/home/bastian/RSE_SWE_SS26"
+    "cmake.sourceDirectory": "/home/bastian/RSE_SWE_SS26",
+    "cmake.ctest.testExplorerIntegrationEnabled": true
 }
