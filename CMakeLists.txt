@@ -4,4 +4,4 @@ project(RSE_SWE_SS26_CM)
 
 set(MODULE cpp_list)
 
-add_subdirectory($MODULE)
+add_subdirectory(${MODULE})
