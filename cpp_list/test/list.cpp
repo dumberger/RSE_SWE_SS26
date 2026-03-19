@@ -2,7 +2,6 @@
 // Created by madtic on 19.03.26.
 //
 #inlcude "list.hpp"
-
 #include <gtest/gtest.h>
 
 TEST(LIST, insert_element) {
