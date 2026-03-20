@@ -70,11 +70,6 @@ bool List::getNode(unsigned int index, ListNode *&node) const {
  */
 unsigned int List::count() const {
     return count_;
-    /*unsigned int size = 0;
-    for(ListNode* node = this -> first; node != nullptr; node = node->next) {
-        size++;
-    }
-    return size;*/
 }
 
 /**
@@ -174,27 +169,13 @@ void List::remove(unsigned int index) {
     }
     if (getNode(index, node)) {
         if (node != nullptr) {
-            /*ListNode* nextNode = nullptr;
-            ListNode* previousNode = nullptr;
-            previousNode = node -> prev;
-            nextNode = node -> next;
-            if (previousNode != nullptr) {
-                previousNode -> next = nextNode;    //might be nullptr if last element is removed
-            }
-            if (nextNode != nullptr) {
-                nextNode -> prev = previousNode;
-            }*/
-
             if (node -> prev != nullptr) {
                 node -> prev -> next =  node -> next;    //might be nullptr if last element is removed
             }
             if (node -> next != nullptr) {
                  node -> next -> prev = node -> prev;
             }
-
-            //free(node);       C
-            delete node;        //c++
-            node = nullptr;
+            delete node; node = nullptr;
             count_ = count_ -1;
         }
     }
