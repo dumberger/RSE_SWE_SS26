@@ -1,21 +1,45 @@
+//
+// Created by madtic on 06.03.26.
+//
+
 #pragma once
 
-class List 
+
+class List
 {
 private:
     struct ListNode {
         int value;
-        struct ListNode* next;
+        ListNode* next;
+        ListNode* prev;
     };
-    
-    ListNode* first;
-public:
-    List();
-    ~List();
 
-    bool get(unsigned int index, int& val);
-    void push_back(int value);
+    ListNode* first;
+    ListNode* last;
+    unsigned int count_;
+
+public:
+    List();     //constructor
+    ~List();    //destructor
+
+    bool get(unsigned int index, int& value) const;
+    bool getNode(unsigned int index, ListNode*& node) const;
+    unsigned int count() const;
+    void append(int value);
+    void prepend(int value);
+    void insert(unsigned int index, int value);
     void remove(unsigned int index);
-    void print();
-    unsigned int length();
+    void print() const;
+    void printReverse() const;
+
+    void push_back(int value);
+	unsigned int length();
 };
+
+
+
+
+
+
+
+

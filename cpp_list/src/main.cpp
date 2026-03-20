@@ -1,32 +1,84 @@
+//
+// Created by madtic on 06.03.26.
+//
+
+#include <cstdio>
+#include <cstdlib>
 #include "list.hpp"
-#include <stdio.h>
+
+void testListMethods(List testList) {
+    if (testList.count() == 0) {
+        printf("\nList is empty");
+        return;
+    }
+
+    //test insert and remove
+
+    //test insert at 0
+    printf("Testing insert and remove at zero\n");
+    testList.insert(0,-9999);
+    testList.print();
+    printf("\noriginal\n");
+    testList.remove(0);
+    testList.print();
+    printf("\n");
+
+    printf("Testing insert and remove at last-1\n");
+    int last = testList.count()-1;
+    testList.insert(last,9999);
+    testList.print();
+    printf("\noriginal\n");
+    testList.remove(last);
+    testList.print();
+    printf("\n");
+
+    unsigned int index = testList.count() / 2;
+    printf("Testing List index is %u\n", index);
+    testList.insert(index,1000);
+    testList.print();
+    printf("\noriginal\n");
+    testList.remove(index);
+    testList.print();
+
+    printf("\nreverse print\n");
+    testList.printReverse();
+    printf("\n");
+
+    //test lenght and size
+    if (testList.count() == testList.length()) {
+        printf("Size equals length\n");
+    }
+    else {
+        printf("Size does not equal length\n");
+    }
+}
 
 int main(int argc, char** argv) {
-    // create a list
-    List list;
-    /// read numbers from user
-    int number = 0;
-    int num_read = 0;
+
+    //entry to nodes
+    List myList;
+
+    //ask user for number
+    int numberFromUser = -1;
+    int inputRead = 0;
     do {
-        printf("enter a number (anything else to cancel):\n");
-        num_read = scanf("%i", &number);
-        // put number into list
-        if (num_read > 0) {
-            list.push_back(number);
-        }
-        /// until an invalid input
-    } while(num_read > 0);
-    /// output list in reverse
-    printf("\n\n your numbers in reverse:\n");
-    for (int i = list.length() - 1; i > -1; i--) {
-        // read elements from list
-        int value;
-        if (list.get(i, value)){
-            printf("%i, ", value);
+        printf("Please enter a number (anything else to cancel): ");
+        inputRead = scanf("%i", &numberFromUser);
+
+        if (inputRead > 0) {
+            //do the list things
+            myList.append(numberFromUser);
         }
     }
+    while (inputRead > 0);
+
+    //output stored values
+    printf("\n\nyour numbers in reverse:\n");
+    myList.printReverse();
     printf("\n\n");
-    // release memory to avoid a memory leak
-    // -> now automatic
+
+    //tests also insert, remove and both print methods
+    //testListMethods(myList);
+
     return 0;
 }
