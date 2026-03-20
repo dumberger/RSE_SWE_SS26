@@ -10,8 +10,8 @@ TEST(LIST, list_elements) {
     list.push_back(100);
     list.push_back(200);
     list.push_back(300);
-    EXPECT_EQ(list.length(), 3);
-    EXPECT_EQ(list.length(), list.size());
+    EXPECT_EQ(list.length(), 3);    //3 elements
+    EXPECT_EQ(list.length(), list.size());  //lenght same as size
 }
 
 //Testing insert of list node
@@ -55,6 +55,8 @@ TEST(LIST, get_node) {
     list.push_back(200);
     list.push_back(300);
     ASSERT_TRUE(list.getNode(1, node));
+
+    //check node
     ASSERT_EQ(node.Value, 200);
     ASSERT_EQ(node.prev, list.first);
     ASSERT_EQ(node.next, list.last);
