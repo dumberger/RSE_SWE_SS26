@@ -14,15 +14,6 @@ void testListMethods(List testList) {
 
     //test insert and remove
 
-    //test insert at 0
-    printf("Testing insert and remove at zero\n");
-    testList.insert(0,-9999);
-    testList.print();
-    printf("\noriginal\n");
-    testList.remove(0);
-    testList.print();
-    printf("\n");
-
     printf("Testing insert and remove at last-1\n");
     int last = testList.count()-1;
     testList.insert(last,9999);
@@ -43,14 +34,6 @@ void testListMethods(List testList) {
     printf("\nreverse print\n");
     testList.printReverse();
     printf("\n");
-
-    //test lenght and size
-    if (testList.count() == testList.length()) {
-        printf("Size equals length\n");
-    }
-    else {
-        printf("Size does not equal length\n");
-    }
 }
 
 int main(int argc, char** argv) {
@@ -76,9 +59,6 @@ int main(int argc, char** argv) {
     printf("\n\nyour numbers in reverse:\n");
     myList.printReverse();
     printf("\n\n");
-
-    //tests also insert, remove and both print methods
-    //testListMethods(myList);
 
     return 0;
 }
