@@ -15,6 +15,11 @@ bool List::get(unsigned int index, int *val) { // Klasse::Methode
     }
     node = node->next;
   }
+
+  if (node == nullptr) {
+    return false;
+  }
+
   *val = node->value;
   return true;
 }
@@ -93,27 +98,27 @@ void List::remove(unsigned int index) {
       return;
     }
   }
-  // Fehler behoben: tmp wird initialisiert, bevor es verwendet wird
+
+  // node ist der Knoten VOR dem zu löschenden
+  if (node->next == nullptr) {
+    return; // Der Index war out of bounds
+  }
+
   ListNode *tmp = node->next;
 
-  if (tmp->next == nullptr) { // Wenn das letzte Element gelöscht werden soll
+  if (tmp->next == nullptr) { // Löschen des letzten Element
     node->next = nullptr;
     this->last = node;
-    // c code: free(tmp);
-    // cpp code:
     delete tmp;
-    tmp = nullptr;
     return;
   }
-  tmp = node->next;
-  last = tmp->next;
-  node->next = last;
-  last->prev = node;
-  // c code: free(tmp);
-  // cpp code:
+
+  // Löschen eines Element mittendrin
+  ListNode *next_node = tmp->next;
+  node->next = next_node;
+  next_node->prev = node;
+
   delete tmp;
-  tmp = nullptr;
-  return;
 }
 
 unsigned int List::length() {
