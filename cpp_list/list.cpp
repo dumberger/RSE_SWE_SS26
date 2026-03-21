@@ -2,7 +2,8 @@
 #include <stdlib.h>
 
 List::List() {
-    first = nullptr;
+    first = nullptr; 
+    last = nullptr; 
 }
 
 bool List::get(unsigned int index, int& val) {
