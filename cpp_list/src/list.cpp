@@ -1,67 +1,134 @@
 #include "list.hpp"
 #include <stdlib.h>
+#include <stdio.h>
 
-List::List() {
+
+List::List() 
+{
     first = nullptr;
+    last = nullptr;
 }
 
 bool List::get(unsigned int index, int& val) {
-    ListNode* node = this->first;
-    for (int i = 0; i < index; i++) {
-        if (node == nullptr) {
-            return false;
-        }
-        node = node->next;
+    unsigned int len = length();
+
+    if(index >= len)
+    {
+        return false;
     }
-    val = node->value;
-    return true;
+
+    if(index <= (len / 2)){
+        ListNode* node = first;
+        for (int i = 0; i < index; i++) {
+            if (node == nullptr) {
+                return false;
+            }
+            node = node->next;
+        }
+        val = node->value;
+        return true;
+    }
+
+    else if(index > (len / 2)) {
+        ListNode* node = last;
+        for (int i = len - 1; i > index; i--) {
+            if (node == nullptr) {
+                return false;
+            }
+            node = node->prev;
+        }
+        val = node->value;
+        return true;
+    }
+
+    else{
+        return false;
+    }
 }
 
 void List::push_back(int value) {
-    ListNode* node = this->first;
+    ListNode* node = this->last;
+
     if (node == nullptr) {
-        //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
         ListNode* newNode = new ListNode;
         if (newNode == nullptr) {
             exit(1);
         }
         newNode->value = value;
         newNode->next = nullptr;
+        newNode->prev = nullptr;
         this->first = newNode;
+        this->last = newNode;
         return;
     }
-    while(node->next != nullptr) {
-        node = node->next;
-    }
-    //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+
     ListNode* newNode = new ListNode;
     if (newNode == nullptr) {
         exit(1);
     }
     newNode->value = value;
     newNode->next = nullptr;
+    newNode->prev = node;
     node->next = newNode;
+    this->last = newNode;
     return;
 }
 
 List::~List() {
-    while(length() > 0) {
-        remove(0);
+    ListNode* node = this->first;
+    ListNode* tmp;
+
+    while(node != nullptr){
+        tmp = node->next;
+        delete node;
+        node = tmp;  
     }
+    first = nullptr;
+    last = nullptr;
 }
 
 void List::remove(unsigned int index){
-    ListNode* node = this->first;
-    if (this->first == nullptr) {
+
+    if (this->first == nullptr || this->last == nullptr ||index >= length()) {
         return;
     }
+
+    ListNode* node;
     ListNode* tmp;
+
     if(index == 0) {
+        node = this->first;
         this->first = node->next;
-        //free(node); node = NULL;
-        delete node; node = nullptr;
+        if (this->first != nullptr) {
+            this->first->prev = nullptr;
+        }
+        delete node; 
+        node = nullptr;
+
+        if(this->first == nullptr){
+            this->last = nullptr;
+        }
+
         return;
     }
+
+    if(index == length()-1) {
+        node = this->last;
+        this->last = node->prev;
+        if (this->last != nullptr) {
+            this->last->next = nullptr;
+        }
+        delete node;
+        node = nullptr;
+
+        if(this->last == nullptr){
+            this->first = nullptr;
+        }
+
+        return;
+    }
+
+    node = this->first;
     for (int i = 0; i < index - 1; i++) {
         node = node->next;
         if (node->next == nullptr) {
@@ -70,18 +137,37 @@ void List::remove(unsigned int index){
     }
     tmp = node->next;
     node->next = tmp->next;
-    //free(tmp); tmp = NULL;
-    delete tmp; tmp = nullptr;
+    node->next->prev = tmp->prev;
+    delete tmp;
+    tmp = nullptr;
     return;
 }
 
 void List::print(){
-    //HOMEWORK
+    for (int i = 0; i < length(); i++) {
+        int value;
+        if (get(i, value)){
+            printf("%i, ", value);
+        }
+    }
+
+    printf("\n");
+}
+
+void List::printReverse(){
+    for (int i = length() - 1; i > -1; i--) {
+        int value;
+        if (get(i, value)){
+            printf("%i, ", value);
+        }
+    }
+    
+    printf("\n");
 }
 
 unsigned int List::length() {
     unsigned int len = 0;
-    for (ListNode* i = this->first; i != nullptr; i = i->next) {
+    for (ListNode* i = first; i != nullptr; i = i->next) {
         len++;
     }
     return len;

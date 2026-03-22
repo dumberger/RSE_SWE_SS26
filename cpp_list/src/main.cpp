@@ -4,6 +4,7 @@
 int main(int argc, char** argv) {
     // create a list
     List list;
+
     /// read numbers from user
     int number = 0;
     int num_read = 0;
@@ -16,17 +17,24 @@ int main(int argc, char** argv) {
         }
         /// until an invalid input
     } while(num_read > 0);
-    /// output list in reverse
-    printf("\n\n your numbers in reverse:\n");
-    for (int i = list.length() - 1; i > -1; i--) {
-        // read elements from list
-        int value;
-        if (list.get(i, value)){
-            printf("%i, ", value);
-        }
-    }
+
+
+    // HOMEWORK - CHANGE //
+
+
+    // OPTIONAL
+    // Remove at index, first and last
+    // Check if remove works
+    //listRemove(&list, 1);
+    //listRemove(&list, 0);
+    //listRemove(&list, listLength(list)-1);
+
+    printf("\n\nyour numbers in chronological order:\n");
+    list.print();
+    
+    printf("\n\nyour numbers in reverse:\n");
+    list.printReverse();
     printf("\n\n");
-    // release memory to avoid a memory leak
-    // -> now automatic
+
     return 0;
 }
