@@ -16,6 +16,7 @@ TEST(double_linked_list, get){
     list.push_back(1);
     ASSERT_TRUE(list.get(0, value));
     EXPECT_EQ(value, 1);
+    ASSERT_FALSE(list.get(4, value));
 }
 
 TEST(double_linked_list, pushBack){
