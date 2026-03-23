@@ -1,4 +1,4 @@
-#include "list.hpp"
+#include "../include/list.hpp"
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
