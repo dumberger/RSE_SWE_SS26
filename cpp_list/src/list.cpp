@@ -1,4 +1,5 @@
 #include "../include/list.hpp"
+#include "list.hpp"
 #include <stdlib.h>
 
 List::List() {
@@ -7,6 +8,9 @@ List::List() {
 
 bool List::get(unsigned int index, int& val) {
     ListNode* node = this->first;
+    if (node == nullptr) {
+        return false;
+    }
     for (int i = 0; i < index; i++) {
         if (node == nullptr) {
             return false;
