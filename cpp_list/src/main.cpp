@@ -12,11 +12,6 @@ int main(int argc, char** argv) {
     //entry to nodes
     List myList;
 
-    myList.append(111);
-    myList.append(222);
-    myList.append(333);
-    myList.remove(0);
-
     //ask user for number
     int numberFromUser = -1;
     int inputRead = 0;
