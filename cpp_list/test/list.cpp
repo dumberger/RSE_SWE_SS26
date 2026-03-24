@@ -20,7 +20,7 @@ TEST(list, insert_element){
     ASSERT_EQ(value, 123); // Assert erwarten und wenns nicht funktioniert bricht er ab
 }
 
-#include "list.hpp"
+//#include "list.hpp"
 
 #include <gtest/gtest.h>
 
