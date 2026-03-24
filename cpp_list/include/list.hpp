@@ -19,6 +19,7 @@ private:
     ListNode* last;
     unsigned int count_;
 
+    //private methods
     bool getNode(unsigned int index, ListNode*& node) const;
 
 public:
@@ -32,9 +33,13 @@ public:
     void prepend(int value);
     void insert(unsigned int index, int value);
     void remove(unsigned int index);
+
+    //so print can be tested and remote debug in clion works correctly
     void print(std::ostream& stream) const;
     void printReverse(std::ostream& stream) const;
 
+    void print() const;
+    void printReverse() const;
     void push_back(int value);
 	unsigned int length();
 };

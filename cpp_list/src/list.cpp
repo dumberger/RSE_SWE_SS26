@@ -7,6 +7,8 @@
 #include <cstdlib>
 #include "list.hpp"
 
+#include <iostream>
+
 
 List::List() {
     first = nullptr;
@@ -23,7 +25,10 @@ List::~List() = default;
  * @return true if index is valid and node found, false when index not in list
  */
 bool List::get(unsigned int index, int& value) const {
-    if (index > this->count() -1) {
+    if (count_ == 0) {
+        return false;
+    }
+    if (index >= count_) {
         return false;
     }
     ListNode* node = nullptr;
@@ -87,7 +92,7 @@ void List::append(int value) {
     ListNode* newNode = new ListNode{value, nullptr, this -> last};
     this -> last -> next = newNode;
     this -> last = newNode;
-    count_ = count_ + 1;
+    count_++;
 }
 
 /**
@@ -104,7 +109,7 @@ void List::prepend(int value) {
     ListNode* newNode = new ListNode{value, this -> first, nullptr};
     this -> first -> prev = newNode;
     this -> first = newNode;
-    count_ = count_ + 1;
+    count_++;
 }
 
 /**
@@ -134,7 +139,7 @@ void List::insert(unsigned int index, int value) {
             ListNode* newNode = new ListNode {value, insertionNode -> next, insertionNode};
             insertionNode -> next -> prev = newNode;
             insertionNode -> next = newNode;
-            count_ = count_ + 1;
+            count_++;
         }
     }
 }
@@ -144,42 +149,29 @@ void List::insert(unsigned int index, int value) {
  * @param index of node to be removed from the list
  */
 void List::remove(unsigned int index) {
-    //no list nodes
-    if (this -> first == nullptr) {
+    //no list nodes or index invalid
+    if (!first || index >= count_) {
         //no node to remove
         return;
     }
-
+    //get node
     ListNode* node = nullptr;
-    //only one node
-    if (index == 0) {
-        node = this -> first;
-        this -> first = node -> next;
-        node -> next -> prev = nullptr;
-        delete(node); node = nullptr;
-        count_ = count_ -1;
+    if (!getNode(index, node) || !node) {
+        //no node or node is null
         return;
     }
-    if (index == count_ -1) {
-        node = this -> last;
-        this -> last = node -> prev;
-        node -> prev -> next = nullptr;
-        delete(node); node = nullptr;
-        count_ = count_ -1;
-        return;
-    }
-    if (getNode(index, node)) {
-        if (node != nullptr) {
-            if (node -> prev != nullptr) {
-                node -> prev -> next =  node -> next;    //might be nullptr if last element is removed
-            }
-            if (node -> next != nullptr) {
-                 node -> next -> prev = node -> prev;
-            }
-            delete node; node = nullptr;
-            count_ = count_ -1;
+        if (node -> prev != nullptr) {
+            node -> prev -> next =  node -> next;    //might be nullptr if last element is removed
+        } else {
+            first = node->next;  //first node
         }
-    }
+        if (node -> next != nullptr) {
+             node -> next -> prev = node -> prev;
+        } else {
+            last = node -> prev;    //last node
+        }
+        delete node; node = nullptr;
+        count_--;
 }
 
 /**
@@ -200,6 +192,14 @@ void List::printReverse(std::ostream& stream) const {
     for(ListNode* currentNode = this->last;currentNode != nullptr; currentNode = currentNode->prev) {
         stream << currentNode -> value << "\n";
     }
+}
+
+void List::print() const {
+    print(std::cout);
+}
+
+void List::printReverse() const {
+    printReverse(std::cout);
 }
 
 void List::push_back(int value) {
