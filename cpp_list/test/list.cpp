@@ -4,14 +4,14 @@
 #include "list.hpp"
 #include <gtest/gtest.h>
 
-//test lenght and size
+//test lenght and count
 TEST(LIST, list_elements) {
     List list;
     list.push_back(100);
     list.push_back(200);
     list.push_back(300);
     EXPECT_EQ(list.length(), 3);    //3 elements
-    EXPECT_EQ(list.length(), list.size());  //lenght same as size
+    EXPECT_EQ(list.length(), list.count());  //lenght same as count
 }
 
 //Testing insert of list node
@@ -25,7 +25,7 @@ TEST(LIST, insert_element) {
     ASSERT_EQ(value, 123);
 }
 
-//Testing get value of list node
+//Testing get value stored in list node
 TEST(LIST, get_value) {
     List list;
     int value;
@@ -42,24 +42,6 @@ TEST(LIST, get_value) {
     list.push_back(100);
     ASSERT_TRUE(list.get(0, value));
     ASSERT_EQ(value, insertion_value);
-}
-
-TEST(LIST, get_node) {
-    List list;
-    //empty list
-    NodeList* node;
-    ASSERT_FALSE(list.getNode(100, node));
-
-    //list element
-    list.push_back(100);
-    list.push_back(200);
-    list.push_back(300);
-    ASSERT_TRUE(list.getNode(1, node));
-
-    //check node
-    ASSERT_EQ(node.Value, 200);
-    ASSERT_EQ(node.prev, list.first);
-    ASSERT_EQ(node.next, list.last);
 }
 
 //Testing insert and remove at zero
@@ -87,4 +69,30 @@ TEST(LIST, remove_element) {
     EXPECT_EQ(value, 200);
     ASSERT_TRUE(list.get(1, value));
     EXPECT_EQ(value, 200);
+}
+
+//Testing of print
+TEST(ListTest, PrintToStream) {
+    List list;
+    list.push_back(100);
+    list.push_back(200);
+    list.push_back(300);
+
+    std::ostringstream oss;
+    list.print(oss);
+
+    EXPECT_EQ(oss.str(), "100\n200\n300\n");
+}
+
+//Testing of printReverse
+TEST(ListTest, PrintReverseToStream) {
+    List list;
+    list.push_back(100);
+    list.push_back(200);
+    list.push_back(300);
+
+    std::ostringstream oss;
+    list.print(oss);
+
+    EXPECT_EQ(oss.str(), "300\n200\n100\n");
 }

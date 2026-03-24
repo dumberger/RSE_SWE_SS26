@@ -2,6 +2,7 @@
 // Created by madtic on 06.03.26.
 //
 
+#include <ostream>
 #include <cstdio>
 #include <cstdlib>
 #include "list.hpp"
@@ -65,8 +66,8 @@ bool List::getNode(unsigned int index, ListNode *&node) const {
 }
 
 /**
- * gets size_ property
- * @return size of list
+ * gets count_ property
+ * @return count of nodes in list
  */
 unsigned int List::count() const {
     return count_;
@@ -181,17 +182,23 @@ void List::remove(unsigned int index) {
     }
 }
 
-void List::print() const {
+/**
+ *
+ * @param stream prints values to stream
+ */
+void List::print(std::ostream& stream) const {
     for(ListNode* currentNode = this->first;currentNode != nullptr; currentNode = currentNode->next) {
-        printf("%i\n", currentNode -> value);
+        stream << currentNode -> value << "\n";
     }
 }
 
-
-
-void List::printReverse() const {
+/**
+ *
+ * @param stream as print but reversed
+ */
+void List::printReverse(std::ostream& stream) const {
     for(ListNode* currentNode = this->last;currentNode != nullptr; currentNode = currentNode->prev) {
-        printf("%i\n", currentNode -> value);
+        stream << currentNode -> value << "\n";
     }
 }
 
