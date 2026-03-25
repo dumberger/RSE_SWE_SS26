@@ -6,9 +6,11 @@ private:
     struct ListNode {
         int value;
         struct ListNode* next;
+        struct ListNode* prev;
     };
     
     ListNode* first;
+    ListNode* last;
 public:
     List();
     ~List();
@@ -17,5 +19,6 @@ public:
     void push_back(int value);
     void remove(unsigned int index);
     void print();
+    void print_reverse();
     unsigned int length();
 };

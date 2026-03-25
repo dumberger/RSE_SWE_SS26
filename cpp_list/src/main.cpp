@@ -18,6 +18,8 @@ int main(int argc, char** argv) {
     } while(num_read > 0);
     /// output list in reverse
     printf("\n\n your numbers in reverse:\n");
+    list.print_reverse();
+    /*
     for (int i = list.length() - 1; i > -1; i--) {
         // read elements from list
         int value;
@@ -25,6 +27,7 @@ int main(int argc, char** argv) {
             printf("%i, ", value);
         }
     }
+    */
     printf("\n\n");
     // release memory to avoid a memory leak
     // -> now automatic
