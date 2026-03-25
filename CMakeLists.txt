@@ -3,6 +3,12 @@ cmake_minimum_required(VERSION 3.15)
 
 project(RSE_SWE_SS26)
 
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+set(CMAKE_CXX_FLAGS_DEBUG "-g3 -O0")
+
 set(MODULE cpp_list)
 
 # Fix für FetchContent auf Filesystemen mit Umbenennungsproblemen
