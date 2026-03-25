@@ -1,6 +1,5 @@
 /* list.cpp */
-#include "list.hpp"
-#include <stdio.h>
+#include "../include/list.hpp"
 #include <stdlib.h>
 
     /* *********** */
@@ -41,7 +40,7 @@ List::~List()
     /* **************** */
 
 // get the value at the given index
-bool List::get(unsigned int index, int& val)
+bool List::get(unsigned int index, int& val) const
 {    
     ListNode* node = this->first;
     // get the node at the given index
@@ -101,15 +100,15 @@ void List::push_back(int value)
 }
 
 // remove the node at the given index
-void List::remove(unsigned int index)
+bool List::remove(unsigned int index)
 {
     ListNode* node = this->first;
     // if the first node is nullptr the list is empty
     if (node == nullptr)
-    {
-        return;
+    {        
+        return false;
     }
-    ListNode* tmp = nullptr;
+    
     // if the first node is the one to remove
     if (index == 0)
     {
@@ -124,20 +123,26 @@ void List::remove(unsigned int index)
         }
 
         delete node; node = nullptr;
-        return;
+        return true;
     }
 
     // get the node before the one to remove
     for (unsigned int i = 0; i < index - 1; i++)
     {
-        node = node->next;
-        if (node->next == nullptr)
-        {
-            return;
+        if (node->next == nullptr) 
+        {           
+            return false;
         }
+        node = node->next;
     }
-    // remove the node
-    tmp = node->next;
+
+    // get the next node which one is the one to remove
+    ListNode* tmp = node->next;
+    //if temp is a nullptr -> out of index and return
+    if (tmp == nullptr)
+    {
+        return false;
+    }
     node->next = tmp->next;
     if (tmp->next != nullptr)
     {
@@ -149,31 +154,45 @@ void List::remove(unsigned int index)
     }
     delete tmp; tmp = nullptr;
 
-    return;
+    return true;
 }
 
 // print the list from first to last
-void List::print()
+void List::print(std::ostream& os) const
 {
     for (ListNode* i = this->first; i != nullptr; i = i->next)
     {
-        printf("%i, ", i->value);
+        if (i->next == nullptr)
+        {
+            os << i->value;
+        }
+        else
+        {
+            os << i->value << ", ";
+        }        
     }
     return;
 }
 
 // print the list from last to first
-void List::printReverse()
+void List::printReverse(std::ostream& os) const
 {
     for (ListNode* i = this->last; i != nullptr; i = i->prev)
     {
-        printf("%i, ", i->value);
+        if (i->prev == nullptr)
+        {
+            os << i->value;
+        }
+        else
+        {
+            os << i->value << ", ";
+        }        
     }
     return;
 }
 
 // return the number of elements in the list
-unsigned int List::length()
+unsigned int List::length() const
 {
     unsigned int len = 0;
     for (ListNode* i = this->first; i != nullptr; i = i->next)

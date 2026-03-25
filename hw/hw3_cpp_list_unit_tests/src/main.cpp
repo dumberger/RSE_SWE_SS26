@@ -1,5 +1,5 @@
 /* main.cpp */
-#include "list.hpp"
+#include "../include/list.hpp"
 #include <stdio.h>
 
 int main(int argc, char *argv[]) 
@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
     do 
     {
         /// read numbers from user
-        printf("enter a number (anything else to cancel):\n");
+        std::cout << "enter a number (anything else to cancel):\n";
         num_read = scanf("%i", &number);
         // put numbers into list
         if (num_read > 0)
@@ -23,12 +23,12 @@ int main(int argc, char *argv[])
     } while(num_read > 0);
         
     /// output list
-
+    std::cout << "\nyour list:\n";
     list.print();
-    printf("\n");
+    std::cout << "\nyour list reverse:\n";
     /// output list in reverse
     list.printReverse();
-    printf("\n\n");
+    std::cout << "\n\n";
     // the destructor will be called automatically        
     return 0;
 }
