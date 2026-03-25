@@ -4,7 +4,7 @@
 int main(int argc, char** argv) {
     // create a list
     List list;
-    /// read numbers from user
+    /// read numbers from userDoople verkette linked list implementieren
     int number = 0;
     int num_read = 0;
     do {
@@ -18,15 +18,11 @@ int main(int argc, char** argv) {
     } while(num_read > 0);
     /// output list in reverse
     printf("\n\n your numbers in reverse:\n");
-    for (int i = list.length() - 1; i > -1; i--) {
-        // read elements from list
-        int value;
-        if (list.get(i, value)){
-            printf("%i, ", value);
-        }
-    }
-    printf("\n\n");
-    // release memory to avoid a memory leak
-    // -> now automatic
-    return 0;
+    
+    list.print();
+    
+    // output list reversely
+    printf("\n\n your numbers in reverse:\n");
+    list.reverse_print();  
+     
 }
