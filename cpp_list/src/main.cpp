@@ -14,7 +14,10 @@ int main(int argc, char** argv) {
         if (num_read > 0) {
             list.push_back(number);
         }
-        /// until an invalid input
+        else { 
+            printf("Ungueltige Eingabe! Einlesen wird abgebrochen.\n");
+        }
+        list.print();/// until an invalid input
     } while(num_read > 0);
     /// output list in reverse
     printf("\n\n your numbers in reverse:\n");
@@ -22,7 +25,10 @@ int main(int argc, char** argv) {
         // read elements from list
         int value;
         if (list.get(i, value)){
-            printf("%i, ", value);
+            printf("%i", value);
+            if (i > 0) {
+                printf(", ");
+            }
         }
     }
     printf("\n\n");

@@ -1,8 +1,10 @@
 #include "list.hpp"
 #include <stdlib.h>
+#include <stdio.h>
 
 List::List() {
     first = nullptr;
+    last = nullptr;
 }
 
 bool List::get(unsigned int index, int& val) {
@@ -22,17 +24,17 @@ void List::push_back(int value) {
     if (node == nullptr) {
         //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
         ListNode* newNode = new ListNode;
-        if (newNode == nullptr) {
-            exit(1);
-        }
+        if (newNode == nullptr) exit(1);
+        
         newNode->value = value;
         newNode->next = nullptr;
+        newNode->prev = nullptr;
+        
         this->first = newNode;
+        this->last = newNode;
         return;
     }
-    while(node->next != nullptr) {
-        node = node->next;
-    }
+
     //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
     ListNode* newNode = new ListNode;
     if (newNode == nullptr) {
@@ -40,7 +42,10 @@ void List::push_back(int value) {
     }
     newNode->value = value;
     newNode->next = nullptr;
-    node->next = newNode;
+    
+    newNode->prev = this->last;
+    this->last->next = newNode;
+    this->last = newNode;
     return;
 }
 
@@ -76,8 +81,15 @@ void List::remove(unsigned int index){
 }
 
 void List::print(){
-    //HOMEWORK
-}
+    if (this->first == nullptr) {
+        printf("Liste ist leer.\n");
+        return; //HOMEWORK
+    }
+    for (ListNode* i = this->first; i != nullptr; i = i->next){
+        printf("%i ",i->value);
+    }
+    printf("\n");
+}    
 
 unsigned int List::length() {
     unsigned int len = 0;

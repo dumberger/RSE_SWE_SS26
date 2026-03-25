@@ -6,9 +6,11 @@ private:
     struct ListNode {
         int value;
         struct ListNode* next;
+        struct ListNode* prev;
     };
     
     ListNode* first;
+    ListNode* last;
 public:
     List();
     ~List();
