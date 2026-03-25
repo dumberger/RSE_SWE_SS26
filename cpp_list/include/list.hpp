@@ -1,21 +1,25 @@
-#pragma once
+#pragma once //preprozessor sagen, dass Datei nur 1x benötigt wird
 
-class List 
-{
+class List{
 private:
-    struct ListNode {
+    struct ListNode{
         int value;
         struct ListNode* next;
+        struct ListNode* prev;
     };
-    
+
     ListNode* first;
+    ListNode* last;
+
 public:
     List();
     ~List();
 
-    bool get(unsigned int index, int& val);
+    bool get( unsigned int index, int& val);
     void push_back(int value);
     void remove(unsigned int index);
     void print();
     unsigned int length();
+    void print_reverse();
+
 };
