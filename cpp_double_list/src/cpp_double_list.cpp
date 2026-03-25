@@ -29,6 +29,10 @@ bool List::get(unsigned int index, int &val) {
     node = node->next; // Zum nächsten Element gehen
   }
 
+  if (node == nullptr) {
+    return false;
+  }
+
   val = node->value; // Wert des gefundenen Elements speichern
   return true;
 };
