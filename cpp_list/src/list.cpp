@@ -1,88 +1,144 @@
 #include "list.hpp"
 #include <stdlib.h>
+#include <stddef.h>
+#include <stdio.h> 
+#include <stdbool.h>
+
 
 List::List() {
     first = nullptr;
+    last = nullptr;
 }
 
-bool List::get(unsigned int index, int& val) {
-    ListNode* node = this->first;
+bool List::get(unsigned int index, int& out_value) { 
+    ListNode* node = first;
+    if (node == nullptr) return false; // handle empty list case
+
     for (int i = 0; i < index; i++) {
         if (node == nullptr) {
-            return false;
+            // handle out of bounds access, for example by returning a default value or printing an error message
+            return false; // or some other error code
         }
         node = node->next;
     }
-    val = node->value;
+    out_value = node->value;
     return true;
 }
 
-void List::push_back(int value) {
-    ListNode* node = this->first;
-    if (node == nullptr) {
-        //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-        ListNode* newNode = new ListNode;
-        if (newNode == nullptr) {
-            exit(1);
-        }
-        newNode->value = value;
-        newNode->next = nullptr;
-        this->first = newNode;
-        return;
+// all the parameters are just copies and not references 
+// so we need to use pointers to modify the original value
+
+void List::pushBack(int value){ 
+    // before in c we had to pass the list as a pointer, but now we can just use the class and its members directly
+    // is like metod of this exact class, so we can access the members directly without needing to pass the list as a parameter
+
+    ListNode* new_node = new ListNode; 
+    if(new_node == nullptr) exit(1); 
+
+    new_node->value = value; // new node is freshly created is not part of the list, so it need a pointer to the value
+    new_node->next = nullptr; // the end of the list is always nullptr
+    new_node->prev = last; // last node belongs to the list which we know, so no need to adress it with a pointer
+
+    if (last != nullptr){ // if the list is not empty, we need to update the next pointer of the last node to point to the new node
+        last->next = new_node;
     }
-    while(node->next != nullptr) {
-        node = node->next;
+    else {
+        first = new_node;
     }
-    //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-    ListNode* newNode = new ListNode;
-    if (newNode == nullptr) {
-        exit(1);
-    }
-    newNode->value = value;
-    newNode->next = nullptr;
-    node->next = newNode;
-    return;
+
+    last = new_node; // updating
 }
 
-List::~List() {
-    while(length() > 0) {
+
+void List::_delete(){
+    while (length() > 0) {
         remove(0);
     }
 }
 
 void List::remove(unsigned int index){
-    ListNode* node = this->first;
-    if (this->first == nullptr) {
-        return;
+    if (first == nullptr) return; 
+
+    ListNode* target = first; // list->first is actually just a var (or value), not the address of the first node
+
+    // target is just a pointer used to navigate the existing nodes and safely re-link them
+    // is used only for navigation and is not a specific value/node like the list itself.
+
+    for (int i = 0; i < index; i++) { 
+        if (target == nullptr) return;
+        target = target->next; // *target.next is the same as target->next
     }
-    ListNode* tmp;
-    if(index == 0) {
-        this->first = node->next;
-        //free(node); node = NULL;
-        delete node; node = nullptr;
-        return;
+
+    if (target == nullptr) return;
+
+    if (target->prev != nullptr) {
+        target->prev->next = target->next;
     }
-    for (int i = 0; i < index - 1; i++) {
-        node = node->next;
-        if (node->next == nullptr) {
-            return;
-        }
+    else {
+        first = target->next; // no need to list->first because we are already inside the class via List:: and can access the members directly
     }
-    tmp = node->next;
-    node->next = tmp->next;
-    //free(tmp); tmp = NULL;
-    delete tmp; tmp = nullptr;
+
+    if (target->next != nullptr) {
+        target->next->prev = target->prev;
+    }
+    else {
+        last = target->prev;
+    }
+
+    delete(target); target = nullptr;
     return;
 }
 
-void List::print(){
-    //HOMEWORK
+void List::print() {
+    printf("\n\n");
+    for (int i = 0; i < length(); i++) {
+        int value;
+        // read elements from list
+
+        if (i == length() - 1 && get(i, value)) {
+            printf("%i", value);
+            break;
+        }
+        else if (get(i, value)) {
+            printf("%i, ", value);
+        } else {
+        printf("Error reading value at index %i\n", i);
+        }
+    }
+    printf("\n\n");
+    return;
+
 }
 
-unsigned int List::length() {
-    unsigned int len = 0;
-    for (ListNode* i = this->first; i != nullptr; i = i->next) {
-        len++;
+void List::printReverse() {
+    printf("\n\n");
+    for (int i = length() - 1; i > -1; i--) {
+        int value;
+        // read elements from list
+        
+        if (i == 0 && get(i, value)) {
+            printf("%i ", value);
+            break;
+        }
+        else if (get(i, value)) {
+            printf("%i, ", value);
+        } else {
+            printf("Error reading value at index %i\n", i);
+        }
     }
-    return len;
+    printf("\n\n");
+    return;
+}
+
+unsigned int List::length(){
+    unsigned int length = 0;
+    for (ListNode* i = first; i != nullptr; i = i->next) {
+        length++;
+    }
+    return length;
+}
+
+List::~List(){
+// is for now empty, but can be used later
+
 }

@@ -1,32 +1,49 @@
-#include "list.hpp"
-#include <stdio.h>
+#include "list.hpp" // with "" are used for user defined header files, with <> are used for system header files
+#include <stdio.h> 
 
-int main(int argc, char** argv) {
+int main (int args, char** argv)
+{
     // create a list
     List list;
-    /// read numbers from user
+
+    // get the size of the list
+    int size;
+    printf("Enter the size of the list: ");
+    scanf("%i", &size);
+
+    // read value from user
     int number = 0;
     int num_read = 0;
-    do {
-        printf("enter a number (anything else to cancel):\n");
-        num_read = scanf("%i", &number);
-        // put number into list
+    for (int i = 0; i < size; i++) {
+        printf("Enter a number: ");
+        num_read = scanf("%i", &number); // & is used to get the address of the variable, so that scanf can store the input value in that variabl (works like input in python)
+
+        // put the values in the list
         if (num_read > 0) {
-            list.push_back(number);
+            list.pushBack(number);
         }
-        /// until an invalid input
-    } while(num_read > 0);
-    /// output list in reverse
-    printf("\n\n your numbers in reverse:\n");
-    for (int i = list.length() - 1; i > -1; i--) {
-        // read elements from list
-        int value;
-        if (list.get(i, value)){
-            printf("%i, ", value);
-        }
+        // until an invalid input
+    } 
+
+    list.print();
+    
+    // output list in reverse
+    printf("List in reverse: ");
+    list.printReverse();
+
+    // remove an element from the list
+
+    printf("Remove element number: ");
+    int numbertoRemove = 0;
+    scanf("%i", &numbertoRemove);
+    if (numbertoRemove > 0) {
+        numbertoRemove = numbertoRemove - 1;
     }
-    printf("\n\n");
-    // release memory to avoid a memory leak
-    // -> now automatic
+    list.remove(numbertoRemove); // remove the element at the specified index
+
+    list.print();
+
+    // release memory to avoid memory leaks
+    list._delete();
     return 0;
 }

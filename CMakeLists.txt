@@ -1,8 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(RSE_SWE_SS26_CM)
+project(RSE_SWE_SS26_CM CXX)
 
 set(MODULE cpp_list)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -15,5 +17,14 @@ FetchContent_MakeAvailable(googletest)
 
 include(GoogleTest)
 enable_testing()
+
+add_executable(ListWithTests 
+    ${MODULE}/src/list.cpp 
+    ${MODULE}/src/main.cpp
+)
+
+gtest_discover_tests(ListWithTests)
+
+target_include_directories(ListWithTests PRIVATE ${MODULE}/include)
 
 add_subdirectory(${MODULE})
