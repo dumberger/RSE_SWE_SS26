@@ -1,91 +1,159 @@
+/*
+
+Erzeugte Kommentare von Github Copilot zum besseren, eigenen Verständnis
+der Funktionen
+
+*/
+
 #include "list.hpp"
+#include <stdio.h>
 #include <stdlib.h>
 
+// Erstellt eine neue Liste und initialisiert die Zeiger auf NULL.
 List::List() {
-    first = nullptr;
-}
+  first = nullptr; // Anfang der Liste ist leer
+  last = nullptr;  // Ende der Liste ist leer
+};
 
-bool List::get(unsigned int index, int& val) {
-    ListNode* node = this->first;
+// Gibt den Wert eines Elements an einer bestimmten Position in der Liste
+// zurück. Gibt `false` zurück, wenn der Index außerhalb der Liste liegt.
+bool List::get(unsigned int index, int &val) {
+  ListNode* node = this->first;
     if (node == nullptr) {
         return false;
     }
-    for (int i = 0; i < index; i++) {
-        if (node == nullptr) {
-            return false;
-        }
-        node = node->next;
+  for (int i = 0; i < index; i++) {
+    if (node == nullptr) { // Wenn das Ende der Liste erreicht ist
+      return false;
     }
-    val = node->value;
-    return true;
-}
+    node = node->next; // Zum nächsten Element gehen
+  }
 
+  if (node == nullptr) {
+    return false;
+  }
+
+  val = node->value; // Wert des gefundenen Elements speichern
+  return true;
+};
+
+// Fügt ein neues Element am Ende der Liste hinzu.
 void List::push_back(int value) {
-    ListNode* node = this->first;
-    if (node == nullptr) {
-        //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-        ListNode* newNode = new ListNode;
-        if (newNode == nullptr) {
-            exit(1);
-        }
-        newNode->value = value;
-        newNode->next = nullptr;
-        this->first = newNode;
-        return;
-    }
-    while(node->next != nullptr) {
-        node = node->next;
-    }
-    //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-    ListNode* newNode = new ListNode;
-    if (newNode == nullptr) {
-        exit(1);
-    }
-    newNode->value = value;
-    newNode->next = nullptr;
-    node->next = newNode;
-    return;
-}
+  ListNode *node = first;
 
+  if (node == NULL) { // Wenn die Liste leer ist
+    ListNode *newNode = new ListNode();
+
+    if (newNode == NULL) { // Fehlerbehandlung bei Speicherallokation
+      exit(1);
+    }
+    newNode->value = value;  // Wert setzen
+    newNode->next = nullptr; // Kein nächstes Element
+    newNode->prev = nullptr; // Kein vorheriges Element
+    first = newNode;         // Neues Element ist jetzt das erste
+    last = newNode;
+    return;
+  }
+
+  // Neues Element erstellen und anhängen
+  ListNode *newNode = new ListNode();
+  if (newNode == nullptr) { // Fehlerbehandlung bei Speicherallokation
+    exit(1);
+  }
+  newNode->value = value;  // Wert setzen
+  newNode->next = nullptr; // Kein nächstes Element
+  newNode->prev = last;    // Vorheriges Element ist das aktuelle letzte Element
+  last->next = newNode;    // Neues Element anhängen
+  last = newNode;          // Letztes Element aktualisieren
+  return;
+};
+
+// Löscht alle Elemente der Liste und gibt den Speicher frei.
 List::~List() {
-    while(length() > 0) {
-        remove(0);
-    }
-}
+  ListNode *curr = first;
+  while (curr != nullptr) {
+    ListNode *next = curr->next;
+    delete curr;
+    curr = next;
+  }
+  first = nullptr; // Liste ist jetzt leer
+  last = nullptr;
+};
 
-void List::remove(unsigned int index){
-    ListNode* node = this->first;
-    if (this->first == nullptr) {
-        return;
-    }
-    ListNode* tmp;
-    if(index == 0) {
-        this->first = node->next;
-        //free(node); node = NULL;
-        delete node; node = nullptr;
-        return;
-    }
-    for (int i = 0; i < index - 1; i++) {
-        node = node->next;
-        if (node->next == nullptr) {
-            return;
-        }
-    }
-    tmp = node->next;
-    node->next = tmp->next;
-    //free(tmp); tmp = NULL;
-    delete tmp; tmp = nullptr;
+// Entfernt ein Element an einer bestimmten Position in der Liste.
+void List::remove(unsigned int index) {
+  ListNode *node = first;
+  if (first == nullptr) {
+    // Erste Element der Liste NULL = Liste leer
     return;
-}
+  }
 
-void List::print(){
-    //HOMEWORK
-}
-
-unsigned int List::length() {
-    unsigned int len = 0;
-    for (ListNode* i = this->first; i != nullptr; i = i->next) {
-        len++;
+  if (index == 0) {
+    first = node->next;
+    if (first != nullptr) {
+      first->prev = nullptr;
+    } else {
+      last = nullptr; // Liste ist jetzt komplett leer
     }
-    return len;
-}
+    delete node;
+    return;
+  }
+
+  for (unsigned int i = 0; i < index; i++) {
+    if (node == nullptr) {
+      // Index außerhalb der Liste
+      return;
+    }
+    node = node->next;
+  }
+
+  if (node->prev != nullptr) {
+    node->prev->next = node->next; // Das vorherige Element überspringt das zu
+                                   // löschende Element
+  }
+  if (node->next != nullptr) {
+    node->next->prev =
+        node->prev; // Das nächste Element überspringt das zu löschende Element
+  } else {
+    last = node->prev; // Wenn das letzte Element gelöscht wird,
+                       // aktualisiere den Zeiger auf das letzte Element
+  }
+
+  delete node;
+
+  if (first == nullptr) {
+    last = nullptr;
+  }
+
+  return;
+};
+
+// Gibt die Liste aus
+void List::print() {
+  ListNode *node = first;
+  printf("List in Forward Oder: ");
+  while (node != NULL) {
+    printf("%i, ", node->value);
+    node = node->next;
+  }
+  printf("\n\n");
+};
+
+void List::print_reverse() {
+  ListNode *node = last;
+  printf("List in Reverse Oder: ");
+  while (node != nullptr) {
+    printf("%i, ", node->value);
+    node = node->prev;
+  }
+  printf("\n\n");
+};
+
+// Gibt die Länge der Liste zurück.
+unsigned int List::length() {
+  unsigned int len = 0;
+  for (ListNode *i = first; i != nullptr; i = i->next) { // Durchlaufe die Liste
+    len++;                                               // Zähle jedes Element
+  }
+  return len;
+};
