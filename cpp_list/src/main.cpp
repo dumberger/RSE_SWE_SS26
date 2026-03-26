@@ -26,6 +26,15 @@ int main(int argc, char** argv) {
         }
     }
     printf("\n\n");
+    for (auto i = list.begin(); i != list.end(); ++i) {
+        printf("%i, ", *i);
+    }
+    printf("\n\n");
+    for (int& i : list) {
+        printf("%i, ", i);
+    }
+    printf("\n\n");
+    
     // release memory to avoid a memory leak
     // -> now automatic
     return 0;

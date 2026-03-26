@@ -1,5 +1,8 @@
 #pragma once
 
+#include "ListNode.hpp"
+#include "ListIterator.hpp"
+
 class List 
 {
 private:
@@ -20,4 +23,7 @@ public:
     void remove(unsigned int index);
     void print();
     unsigned int length();
+
+    ListIterator begin();
+    ListIterator end();
 };

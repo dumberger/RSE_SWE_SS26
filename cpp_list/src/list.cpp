@@ -89,3 +89,11 @@ unsigned int List::length() {
     }
     return len;
 }
+
+ListIterator List::begin() {
+    return ListIterator(first);
+}
+
+ListIterator List::end() {
+    return ListIterator(nullptr);
+}
