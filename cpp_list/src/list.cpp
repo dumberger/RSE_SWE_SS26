@@ -1,90 +1,190 @@
+/* list.cpp */
 #include "list.hpp"
 #include <stdlib.h>
 
-List::List() {
+List::List()
+{
     first = nullptr;
+    last = nullptr;
 }
 
-bool List::get(unsigned int index, int& val) {
+List::~List()
+{
+    // get the first node
     ListNode* node = this->first;
-    if (node == nullptr) {
-        return false;
+    // delete all nodes
+    while (node != nullptr)
+    {
+        ListNode* next = node->next;
+        delete node;
+        node = next;
     }
-    for (int i = 0; i < index; i++) {
-        if (node == nullptr) {
+
+    // set first and last to nullptr
+    this->first = nullptr;
+    this->last = nullptr;
+
+    return;
+}
+
+// get the value at the given index
+bool List::get(unsigned int index, int& val) const
+{    
+    ListNode* node = this->first;
+    // get the node at the given index
+    for (unsigned int i = 0; i < index; i++)
+    {
+        if (node == nullptr)
+        {
             return false;
         }
+
         node = node->next;
     }
+
+    // if the index is equal the length of the list the node is nullptr
+    if (node == nullptr)
+    {
+        return false;
+    }
+
+    // return the value of the node
     val = node->value;
     return true;
 }
 
-void List::push_back(int value) {
-    ListNode* node = this->first;
-    if (node == nullptr) {
-        //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-        ListNode* newNode = new ListNode;
-        if (newNode == nullptr) {
-            exit(1);
-        }
-        newNode->value = value;
-        newNode->next = nullptr;
-        this->first = newNode;
-        return;
-    }
-    while(node->next != nullptr) {
-        node = node->next;
-    }
-    //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+// add a new value to the end of the list
+void List::push_back(int value)
+{
+    // create a new node
     ListNode* newNode = new ListNode;
-    if (newNode == nullptr) {
+    // check if malloc succeeded
+    if (newNode == nullptr)
+    {
         exit(1);
     }
+
+    // get the actual last node
+    ListNode* nodeLastAct = this->last;
+    // set new node values
     newNode->value = value;
     newNode->next = nullptr;
-    node->next = newNode;
+
+    // if the list is empty the first node is the new node
+    if (nodeLastAct == nullptr)
+    {                    
+        this->first = newNode;
+        newNode->prev = nullptr;
+    }
+    else // the next node of the actual last node is the new node
+    {
+        nodeLastAct->next = newNode;
+        newNode->prev = nodeLastAct;
+    }
+
+    this->last = newNode;
+
     return;
 }
 
-List::~List() {
-    while(length() > 0) {
-        remove(0);
-    }
-}
-
-void List::remove(unsigned int index){
+// remove the node at the given index
+bool List::remove(unsigned int index)
+{
     ListNode* node = this->first;
-    if (this->first == nullptr) {
-        return;
+    // if the first node is nullptr the list is empty
+    if (node == nullptr)
+    {        
+        return false;
     }
-    ListNode* tmp;
-    if(index == 0) {
+    
+    // if the first node is the one to remove
+    if (index == 0)
+    {
         this->first = node->next;
-        //free(node); node = NULL;
-        delete node; node = nullptr;
-        return;
-    }
-    for (int i = 0; i < index - 1; i++) {
-        node = node->next;
-        if (node->next == nullptr) {
-            return;
+        if (this->first != nullptr)
+        {
+            this->first->prev = nullptr;
         }
+        else 
+        {
+            this->last = nullptr;        
+        }
+
+        delete node; node = nullptr;
+        return true;
     }
-    tmp = node->next;
+
+    // get the node before the one to remove
+    for (unsigned int i = 0; i < index - 1; i++)
+    {
+        if (node->next == nullptr) 
+        {           
+            return false;
+        }
+        node = node->next;
+    }
+
+    // get the next node which one is the one to remove
+    ListNode* tmp = node->next;
+    //if temp is a nullptr -> out of index and return
+    if (tmp == nullptr)
+    {
+        return false;
+    }
     node->next = tmp->next;
-    //free(tmp); tmp = NULL;
+    if (tmp->next != nullptr)
+    {
+        tmp->next->prev = node;
+    }
+    else
+    {
+        this->last = node;
+    }
     delete tmp; tmp = nullptr;
+
+    return true;
+}
+
+// print the list from first to last
+void List::print(std::ostream& os) const
+{
+    for (ListNode* i = this->first; i != nullptr; i = i->next)
+    {
+        if (i->next == nullptr)
+        {
+            os << i->value;
+        }
+        else
+        {
+            os << i->value << ", ";
+        }        
+    }
     return;
 }
 
-void List::print(){
-    //HOMEWORK
+// print the list from last to first
+void List::printReverse(std::ostream& os) const
+{
+    for (ListNode* i = this->last; i != nullptr; i = i->prev)
+    {
+        if (i->prev == nullptr)
+        {
+            os << i->value;
+        }
+        else
+        {
+            os << i->value << ", ";
+        }        
+    }
+    return;
 }
 
-unsigned int List::length() {
+// return the number of elements in the list
+unsigned int List::length() const
+{
     unsigned int len = 0;
-    for (ListNode* i = this->first; i != nullptr; i = i->next) {
+    for (ListNode* i = this->first; i != nullptr; i = i->next)
+    {
         len++;
     }
     return len;
