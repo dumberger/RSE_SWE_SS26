@@ -1,7 +1,3 @@
-//
-// Created by madtic on 06.03.26.
-//
-
 #pragma once
 
 #include <ostream>
@@ -43,11 +39,3 @@ public:
     void push_back(int value);
 	unsigned int length();
 };
-
-
-
-
-
-
-
-
