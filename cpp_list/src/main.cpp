@@ -12,30 +12,30 @@ gcc main.c -o main
 int main(int argc, char **argv) {
 
   // create a list
-  List list;
+    List list;
 
-  // read number from user
-  int number = 0;
-  int num_read = 0;
+    // read number from user
+    int number = 0;
+    int num_read = 0;
 
-  do {
+    do {
 
-    printf("enter a number (anything else to cancel): ");
-    num_read = scanf("%i", &number);
+        printf("enter a number (anything else to cancel): ");
+        num_read = scanf("%i", &number);
 
-    // put number into list until an invalid input
-    if (num_read > 0) {
-      list.push_back(number);
-    }
+        // put number into list until an invalid input
+        if (num_read > 0) {
+        list.push_back(number);
+        }
 
   } while (num_read > 0);
 
-  list.print();
-  list.print_reverse();
+    list.print();
+    list.print_reverse();
 
-  list.remove(0);
+    list.remove(0);
 
-  list.print();
+    list.print();
 
-  return 0;
+    return 0;
 }
