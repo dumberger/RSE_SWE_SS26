@@ -5,10 +5,12 @@ class List
 private:
     struct ListNode {
         int value;
-        struct ListNode* next;
+        ListNode* next;
+        ListNode* prev;
     };
     
     ListNode* first;
+    ListNode* last;
 public:
     List();
     ~List();
