@@ -36,5 +36,10 @@ int main(int argc, char** argv) {
     list.printReverse();
     printf("\n\n");
 
+    for(auto i = list.begin(); i != list.end(); ++i)
+    {
+        printf("%i, ", *i);
+    }
+
     return 0;
 }

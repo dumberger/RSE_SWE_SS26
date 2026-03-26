@@ -1,14 +1,11 @@
 #pragma once
 
+#include "ListNode.hpp"
+#include "ListIterator.hpp"
+
 class List 
 {
     private:
-        struct ListNode {
-            int value;
-            struct ListNode* next;
-            struct ListNode* prev;
-        };
-
         ListNode* first;
         ListNode* last;
 
@@ -22,4 +19,7 @@ class List
         void print();
         void printReverse();
         unsigned int length();
+
+        ListIterator begin();
+        ListIterator end();
 };
