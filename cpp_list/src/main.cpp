@@ -3,29 +3,42 @@
 #include <cstdlib>
 #include "list.hpp"
 
+
 int main(int argc, char** argv) {
-
-    //entry to nodes
-    List myList;
-
-    //ask user for number
-    int numberFromUser = -1;
-    int inputRead = 0;
+    // create a list
+    List list;
+    /// read numbers from user
+    int number = 0;
+    int num_read = 0;
     do {
-        printf("Please enter a number (anything else to cancel): ");
-        inputRead = scanf("%i", &numberFromUser);
-
-        if (inputRead > 0) {
-            //do the list things
-            myList.append(numberFromUser);
+        printf("enter a number (anything else to cancel):\n");
+        num_read = scanf("%i", &number);
+        // put number into list
+        if (num_read > 0) {
+            list.push_back(number);
+        }
+        /// until an invalid input
+    } while(num_read > 0);
+    /// output list in reverse
+    printf("\n\n your numbers in reverse:\n");
+    for (int i = list.length() - 1; i > -1; i--) {
+        // read elements from list
+        int value;
+        if (list.get(i, value)){
+            printf("%i, ", value);
         }
     }
-    while (inputRead > 0);
-
-    //output stored values
-    printf("\n\nyour numbers in reverse:\n");
-    myList.printReverse();
     printf("\n\n");
-
+    for (auto i = list.begin(); i != list.end(); ++i) {
+        printf("%i, ", *i);
+    }
+    printf("\n\n");
+    for (int& i : list) {
+        printf("%i, ", i);
+    }
+    printf("\n\n");
+    
+    // release memory to avoid a memory leak
+    // -> now automatic
     return 0;
 }

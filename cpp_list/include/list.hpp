@@ -1,8 +1,9 @@
 #pragma once
 
-#include <ostream>
+#include "ListNode.hpp"
+#include "ListIterator.hpp"
 
-class List
+class List 
 {
 private:
     struct ListNode {
@@ -10,7 +11,7 @@ private:
         ListNode* next;
         ListNode* prev;
     };
-
+    
     ListNode* first;
     ListNode* last;
     unsigned int count_;
@@ -37,5 +38,10 @@ public:
     void print() const;
     void printReverse() const;
     void push_back(int value);
-	unsigned int length();
+    void remove(unsigned int index);
+    void print();
+    unsigned int length();
+
+    ListIterator begin();
+    ListIterator end();
 };
