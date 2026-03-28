@@ -1,5 +1,6 @@
 #include "list.hpp"
 #include <stdlib.h>
+#include <iostream>
 
 List::List() {
     first = nullptr;
@@ -78,8 +79,11 @@ void List::remove(unsigned int index){
     return;
 }
 
-void List::print(){
-    //HOMEWORK
+void List::print() {
+    for (auto &&i : *this) {
+        std::cout << i << ", ";
+    }
+    
 }
 
 unsigned int List::length() {

@@ -1,6 +1,7 @@
 #pragma once
 
-struct ListNode {
+struct ListNode
+{
     int value;
     struct ListNode* next;
 };
