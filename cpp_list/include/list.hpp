@@ -2,6 +2,7 @@
 
 #include "ListNode.hpp"
 #include "ListIterator.hpp"
+#include "ListReverse_Iterator.hpp"
 
 class List 
 {
@@ -33,4 +34,7 @@ public:
 
     ListIterator begin();
     ListIterator end();
+
+    ListReverse_Iterator rbegin();
+    ListReverse_Iterator rend();
 };

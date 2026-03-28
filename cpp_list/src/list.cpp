@@ -217,3 +217,10 @@ ListIterator List::begin() {
 ListIterator List::end() {
     return ListIterator(nullptr);
 }
+
+ListReverse_Iterator List::rbegin() {
+    return ListReverse_Iterator(last);
+}
+ListReverse_Iterator List::rend() {
+    return ListReverse_Iterator(nullptr);
+}
