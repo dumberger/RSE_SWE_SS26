@@ -2,5 +2,6 @@
 
 struct ListNode {
     int value;
-    struct ListNode* next;
+    ListNode* next;
+    ListNode* prev;
 };
