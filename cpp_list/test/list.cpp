@@ -131,6 +131,4 @@ TEST(LIST, border_test)
     ASSERT_FALSE(list.get(100, value));
     ASSERT_TRUE(list.get(99, value));
     ASSERT_TRUE(list.get(98, value));
-
-
 }

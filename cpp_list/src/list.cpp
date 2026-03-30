@@ -52,9 +52,17 @@ void List::push_back(int value) {
 
     if (node == nullptr) {
         ListNode* newNode = new ListNode;
+        
+        // !!! In Cpp new cannot return a nullptr, will notice std::bad_alloc
+        // unless exceptions are turned off 
+        // https://stackoverflow.com/questions/3389420/will-new-operator-return-null#:~:text=On%20a%20standards-conforming%20C%2B%2B,return%20NULL%20if%20allocation%20fails).
+        // Segment removed everywhere else !!!
+
+        /*
         if (newNode == nullptr) {
             exit(1);
         }
+        */
         newNode->value = value;
         newNode->next = nullptr;
         newNode->prev = nullptr;
@@ -64,9 +72,7 @@ void List::push_back(int value) {
     }
 
     ListNode* newNode = new ListNode;
-    if (newNode == nullptr) {
-        exit(1);
-    }
+
     newNode->value = value;
     newNode->next = nullptr;
     newNode->prev = node;
@@ -90,7 +96,9 @@ List::~List() {
 
 void List::remove(unsigned int index){
 
-    if (this->first == nullptr || this->last == nullptr ||index >= length()) {
+    unsigned int len = length();
+
+    if (this->first == nullptr || this->last == nullptr ||index >= len) {
         return;
     }
 
@@ -113,7 +121,7 @@ void List::remove(unsigned int index){
         return;
     }
 
-    if(index == length()-1) {
+    if(index == len-1) {
         node = this->last;
         this->last = node->prev;
         if (this->last != nullptr) {
@@ -145,22 +153,19 @@ void List::remove(unsigned int index){
 }
 
 void List::print(){
-    for (int i = 0; i < length(); i++) {
-        int value;
-        if (get(i, value)){
-            printf("%i, ", value);
-        }
+    for(auto i = begin(); i != end(); ++i)
+    {
+        printf("%i, ", *i);
     }
 
     printf("\n");
 }
 
 void List::printReverse(){
-    for (int i = length() - 1; i > -1; i--) {
-        int value;
-        if (get(i, value)){
-            printf("%i, ", value);
-        }
+
+    for(auto i = ListIterator(last); i != end(); --i)
+    {
+        printf("%i, ", *i);
     }
     
     printf("\n");
@@ -168,7 +173,7 @@ void List::printReverse(){
 
 unsigned int List::length() {
     unsigned int len = 0;
-    for (ListNode* i = first; i != nullptr; i = i->next) {
+    for (auto i = begin(); i != end(); ++i) {
         len++;
     }
     return len;

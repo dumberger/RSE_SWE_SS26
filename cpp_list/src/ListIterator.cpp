@@ -6,12 +6,12 @@ int& ListIterator::operator*(){
     return _node->value;
 }
 
-ListIterator ListIterator::operator++(){
+ListIterator& ListIterator::operator++(){
     _node = _node->next;
     return *this;
 }
 
-ListIterator ListIterator::operator--(){
+ListIterator& ListIterator::operator--(){
     _node = _node->prev;
     return *this;
 }
