@@ -2,6 +2,7 @@
 #include "ListIterator.hpp"
 #include <stdlib.h>
 #include <stdio.h>
+#include <iostream>
 
 
 List::List() 
