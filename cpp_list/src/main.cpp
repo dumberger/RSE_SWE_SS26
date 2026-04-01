@@ -16,6 +16,7 @@ int main(int argc, char** argv) {
         }
         /// until an invalid input
     } while(num_read > 0);
+    
     /// output list in reverse
     printf("\n\n your numbers in reverse:\n");
     

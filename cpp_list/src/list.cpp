@@ -1,4 +1,6 @@
 #include "list.hpp"
+#include "ListIterator.hpp"
+#include "stdio.h"
 #include <cstdio>
 #include <stdlib.h>
 
@@ -97,26 +99,34 @@ void List::remove(unsigned int index){
 
 void List::print(){
     //HOMEWORK
-    ListNode* node = this->first;
-    for(int i = 0; node != nullptr; node = node->next, i++) {
-        printf("%i," , node->value);
+    for(auto i= begin(); i != end(); ++i) {
+        printf(" %i,", *i);
     }
+    printf("\n");
 
 }
 
 void List::reverse_print() {
     //HOMEWORK
-    ListNode* node = last;
-    for(int i = length() - 1; node != nullptr; node = node->prev, i--) {
-        printf(" %i,", node->value);
+   
+    for(auto i = ListIterator(last); i != end(); --i) {
+        printf(" %i,", *i);
     }
     printf("\n");
-}
+}   
 
 unsigned int List::length() {
     unsigned int len = 0;
-    for (ListNode* i = this->first; i != nullptr; i = i->next) {
+    for (auto i = begin(); i != end(); ++i) {
         len++;
     }
     return len;
+}
+
+ListIterator List::begin() {
+    return ListIterator(first);
+}
+
+ListIterator List::end() {
+    return ListIterator(nullptr);
 }
