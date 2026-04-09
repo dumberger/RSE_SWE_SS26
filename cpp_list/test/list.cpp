@@ -24,9 +24,15 @@ TEST(LIST, push_back_multiple) {
     list.push_back(20);
     list.push_back(30);
     EXPECT_EQ(list.length(), 3);
+
     int value;
+    ASSERT_TRUE(list.get(0, value));
+    ASSERT_EQ(value, 10);
     ASSERT_TRUE(list.get(1, value));
     ASSERT_EQ(value, 20);
+    ASSERT_TRUE(list.get(2, value));
+    ASSERT_EQ(value, 30);
+    ASSERT_FALSE(list.get(3, value));
 }
 
 TEST(LIST, get_out_of_bounds) {
