@@ -42,3 +42,21 @@ TEST(LIST, get_negative_index) {
     int value;
     ASSERT_FALSE(list.get(-1, value));
 }
+
+TEST(LIST, remove_middle_element) {
+    List list;
+    list.push_back(10);
+    list.push_back(20);
+    list.push_back(30);
+
+    list.remove(1);
+
+    EXPECT_EQ(list.length(), 2);
+
+    int value;
+    ASSERT_TRUE(list.get(0, value));
+    EXPECT_EQ(value, 10);
+    ASSERT_TRUE(list.get(1, value));
+    EXPECT_EQ(value, 30);
+    ASSERT_FALSE(list.get(2, value));
+}
