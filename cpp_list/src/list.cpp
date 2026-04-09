@@ -1,4 +1,5 @@
-#include "list.hpp"
+// the errors in this file cannot be avoided because the IDE does not recognize the include cpp pattern
+
 #include <stdlib.h>
 #include <iostream>
 

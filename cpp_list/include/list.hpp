@@ -21,3 +21,7 @@ public:
     ListIterator<T> begin();
     ListIterator<T> end();
 };
+
+// not a good design but it woks fo templating the List afterwards
+// do not use this in production code
+#include "../src/list.cpp"
