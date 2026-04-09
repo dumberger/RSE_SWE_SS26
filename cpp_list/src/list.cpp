@@ -1,10 +1,8 @@
 #include <ostream>
+#include <iostream>
 #include <cstdio>
 #include <cstdlib>
 #include "list.hpp"
-
-#include <iostream>
-
 
 List::List() {
     first = nullptr;

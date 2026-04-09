@@ -2,6 +2,7 @@
 // Created by madtic on 19.03.26.
 //
 #include "list.hpp"
+#include <ostream>
 #include <gtest/gtest.h>
 
 //test lenght and count
@@ -31,7 +32,7 @@ TEST(LIST, list_prepend) {
     list.push_back(100);
     list.push_back(200);
     list.push_back(300);
-    list.prepend(-9999);
+    list.push_front(-9999);
     EXPECT_EQ(list.length(), 4);
     int value;
     ASSERT_TRUE(list.get(0, value));
@@ -44,7 +45,7 @@ TEST(LIST, list_append) {
     list.push_back(100);
     list.push_back(200);
     list.push_back(300);
-    list.append(9999);
+    list.push_back(9999);
     EXPECT_EQ(list.length(), 4);
     int value;
     ASSERT_TRUE(list.get(3, value));
@@ -92,11 +93,11 @@ TEST(LIST, remove_element) {
     EXPECT_EQ(list.length(), 0);
 
     //adding more than one then remove
-    list.prepend(100);
+    list.push_front(100);
     list.push_back(200);
     list.push_back(300);
     list.push_back(400);
-    list.append(500);
+    list.push_back(500);
 
     EXPECT_EQ(list.length(), 5);
     list.remove(0); //first
@@ -118,7 +119,7 @@ TEST(ListTest, PrintToStream) {
     list.push_back(300);
 
     std::ostringstream oss;
-    list.print(oss);
+    list.printToStream(oss);
 
     EXPECT_EQ(oss.str(), "100\n200\n300\n");
 }
@@ -131,7 +132,7 @@ TEST(ListTest, PrintReverseToStream) {
     list.push_back(300);
 
     std::ostringstream oss;
-    list.printReverse(oss);
+    list.printReverseToStream(oss);
 
     EXPECT_EQ(oss.str(), "300\n200\n100\n");
 }

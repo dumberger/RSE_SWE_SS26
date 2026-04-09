@@ -1,5 +1,6 @@
 #pragma once
 
+#include <ostream>
 #include "ListNode.hpp"
 #include "ListIterator.hpp"
 #include "ListReverse_Iterator.hpp"
