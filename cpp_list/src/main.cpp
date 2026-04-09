@@ -4,7 +4,7 @@
 #include "list.hpp"
 
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     // create a list
     List list;
     /// read numbers from user
@@ -18,13 +18,13 @@ int main(int argc, char** argv) {
             list.push_back(number);
         }
         /// until an invalid input
-    } while(num_read > 0);
+    } while (num_read > 0);
     /// output list in reverse
     printf("\n\n your numbers in reverse:\n");
     for (int i = list.length() - 1; i > -1; i--) {
         // read elements from list
         int value;
-        if (list.get(i, value)){
+        if (list.get(i, value)) {
             printf("%i, ", value);
         }
     }
@@ -38,7 +38,7 @@ int main(int argc, char** argv) {
     printf("\n\n");
 
     // shorthand version of the loop above
-    for (int& i : list) {
+    for (int &i: list) {
         printf("%i, ", i);
     }
     printf("\n\n");
@@ -46,7 +46,7 @@ int main(int argc, char** argv) {
     for (auto i = list.rbegin(); i != list.rend(); ++i) {
         printf("%i, ", *i);
     }
-    
+
     // release memory to avoid a memory leak
     // -> now automatic
     return 0;

@@ -20,16 +20,16 @@ List::~List() = default;
  * @param value contains value of the node with index
  * @return true if index is valid and node found, false when index not in list
  */
-bool List::get(unsigned int index, int& value) const {
+bool List::get(unsigned int index, int &value) const {
     if (count_ == 0) {
         return false;
     }
     if (index >= count_) {
         return false;
     }
-    ListNode* node = nullptr;
+    ListNode *node = nullptr;
     this->getNode(index, node);
-    value = node ->value;
+    value = node->value;
     return true;
 }
 
@@ -40,26 +40,26 @@ bool List::get(unsigned int index, int& value) const {
  * @return true if index is valid and node found, false when index not in list
  */
 bool List::getNode(unsigned int index, ListNode *&node) const {
-    if (index > this->count() -1) {
+    if (index > this->count() - 1) {
         return false;
     }
     unsigned int currentSize = this->count();
-    ListNode* currentNode = first;
-    if (index < currentSize/2) {                    //split search by looking into index then search from first or from last
+    ListNode *currentNode = first;
+    if (index < currentSize / 2) {
+        //split search by looking into index then search from first or from last
         for (unsigned int i = 0; i < index; i++) {
-            if(currentNode == nullptr) {
+            if (currentNode == nullptr) {
                 return false;
             }
-            currentNode = currentNode -> next;
+            currentNode = currentNode->next;
         }
-    }
-    else {
+    } else {
         currentNode = last;;
-        for (unsigned int i = currentSize -1; i > index; i--) {
-            if(currentNode == nullptr) {
+        for (unsigned int i = currentSize - 1; i > index; i--) {
+            if (currentNode == nullptr) {
                 return false;
             }
-            currentNode = currentNode -> prev;
+            currentNode = currentNode->prev;
         }
     }
     node = currentNode;
@@ -78,16 +78,16 @@ unsigned int List::count() const {
  *
  * @param value to be added at end of list
  */
-void List::append(int value) {
-    if (this -> first == nullptr) {
-        this -> first = new ListNode{value, nullptr, nullptr};
-        this -> last = this -> first;
+void List::push_back(int value) {
+    if (this->first == nullptr) {
+        this->first = new ListNode{value, nullptr, nullptr};
+        this->last = this->first;
         count_ = 1;
         return;
     }
-    ListNode* newNode = new ListNode{value, nullptr, this -> last};
-    this -> last -> next = newNode;
-    this -> last = newNode;
+    ListNode *newNode = new ListNode{value, nullptr, this->last};
+    this->last->next = newNode;
+    this->last = newNode;
     count_++;
 }
 
@@ -95,16 +95,16 @@ void List::append(int value) {
  *
  * @param value to be added at beginning of list
  */
-void List::prepend(int value) {
-    if (this -> first == nullptr) {
-        this -> first = new ListNode{value, nullptr, nullptr};
-        this -> last = this -> first;
+void List::push_front(int value) {
+    if (this->first == nullptr) {
+        this->first = new ListNode{value, nullptr, nullptr};
+        this->last = this->first;
         count_ = 1;
         return;
     }
-    ListNode* newNode = new ListNode{value, this -> first, nullptr};
-    this -> first -> prev = newNode;
-    this -> first = newNode;
+    ListNode *newNode = new ListNode{value, this->first, nullptr};
+    this->first->prev = newNode;
+    this->first = newNode;
     count_++;
 }
 
@@ -114,27 +114,29 @@ void List::prepend(int value) {
  * @param value to be inserted at position of index
  */
 void List::insert(unsigned int index, int value) {
-    if (this -> first == nullptr) {
-        this -> first = new ListNode {value, nullptr, nullptr};
-        this -> last = this -> first;
+    if (this->first == nullptr) {
+        this->first = new ListNode{value, nullptr, nullptr};
+        this->last = this->first;
         count_ = 1;
         return;
     }
-    if (index == 0) {   //add at the beginning
-        prepend(value);
+    if (index == 0) {
+        //add at the beginning
+        push_front(value);
         return;
     }
-    if (index == count_) {   //add at the end -> should be out of index but implemented anyway
-        append(value);
+    if (index == count_) {
+        //add at the end -> should be out of index but implemented anyway
+        push_back(value);
         return;
     }
     //insert in the middle
-    ListNode* insertionNode = nullptr;
-    if (this -> getNode(index-1, insertionNode)) {
+    ListNode *insertionNode = nullptr;
+    if (this->getNode(index - 1, insertionNode)) {
         if (insertionNode != nullptr) {
-            ListNode* newNode = new ListNode {value, insertionNode -> next, insertionNode};
-            insertionNode -> next -> prev = newNode;
-            insertionNode -> next = newNode;
+            ListNode *newNode = new ListNode{value, insertionNode->next, insertionNode};
+            insertionNode->next->prev = newNode;
+            insertionNode->next = newNode;
             count_++;
         }
     }
@@ -151,32 +153,33 @@ void List::remove(unsigned int index) {
         return;
     }
     //get node
-    ListNode* node = nullptr;
+    ListNode *node = nullptr;
     if (!getNode(index, node) || !node) {
         //no node or node is null
         return;
     }
-        if (node -> prev != nullptr) {
-            node -> prev -> next =  node -> next;    //might be nullptr if last element is removed
-        } else {
-            first = node->next;  //first node
-        }
-        if (node -> next != nullptr) {
-             node -> next -> prev = node -> prev;
-        } else {
-            last = node -> prev;    //last node
-        }
-        delete node; node = nullptr;
-        count_--;
+    if (node->prev != nullptr) {
+        node->prev->next = node->next; //might be nullptr if last element is removed
+    } else {
+        first = node->next; //first node
+    }
+    if (node->next != nullptr) {
+        node->next->prev = node->prev;
+    } else {
+        last = node->prev; //last node
+    }
+    delete node;
+    node = nullptr;
+    count_--;
 }
 
 /**
  *
  * @param stream prints values to stream
  */
-void List::print(std::ostream& stream) const {
-    for(ListNode* currentNode = this->first;currentNode != nullptr; currentNode = currentNode->next) {
-        stream << currentNode -> value << "\n";
+void List::printToStream(std::ostream &stream) const {
+    for (ListNode *currentNode = this->first; currentNode != nullptr; currentNode = currentNode->next) {
+        stream << currentNode->value << "\n";
     }
 }
 
@@ -184,27 +187,23 @@ void List::print(std::ostream& stream) const {
  *
  * @param stream as print but reversed
  */
-void List::printReverse(std::ostream& stream) const {
-    for(ListNode* currentNode = this->last;currentNode != nullptr; currentNode = currentNode->prev) {
-        stream << currentNode -> value << "\n";
+void List::printReverseToStream(std::ostream &stream) const {
+    for (ListNode *currentNode = this->last; currentNode != nullptr; currentNode = currentNode->prev) {
+        stream << currentNode->value << "\n";
     }
 }
 
 void List::print() const {
-    print(std::cout);
+    printToStream(std::cout);
 }
 
 void List::printReverse() const {
-    printReverse(std::cout);
-}
-
-void List::push_back(int value) {
-    append(value);
+    printReverseToStream(std::cout);
 }
 
 unsigned int List::length() {
     unsigned int len = 0;
-    for (ListNode* i = this->first; i != nullptr; i = i->next) {
+    for (ListNode *i = this->first; i != nullptr; i = i->next) {
         len++;
     }
     return len;
@@ -221,6 +220,7 @@ ListIterator List::end() {
 ListReverse_Iterator List::rbegin() {
     return ListReverse_Iterator(last);
 }
+
 ListReverse_Iterator List::rend() {
     return ListReverse_Iterator(nullptr);
 }
