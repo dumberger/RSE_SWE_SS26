@@ -1,5 +1,4 @@
 #include "../include/list.hpp"
-#include "list.hpp"
 #include <stdlib.h>
 
 List::List() {
@@ -89,4 +88,13 @@ unsigned int List::length() {
         len++;
     }
     return len;
+}
+
+
+ListIterator List::begin(){
+    return ListIterator(first);
+}
+
+ListIterator List::end(){
+    return ListIterator(nullptr);
 }

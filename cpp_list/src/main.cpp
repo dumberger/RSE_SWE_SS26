@@ -1,5 +1,4 @@
 #include "../include/list.hpp"
-#include "list.hpp"
 #include <stdio.h>
 
 int main(int argc, char** argv) {
@@ -27,6 +26,17 @@ int main(int argc, char** argv) {
         }
     }
     printf("\n\n");
+    for(auto i =list.begin(); i != list.end();++i){ //Besser, weil wir die Liste nicht durchlaufen müssen
+        printf("%i, ", *i);
+    }
+    printf("\n\n");
+
+    //Kurzform der obigen Schleife
+    for(auto i: list){
+        printf("%i, ", i);
+    }
+    printf("\n\n");
+
     // release memory to avoid a memory leak
     // -> now automatic
     return 0;
