@@ -1,6 +1,9 @@
 #pragma once
 #include "ListIterator.hpp"
 
+#include "ListNode.hpp"
+#include "ListIterator.hpp"
+
 class List 
 {
 private:
