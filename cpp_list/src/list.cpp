@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <iostream>
 
-List::List() {
+template<typename T>
+List<T>::List() {
     first = nullptr;
 }
 
-bool List::get(unsigned int index, int& val) {
-    ListNode* node = this->first;
+template<typename T>
+bool List<T>::get(unsigned int index, T& val) {
+    ListNode<T>* node = this->first;
     if (node == nullptr) {
         return false;
     }
@@ -21,11 +23,12 @@ bool List::get(unsigned int index, int& val) {
     return true;
 }
 
-void List::push_back(int value) {
-    ListNode* node = this->first;
+template<typename T>
+void List<T>::push_back(T value) {
+    ListNode<T>* node = this->first;
     if (node == nullptr) {
         //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-        ListNode* newNode = new ListNode;
+        ListNode<T>* newNode = new ListNode<T>;
         if (newNode == nullptr) {
             exit(1);
         }
@@ -38,7 +41,7 @@ void List::push_back(int value) {
         node = node->next;
     }
     //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-    ListNode* newNode = new ListNode;
+    ListNode<T>* newNode = new ListNode<T>;
     if (newNode == nullptr) {
         exit(1);
     }
@@ -48,18 +51,20 @@ void List::push_back(int value) {
     return;
 }
 
-List::~List() {
+template<typename T>
+List<T>::~List() {
     while(length() > 0) {
         remove(0);
     }
 }
 
-void List::remove(unsigned int index){
-    ListNode* node = this->first;
+template<typename T>
+void List<T>::remove(unsigned int index){
+    ListNode<T>* node = this->first;
     if (this->first == nullptr) {
         return;
     }
-    ListNode* tmp;
+    ListNode<T>* tmp;
     if(index == 0) {
         this->first = node->next;
         //free(node); node = NULL;
@@ -79,25 +84,29 @@ void List::remove(unsigned int index){
     return;
 }
 
-void List::print() {
+template<typename T>
+void List<T>::print() {
     for (auto &&i : *this) {
         std::cout << i << ", ";
     }
     
 }
 
-unsigned int List::length() {
+template<typename T>
+unsigned int List<T>::length() {
     unsigned int len = 0;
-    for (ListNode* i = this->first; i != nullptr; i = i->next) {
+    for (ListNode<T>* i = this->first; i != nullptr; i = i->next) {
         len++;
     }
     return len;
 }
 
-ListIterator List::begin() {
+template<typename T>
+ListIterator<T> List<T>::begin() {
     return ListIterator(first);
 }
 
-ListIterator List::end() {
-    return ListIterator(nullptr);
+template<typename T>
+ListIterator<T> List<T>::end() {
+    return ListIterator<T>(nullptr);
 }

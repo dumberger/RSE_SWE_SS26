@@ -3,20 +3,21 @@
 #include "ListNode.hpp"
 #include "ListIterator.hpp"
 
+template<typename T>
 class List 
 {
 private:
-    ListNode* first;
+    ListNode<T>* first;
 public:
     List();
     ~List();
 
-    bool get(unsigned int index, int& val);
-    void push_back(int value);
+    bool get(unsigned int index, T& val);
+    void push_back(T value);
     void remove(unsigned int index);
     void print();
     unsigned int length();
 
-    ListIterator begin();
-    ListIterator end();
+    ListIterator<T> begin();
+    ListIterator<T> end();
 };
