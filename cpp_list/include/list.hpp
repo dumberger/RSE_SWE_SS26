@@ -7,14 +7,6 @@
 class List
 {
 private:
-    /// @brief The ListNode struct represents a node in the doubly linked list, containing an integer value and pointers to the next and previous nodes.
-    struct ListNode
-    {
-        int value;
-        ListNode* next;
-        ListNode* prev;
-    };
-
     /// @brief Pointer to first node (nullptr if list is empty)
     ListNode* first;
     /// @brief Pointer to last node (nullptr if list is empty)
