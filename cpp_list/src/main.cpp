@@ -44,6 +44,20 @@ int main(int argc, char **argv) {
 
   printf("\n\n");
 
+  // optimized for loops using iterators
+  // forward for now but reverse is possible in most containers using rbegin()
+  // and rend()
+  for (auto i = list.begin(); i != list.end(); ++i) {
+    printf("%i, ", *i);
+  }
+  printf("\n\n");
+
+  // shorthand version of the loop above
+  for (int &i : list) {
+    printf("%i, ", i);
+  }
+  printf("\n\n");
+
   // release memory to avoid a memory leak
   // listDelete(&list); // am Ende Liste nicht löschen weil cpp sich selbst drum
   // kümmert

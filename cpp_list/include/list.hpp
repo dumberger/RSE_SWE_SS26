@@ -1,5 +1,8 @@
 #pragma once
 
+#include "ListIterator.hpp"
+#include "ListNode.hpp"
+
 // #include <stdbool.h>    bool ist in cpp standardmäßig definiert, also nicht
 // nötig
 
@@ -27,4 +30,7 @@ public:
   void print();
   unsigned int length();
   void printReverse();
+
+  ListIterator begin();
+  ListIterator end();
 };

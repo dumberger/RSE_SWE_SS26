@@ -1,4 +1,5 @@
 #include "list.hpp"
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -119,24 +120,32 @@ void List::remove(unsigned int index) {
   next_node->prev = node;
 
   delete tmp;
-}
-
-unsigned int List::length() {
-  unsigned int len = 0;
-  for (ListNode *i = this->first; i != nullptr; i = i->next) {
-    len++;
+  void List::print() {
+    for (auto &&i : *this) {
+      std::cout << i << ", ";
+    }
   }
-  return len;
-}
 
-void List::print() {
-  for (ListNode *i = this->first; i != nullptr; i = i->next) {
-    printf("%i, ", i->value);
+  unsigned int List::length() {
+    unsigned int len = 0;
+    for (ListNode *i = this->first; i != nullptr; i = i->next) {
+      len++;
+    }
+    return len;
   }
-}
 
-void List::printReverse() {
-  for (ListNode *i = this->last; i != nullptr; i = i->prev) {
-    printf("%i, ", i->value);
+  void List::print() {
+    for (ListNode *i = this->first; i != nullptr; i = i->next) {
+      printf("%i, ", i->value);
+    }
   }
-}
+
+  void List::printReverse() {
+    for (ListNode *i = this->last; i != nullptr; i = i->prev) {
+      printf("%i, ", i->value);
+    }
+  }
+
+  ListIterator List::begin() { return ListIterator(first); }
+
+  ListIterator List::end() { return ListIterator(nullptr); }
