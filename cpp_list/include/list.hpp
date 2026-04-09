@@ -2,6 +2,7 @@
 #pragma once
 
 #include <iostream>
+#include "ListNode.hpp"
 
 /// @brief This file contains the declaration of the List class, which implements a doubly linked list data structure.
 class List

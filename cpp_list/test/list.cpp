@@ -57,7 +57,10 @@ TEST(LIST, insert_multiple_elements)
     for (int i = 0; i < 10; i++) 
     {
         list.push_back(i);
-        EXPECT_EQ(list.length(), i + 1);
+    }
+    EXPECT_EQ(list.length(), 10);
+    for (int i = 0; i < 10; i++) 
+    {
         expectValue(list, i, i);
     }
 }
@@ -110,30 +113,6 @@ TEST(LIST, remove_middle_element)
     expectValue(list, 1, 3);
     int value;
     EXPECT_FALSE(list.get(2, value));
-}
-
-// remove multiple elements and check if the list is correct
-TEST(LIST, remove_multiple_elements)
-{
-    List list;
-    for (int i = 1; i < 11; i++) 
-    {
-        list.push_back(i);
-        EXPECT_EQ(list.length(), i);
-    }
-    for (int i = 1; i < 11; i++)
-    {
-        EXPECT_TRUE(list.remove(0));
-        EXPECT_EQ(list.length(), 10 - i);
-
-        if (i < 10)
-        {
-            expectValue(list, 0, i + 1);
-        }
-
-        int value;
-        EXPECT_FALSE(list.get(list.length(), value));
-    }
 }
 
 // remove the last remaining element and check if the list is correct

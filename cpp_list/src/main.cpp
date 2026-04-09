@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
     /// output list in reverse
     list.printReverse();
     std::cout << "\n\n";
+
     // the destructor will be called automatically        
     return 0;
 }
