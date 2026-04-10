@@ -40,7 +40,11 @@ int main(int argc, char** argv) {
         printf("%i, ", i);
     }
     printf("\n\n");
-    
+
+    for (auto i = list.rbegin(); i != list.rend(); ++i) {
+        printf("%i, ", *i);
+    }
+
     // release memory to avoid a memory leak
     // -> now automatic
     return 0;

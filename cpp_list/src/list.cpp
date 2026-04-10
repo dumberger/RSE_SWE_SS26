@@ -6,50 +6,108 @@
 template<typename T>
 List<T>::List() {
     first = nullptr;
+    last = nullptr;
+    count_ = 0;
 }
 
+/**
+ * maybe should be called getValue ?
+ * @param index of node requested value
+ * @param value contains value of the node with index
+ * @return true if index is valid and node found, false when index not in list
+ */
 template<typename T>
-bool List<T>::get(unsigned int index, T& val) {
-    ListNode<T>* node = this->first;
-    if (node == nullptr) {
+bool List<T>::get(unsigned int index, T& val) const {
+    if (count_ == 0) {
         return false;
     }
-    for (int i = 0; i < index; i++) {
-        if (node == nullptr) {
-            return false;
-        }
-        node = node->next;
+    if (index >= count_) {
+        return false;
     }
-    val = node->value;
+    ListNode *node = nullptr;
+    this->getNode(index, node);
+    value = node->value;
     return true;
 }
 
+/**
+ *
+ * @param index of node requested
+ * @param node contains node with index requested
+ * @return true if index is valid and node found, false when index not in list
+ */
+template<typename T>
+bool List::getNode(unsigned int index, ListNode<T> *&node) const {
+    if (index > this->count() - 1) {
+        return false;
+    }
+    unsigned int currentSize = this->count();
+    ListNode<T> *currentNode = first;
+    if (index < currentSize / 2) {
+        //split search by looking into index then search from first or from last
+        for (unsigned int i = 0; i < index; i++) {
+            if (currentNode == nullptr) {
+                return false;
+            }
+            currentNode = currentNode->next;
+        }
+    } else {
+        currentNode = last;;
+        for (unsigned int i = currentSize - 1; i > index; i--) {
+            if (currentNode == nullptr) {
+                return false;
+            }
+            currentNode = currentNode->prev;
+        }
+    }
+    node = currentNode;
+    return true;
+}
+
+/**
+ * gets count_ property
+ * @return count of nodes in list
+ */
+template<typename T>
+unsigned int List<T>::count() const {
+    return count_;
+}
+
+/**
+ *
+ * @param value to be added at end of list
+ */
 template<typename T>
 void List<T>::push_back(T value) {
-    ListNode<T>* node = this->first;
-    if (node == nullptr) {
-        //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-        ListNode<T>* newNode = new ListNode<T>;
-        if (newNode == nullptr) {
-            exit(1);
-        }
-        newNode->value = value;
-        newNode->next = nullptr;
-        this->first = newNode;
+    if (this->first == nullptr) {
+        this->first = new ListNode<T>{value, nullptr, nullptr};
+        this->last = this->first;
+        count_ = 1;
         return;
     }
-    while(node->next != nullptr) {
-        node = node->next;
+    ListNode<T> *newNode = new ListNode<T>{value, nullptr, this->last};
+    this->last->next = newNode;
+    this->last = newNode;
+    count_++;
+}
+
+
+/**
+ *
+ * @param value to be added at beginning of list
+ */
+template<typename T>
+void List<T>::push_front(T value) {
+    if (this->first == nullptr) {
+        this->first = new ListNode<T>{value, nullptr, nullptr};
+        this->last = this->first;
+        count_ = 1;
+        return;
     }
-    //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-    ListNode<T>* newNode = new ListNode<T>;
-    if (newNode == nullptr) {
-        exit(1);
-    }
-    newNode->value = value;
-    newNode->next = nullptr;
-    node->next = newNode;
-    return;
+    ListNode<T> *newNode = new ListNode<T>{value, this->first, nullptr};
+    this->first->prev = newNode;
+    this->first = newNode;
+    count_++;
 }
 
 template<typename T>
@@ -59,30 +117,94 @@ List<T>::~List() {
     }
 }
 
+/**
+ *
+ * @param index where node shall be inserted
+ * @param value to be inserted at position of index
+ */
 template<typename T>
-void List<T>::remove(unsigned int index){
-    ListNode<T>* node = this->first;
+void List<T>::insert(unsigned int index, T value) {
     if (this->first == nullptr) {
+        this->first = new ListNode<T>{value, nullptr, nullptr};
+        this->last = this->first;
+        count_ = 1;
         return;
     }
-    ListNode<T>* tmp;
-    if(index == 0) {
-        this->first = node->next;
-        //free(node); node = NULL;
-        delete node; node = nullptr;
+    if (index == 0) {
+        //add at the beginning
+        push_front(value);
         return;
     }
-    for (int i = 0; i < index - 1; i++) {
-        node = node->next;
-        if (node->next == nullptr) {
-            return;
+    if (index == count_) {
+        //add at the end -> should be out of index but implemented anyway
+        push_back(value);
+        return;
+    }
+    //insert in the middle
+    ListNode<T> *insertionNode = nullptr;
+    if (this->getNode(index - 1, insertionNode)) {
+        if (insertionNode != nullptr) {
+            ListNode<T> *newNode = new ListNode<T>{value, insertionNode->next, insertionNode};
+            insertionNode->next->prev = newNode;
+            insertionNode->next = newNode;
+            count_++;
         }
     }
-    tmp = node->next;
-    node->next = tmp->next;
-    //free(tmp); tmp = NULL;
-    delete tmp; tmp = nullptr;
-    return;
+}
+
+/**
+ *
+ * @param index of node to be removed from the list
+ */
+template<typename T>
+void List<T>::remove(unsigned int index) {
+    //no list nodes or index invalid
+    if (!first || index >= count_) {
+        //no node to remove
+        return;
+    }
+    //get node
+    ListNode<T>: *node = nullptr;
+    if (!getNode(index, node) || !node) {
+        //no node or node is null
+        return;
+    }
+    if (node->prev != nullptr) {
+        node->prev->next = node->next; //might be nullptr if last element is removed
+    } else {
+        first = node->next; //first node
+    }
+    if (node->next != nullptr) {
+        node->next->prev = node->prev;
+    } else {
+        last = node->prev; //last node
+    }
+    delete node;
+    node = nullptr;
+    count_--;
+}
+
+
+/**
+ *
+ * @param stream prints values to stream
+ */
+template<typename T>
+void List<T>::printToStream(std::ostream &stream) const {
+    for (ListNode<T> *currentNode = this->first; currentNode != nullptr; currentNode = currentNode->next) {
+        stream << currentNode->value << "\n";
+    }
+}
+
+/**
+ *
+ * @param stream as print but reversed
+ */
+ template<typename T>
+void List<T>::printReverseToStream(std::ostream &stream) const {
+    for (ListNode<T> *currentNode = this->last; currentNode != nullptr; currentNode = currentNode->prev) {
+        stream << currentNode->value << "\n";
+    }
 }
 
 template<typename T>
@@ -91,6 +213,11 @@ void List<T>::print() {
         std::cout << i << ", ";
     }
     
+}
+
+template<typename T>
+void List<T>::printReverse() const {
+    printReverseToStream(std::cout);
 }
 
 template<typename T>
@@ -110,4 +237,13 @@ ListIterator<T> List<T>::begin() {
 template<typename T>
 ListIterator<T> List<T>::end() {
     return ListIterator<T>(nullptr);
+}
+
+template<typename T>
+ListReverse_Iterator<T> List<T>::rbegin() {
+    return ListReverse_Iterator(last);
+}
+
+ListReverse_Iterator<T> List<T>::rend() {
+    return ListReverse_Iterator(nullptr);
 }
