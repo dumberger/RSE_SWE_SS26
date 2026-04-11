@@ -41,6 +41,7 @@ int main(int argc, char** argv) {
     }
     printf("\n\n");
 
+    //reverse iterator
     for (auto i = list.rbegin(); i != list.rend(); ++i) {
         printf("%i, ", *i);
     }
