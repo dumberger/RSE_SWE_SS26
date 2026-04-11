@@ -25,13 +25,13 @@ TEST(list, insert_element){
 #include <gtest/gtest.h>
 
 TEST(LIST, get_on_empty) {
-    List list;
+    List<int> list;
     int value;
     ASSERT_FALSE(list.get(0, value));
 }
 
 TEST(LIST, insert_element) {
-    List list;
+    List<int> list;
     EXPECT_EQ(list.length(), 0);
     list.push_back(123);
     EXPECT_EQ(list.length(), 1);

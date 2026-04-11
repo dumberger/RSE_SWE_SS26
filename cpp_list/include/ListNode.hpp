@@ -1,8 +1,8 @@
 #pragma once
 
-#include "ListNode.hpp"
-
-struct ListNode{
-    int value;
-    struct ListNode* next;
+template<typename T> 
+struct ListNode
+{
+    T value;
+    ListNode* next;
 };

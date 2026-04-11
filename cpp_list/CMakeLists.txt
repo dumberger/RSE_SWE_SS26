@@ -1,12 +1,8 @@
 file(GLOB SOURCES "src/*.cpp")
-add_executable(list ${SOURCES})
-#target_include_directories(list "include")
-target_include_directories(list PRIVATE "include")
-
-#enable_testing()
+add_executable(list src/main.cpp)
 target_include_directories(list PRIVATE include)
 
-add_executable(test_list src/list.cpp src/ListIterator.cpp test/list.cpp)
+add_executable(test_list test/list.cpp)
 target_include_directories(test_list PRIVATE include)
 target_link_libraries(test_list GTest::gtest_main)
 gtest_discover_tests(test_list)
