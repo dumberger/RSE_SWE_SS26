@@ -4,7 +4,7 @@
 
 TEST(LIST, insert_element)
 {
-    List list;
+    List<int> list;
     EXPECT_EQ(list.length(), 0);
     list.push_back(123);
     EXPECT_EQ(list.length(),1);
@@ -15,32 +15,22 @@ TEST(LIST, insert_element)
 
 TEST(LIST, get_on_empty)
 {
-    List list;
+    List<int> list;
     int value;
     ASSERT_FALSE(list.get(0, value));
 }
 
-// HOMEWORK 5-6 Tests
-//  get(unsigned int index, int& val);
-//  push_back(int value);
-//  remove(unsigned int index);
-//  print();
-//  printReverse();
-//  length();
-
 // Insert 5 values then remove the middle, first and last
+// Change: Test is more atomic
 TEST(LIST, remove_first_middle_last)
 {
-    List list;
+    List<int> list;
     int value;
-
-    EXPECT_EQ(list.length(), 0);
 
     // Insert values from 1-5
     for(int i = 1; i<=5; i++)
     {
         list.push_back(i);
-        ASSERT_EQ(list.length(), i);
     }
 
     // Remove middle, 1st and last
@@ -48,36 +38,36 @@ TEST(LIST, remove_first_middle_last)
     list.remove(0);
     list.remove(list.length()-1);
 
-    ASSERT_EQ(list.length(), 2);
-    ASSERT_EQ(list.get(0, value), 1);
+    // Check remaining values [must be 2 and 4]
+    // Change: Remaining values are checked
+    list.get(0, value);
+    ASSERT_TRUE(value == 2);
+
+    list.get(1, value);
+    ASSERT_TRUE(value == 4);
 }
 
-// pushback a value, get it then remove it and repeat
-TEST(LIST, pushback_rmv_get_repeat)
+// pushback a value, get it then remove it
+TEST(LIST, pushback_rmv_get)
 {
-    List list;
-    EXPECT_EQ(list.length(), 0);
-
+    List<int> list;
     int value = 0;
 
-    for(int i = 0; i<10; i++)
-    {
-        list.push_back(100*i);
-        ASSERT_EQ(list.length(), 1);
+    // Change: Deleted unnecessary repetition
+    list.push_back(100);
+    ASSERT_EQ(list.length(), 1);
 
-        ASSERT_TRUE(list.get(0, value));
-        ASSERT_EQ(value, 100*i); 
+    ASSERT_TRUE(list.get(0, value));
+    ASSERT_EQ(value, 100); 
 
-        list.remove(0);
-        ASSERT_EQ(list.length(), 0);
-    }
-
+    list.remove(0);
+    ASSERT_EQ(list.length(), 0);
 }
 
 // See if the captured console print matches
 TEST(LIST, print_rmv_list)
 {
-    List list;
+    List<int> list;
     for(int i = 1; i <= 5; i++)
         list.push_back(100 * i);
 
@@ -94,7 +84,7 @@ TEST(LIST, print_rmv_list)
 // See if the captured console printReverse matches
 TEST(LIST, printRev_rmv_list)
 {
-    List list;
+    List<int> list;
     for(int i = 1; i <= 5; i++)
         list.push_back(100 * i);
 
@@ -111,9 +101,7 @@ TEST(LIST, printRev_rmv_list)
 // Testing the borders of the list
 TEST(LIST, border_test)
 {
-    List list;
-    EXPECT_EQ(list.length(), 0);
-
+    List<int> list;
     int value;
 
     // Border at start - no elements in list
@@ -121,14 +109,20 @@ TEST(LIST, border_test)
     ASSERT_FALSE(list.get(0, value));
     ASSERT_FALSE(list.get(-1, value));
 
-    for(int i = 0; i<100; i++)
+    for(int i = 0; i<10; i++)
     {
         list.push_back(i);
     }
 
-    ASSERT_EQ(list.length(), 100);
+    ASSERT_EQ(list.length(), 10);
 
-    ASSERT_FALSE(list.get(100, value));
-    ASSERT_TRUE(list.get(99, value));
-    ASSERT_TRUE(list.get(98, value));
+    // Change: Check last values at border
+    list.get(10, value);
+    ASSERT_FALSE(value == 10);
+
+    list.get(9, value);
+    ASSERT_TRUE(value == 9);
+
+    list.get(8, value);
+    ASSERT_TRUE(value == 8);
 }

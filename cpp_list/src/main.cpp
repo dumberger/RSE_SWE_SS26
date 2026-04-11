@@ -1,9 +1,10 @@
 #include "list.hpp"
 #include <stdio.h>
+#include <array>
 
 int main(int argc, char** argv) {
     // create a list
-    List list;
+    List<int> list;
 
     /// read numbers from user
     int number = 0;

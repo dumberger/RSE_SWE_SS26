@@ -2,17 +2,17 @@
 
 #include "ListNode.hpp"
 
-class ListIterator{
+template<typename T>
+class ListIterator
+{
 public:
-ListIterator(ListNode* node);
-    int& operator*();
-    // According to cpp-reference https://en.cppreference.com/w/cpp/language/operators.html
-    // increment and decrement operator must return reference instead of copy
-    ListIterator& operator++();
-    ListIterator& operator--();
-    bool operator!=(ListIterator rhs);
+    ListIterator(ListNode<T>* node) : _node(node) {}
+    T& operator*() { return _node->value; }
+    ListIterator operator++()  { _node = _node->next; return *this;}
+    ListIterator operator--()  { _node = _node->prev; return *this;}
+    bool operator!=(ListIterator rhs) { return _node != rhs._node; }
 
 private:
-    ListNode* _node;
+    ListNode<T>* _node;
 };
 

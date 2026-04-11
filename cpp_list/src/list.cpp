@@ -1,17 +1,15 @@
-#include "list.hpp"
-#include "ListIterator.hpp"
 #include <stdlib.h>
-#include <stdio.h>
 #include <iostream>
 
-
-List::List() 
+template<typename T>
+List<T>::List() 
 {
     first = nullptr;
     last = nullptr;
 }
 
-bool List::get(unsigned int index, int& val) {
+template<typename T>
+bool List<T>::get(unsigned int index, T& val) {
     unsigned int len = length();
 
     if(index >= len)
@@ -20,7 +18,7 @@ bool List::get(unsigned int index, int& val) {
     }
 
     if(index <= (len / 2)){
-        ListNode* node = first;
+        ListNode<T>* node = first;
         for (int i = 0; i < index; i++) {
             if (node == nullptr) {
                 return false;
@@ -32,7 +30,7 @@ bool List::get(unsigned int index, int& val) {
     }
 
     else if(index > (len / 2)) {
-        ListNode* node = last;
+        ListNode<T>* node = last;
         for (int i = len - 1; i > index; i--) {
             if (node == nullptr) {
                 return false;
@@ -48,11 +46,12 @@ bool List::get(unsigned int index, int& val) {
     }
 }
 
-void List::push_back(int value) {
-    ListNode* node = this->last;
+template<typename T>
+void List<T>::push_back(T value) {
+    ListNode<T>* node = this->last;
 
     if (node == nullptr) {
-        ListNode* newNode = new ListNode;
+        ListNode<T>* newNode = new ListNode<T>;
         
         // !!! In Cpp new cannot return a nullptr, will notice std::bad_alloc
         // unless exceptions are turned off 
@@ -72,7 +71,7 @@ void List::push_back(int value) {
         return;
     }
 
-    ListNode* newNode = new ListNode;
+    ListNode<T>* newNode = new ListNode<T>;
 
     newNode->value = value;
     newNode->next = nullptr;
@@ -82,9 +81,10 @@ void List::push_back(int value) {
     return;
 }
 
-List::~List() {
-    ListNode* node = this->first;
-    ListNode* tmp;
+template<typename T>
+List<T>::~List() {
+    ListNode<T>* node = this->first;
+    ListNode<T>* tmp;
 
     while(node != nullptr){
         tmp = node->next;
@@ -95,7 +95,8 @@ List::~List() {
     last = nullptr;
 }
 
-void List::remove(unsigned int index){
+template<typename T>
+void List<T>::remove(unsigned int index){
 
     unsigned int len = length();
 
@@ -103,8 +104,8 @@ void List::remove(unsigned int index){
         return;
     }
 
-    ListNode* node;
-    ListNode* tmp;
+    ListNode<T>* node;
+    ListNode<T>* tmp;
 
     if(index == 0) {
         node = this->first;
@@ -153,7 +154,8 @@ void List::remove(unsigned int index){
     return;
 }
 
-void List::print(){
+template<typename T>
+void List<T>::print(){
     for(auto i = begin(); i != end(); ++i)
     {
         printf("%i, ", *i);
@@ -161,8 +163,8 @@ void List::print(){
 
     printf("\n");
 }
-
-void List::printReverse(){
+template<typename T>
+void List<T>::printReverse(){
 
     for(auto i = ListIterator(last); i != end(); --i)
     {
@@ -172,7 +174,8 @@ void List::printReverse(){
     printf("\n");
 }
 
-unsigned int List::length() {
+template<typename T>
+unsigned int List<T>::length() {
     unsigned int len = 0;
     for (auto i = begin(); i != end(); ++i) {
         len++;
@@ -180,10 +183,12 @@ unsigned int List::length() {
     return len;
 }
 
-ListIterator List::begin(){
-    return ListIterator(first);
+template<typename T>
+ListIterator<T> List<T>::begin(){
+    return ListIterator<T>(first);
 }
 
-ListIterator List::end(){
-    return ListIterator(nullptr);
+template<typename T>
+ListIterator<T> List<T>::end(){
+    return ListIterator<T>(nullptr);
 }
