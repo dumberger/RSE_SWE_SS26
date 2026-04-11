@@ -4,10 +4,10 @@
 template<typename T>
 class ListReverse_Iterator {
 public:
-    ListIterator(ListNode<T>* node) : _node(node) {}
+    ListReverse_Iterator(ListNode<T>* node) : _node(node) {}
     T& operator*() { return _node->value; }
-    ListIterator operator++()  { _node = _node->prev; return *this;}
-    bool operator!=(ListIterator rhs) { return _node != rhs._node; }
+    ListReverse_Iterator operator++()  { _node = _node->prev; return *this;}
+    bool operator!=(ListReverse_Iterator rhs) { return _node != rhs._node; }
 
 private:
     ListNode<T> *_node;

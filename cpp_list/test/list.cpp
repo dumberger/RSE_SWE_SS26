@@ -20,7 +20,7 @@ TEST(LIST, insert_element) {
 
 //test lenght and count
 TEST(LIST, list_elements) {
-    List list;
+    List<int> list;
     list.push_back(100);
     list.push_back(200);
     list.push_back(300);
@@ -30,7 +30,7 @@ TEST(LIST, list_elements) {
 
 //Testing insert of list node
 TEST(LIST, list_push_back) {
-    List list;
+    List<int> list;
     EXPECT_EQ(list.length(), 0);
     list.push_back(123);
     EXPECT_EQ(list.length(), 1);
@@ -41,7 +41,7 @@ TEST(LIST, list_push_back) {
 
 //Tesing prepend and append
 TEST(LIST, list_prepend) {
-    List list;
+    List<int> list;
     list.push_back(100);
     list.push_back(200);
     list.push_back(300);
@@ -54,7 +54,7 @@ TEST(LIST, list_prepend) {
 
 //Tesing prepend and append
 TEST(LIST, list_append) {
-    List list;
+    List<int> list;
     list.push_back(100);
     list.push_back(200);
     list.push_back(300);
@@ -67,7 +67,7 @@ TEST(LIST, list_append) {
 
 //Testing get value stored in list node
 TEST(LIST, get_value) {
-    List list;
+    List<int> list;
     int value;
     //get from no elements
     ASSERT_FALSE(list.get(0, value));
@@ -86,7 +86,7 @@ TEST(LIST, get_value) {
 
 //Testing insert and remove at zero
 TEST(LIST, remove_element_last_node) {
-    List list;
+    List<int> list;
     //remove no elements
     list.remove(0);
     EXPECT_EQ(list.length(), 0);
@@ -100,7 +100,7 @@ TEST(LIST, remove_element_last_node) {
 
 //Testing insert and remove multiple
 TEST(LIST, remove_element) {
-    List list;
+    List<int> list;
     // remove no elements
     list.remove(0);
     EXPECT_EQ(list.length(), 0);
@@ -126,7 +126,7 @@ TEST(LIST, remove_element) {
 
 //Testing of print
 TEST(ListTest, PrintToStream) {
-    List list;
+    List<int> list;
     list.push_back(100);
     list.push_back(200);
     list.push_back(300);
@@ -139,7 +139,7 @@ TEST(ListTest, PrintToStream) {
 
 //Testing of printReverse
 TEST(ListTest, PrintReverseToStream) {
-    List list;
+    List<int> list;
     list.push_back(100);
     list.push_back(200);
     list.push_back(300);

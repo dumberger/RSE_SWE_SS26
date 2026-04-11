@@ -6,21 +6,21 @@
 #include "ListReverse_Iterator.hpp"
 
 template<typename T>
-class List 
+class List
 {
 private:
     ListNode<T>* first;
     ListNode<T> *last;
     unsigned int count_;
 public:
-    List(); //constructor
+    List();//constructor
     ~List(); //destructor
 
     bool get(unsigned int index, T& val) const;
-    bool getNode(unsigned int index, T *&node) const;
+    bool getNode(unsigned int index, ListNode<T> *&node) const;
     unsigned int count() const;
-    void push_front(T& value);
-    void push_back(T& value);
+    void push_front(T value);
+    void push_back(T value);
     void insert(unsigned int index, T& value);
     void remove(unsigned int index);
     //so print can be tested and remote debug in clion works correctly

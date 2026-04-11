@@ -1,7 +1,6 @@
-// the errors in this file cannot be avoided because the IDE does not recognize the include cpp pattern
-
-#include <stdlib.h>
 #include <iostream>
+#include <cstdio>
+#include <cstdlib>
 
 template<typename T>
 List<T>::List() {
@@ -24,9 +23,9 @@ bool List<T>::get(unsigned int index, T& val) const {
     if (index >= count_) {
         return false;
     }
-    ListNode *node = nullptr;
+    ListNode<T> *node = nullptr;
     this->getNode(index, node);
-    value = node->value;
+    val = node->value;
     return true;
 }
 
@@ -37,7 +36,7 @@ bool List<T>::get(unsigned int index, T& val) const {
  * @return true if index is valid and node found, false when index not in list
  */
 template<typename T>
-bool List::getNode(unsigned int index, ListNode<T> *&node) const {
+bool List<T>::getNode(unsigned int index, ListNode<T> *&node) const {
     if (index > this->count() - 1) {
         return false;
     }
@@ -123,7 +122,7 @@ List<T>::~List() {
  * @param value to be inserted at position of index
  */
 template<typename T>
-void List<T>::insert(unsigned int index, T value) {
+void List<T>::insert(unsigned int index, T& value) {
     if (this->first == nullptr) {
         this->first = new ListNode<T>{value, nullptr, nullptr};
         this->last = this->first;
@@ -164,7 +163,7 @@ void List<T>::remove(unsigned int index) {
         return;
     }
     //get node
-    ListNode<T>: *node = nullptr;
+    ListNode<T> *node = nullptr;
     if (!getNode(index, node) || !node) {
         //no node or node is null
         return;
@@ -208,11 +207,8 @@ void List<T>::printReverseToStream(std::ostream &stream) const {
 }
 
 template<typename T>
-void List<T>::print() {
-    for (auto &&i : *this) {
-        std::cout << i << ", ";
-    }
-    
+void List<T>::print() const {
+    printToStream(std::cout);
 }
 
 template<typename T>
@@ -241,9 +237,10 @@ ListIterator<T> List<T>::end() {
 
 template<typename T>
 ListReverse_Iterator<T> List<T>::rbegin() {
-    return ListReverse_Iterator(last);
+    return ListReverse_Iterator<T>(last);
 }
 
+template<typename T>
 ListReverse_Iterator<T> List<T>::rend() {
-    return ListReverse_Iterator(nullptr);
+    return ListReverse_Iterator<T>(nullptr);
 }
