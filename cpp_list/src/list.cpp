@@ -20,7 +20,7 @@ List<T>::List() {
 // zurück. Gibt `false` zurück, wenn der Index außerhalb der Liste liegt.
 template<typename T>
 bool List<T>::get(unsigned int index, int &val) {
-    ListNode* node = this->first;
+    ListNode<T>* node = this->first;
         if (node == nullptr) {
             return false;
         }
@@ -42,10 +42,10 @@ bool List<T>::get(unsigned int index, int &val) {
 // Fügt ein neues Element am Ende der Liste hinzu.
 template<typename T>
 void List<T>::push_back(int value) {
-    ListNode *node = first;
+    ListNode<T> *node = first;
 
     if (node == NULL) { // Wenn die Liste leer ist
-        ListNode *newNode = new ListNode();
+        ListNode<T> *newNode = new ListNode();
 
         if (newNode == NULL) { // Fehlerbehandlung bei Speicherallokation
         exit(1);
@@ -59,7 +59,7 @@ void List<T>::push_back(int value) {
   }
 
   // Neues Element erstellen und anhängen
-    ListNode *newNode = new ListNode();
+    ListNode<T> *newNode = new ListNode();
     if (newNode == nullptr) { // Fehlerbehandlung bei Speicherallokation
         exit(1);
     }
@@ -74,7 +74,7 @@ void List<T>::push_back(int value) {
 // Löscht alle Elemente der Liste und gibt den Speicher frei.
 template<typename T>
 List<T>::~List() {
-    ListNode *curr = first;
+    ListNode<T> *curr = first;
     while (curr != nullptr) {
         ListNode *next = curr->next;
         delete curr;
@@ -87,7 +87,7 @@ List<T>::~List() {
 // Entfernt ein Element an einer bestimmten Position in der Liste.
 template<typename T>
 void List<T>::remove(unsigned int index) {
-    ListNode *node = first;
+    ListNode<T> *node = first;
     if (first == nullptr) {
         // Erste Element der Liste NULL = Liste leer
         return;
@@ -136,7 +136,7 @@ void List<T>::remove(unsigned int index) {
 // Gibt die Liste aus
 template<typename T>
 void List<T>::print() {
-    ListNode *node = first;
+    ListNode<T> *node = first;
     printf("List in Forward Oder: ");
     while (node != NULL) {
         printf("%i, ", node->value);
@@ -162,7 +162,7 @@ void List<T>::print() {
 
 template<typename T>
 void List<T>::print_reverse() {
-    ListNode *node = last;
+    ListNode<T> *node = last;
     printf("List in Reverse Oder: ");
     while (node != nullptr) {
         printf("%i, ", node->value);
@@ -189,5 +189,5 @@ ListIterator<T> List<T>::begin() {
 template<typename T>
 ListIterator<T> List<T>::end() {
     // Das Ende der Liste ist nicht beim letzten Element sondern bei dem Element NACH DEM LETZTEN!
-    return ListIterator(last->next);
+    return ListIterator<T>(nullptr);
 }

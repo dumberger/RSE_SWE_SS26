@@ -2,7 +2,7 @@
 
 template<typename T>
 struct ListNode {
-    int value;
+    T value;
     struct ListNode* next;
     struct ListNode* prev;
 };
