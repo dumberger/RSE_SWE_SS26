@@ -1,4 +1,4 @@
-#include "list.hpp"
+#include "../include/list.hpp"
 #include <stdlib.h>
 #include <stddef.h>
 #include <stdio.h> 
@@ -14,7 +14,7 @@ bool List::get(unsigned int index, int& out_value) {
     ListNode* node = first;
     if (node == nullptr) return false; // handle empty list case
 
-    for (int i = 0; i < index; i++) {
+    for (unsigned int i = 0; i < index; i++) {
         if (node == nullptr) {
             // handle out of bounds access, for example by returning a default value or printing an error message
             return false; // or some other error code
@@ -64,7 +64,7 @@ void List::remove(unsigned int index){
     // target is just a pointer used to navigate the existing nodes and safely re-link them
     // is used only for navigation and is not a specific value/node like the list itself.
 
-    for (int i = 0; i < index; i++) { 
+    for (unsigned int i = 0; i < index; i++) { 
         if (target == nullptr) return;
         target = target->next; // *target.next is the same as target->next
     }
@@ -91,7 +91,7 @@ void List::remove(unsigned int index){
 
 void List::print() {
     printf("\n\n");
-    for (int i = 0; i < length(); i++) {
+    for (unsigned int i = 0; i < length(); i++) {
         int value;
         // read elements from list
 
@@ -112,7 +112,9 @@ void List::print() {
 
 void List::printReverse() {
     printf("\n\n");
-    for (int i = length() - 1; i > -1; i--) {
+    unsigned int len = length();
+    if (len == 0) return;
+    for (unsigned int i = len - 1; ; i--) {
         int value;
         // read elements from list
         
@@ -123,7 +125,7 @@ void List::printReverse() {
         else if (get(i, value)) {
             printf("%i, ", value);
         } else {
-            printf("Error reading value at index %i\n", i);
+            printf("Error reading value at index %u\n", i);
         }
     }
     printf("\n\n");

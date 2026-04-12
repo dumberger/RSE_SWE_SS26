@@ -1,4 +1,4 @@
-#include "list.hpp" // with "" are used for user defined header files, with <> are used for system header files
+#include "../include/list.hpp" // with "" are used for user defined header files, with <> are used for system header files
 #include <stdio.h> 
 
 int main (int args, char** argv)

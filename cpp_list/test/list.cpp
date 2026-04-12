@@ -1,4 +1,4 @@
-#include "list.hpp"
+#include "../include/list.hpp"
 #include <gtest/gtest.h>
 
 TEST(LIST, insert_element) { // was done in the class
