@@ -25,3 +25,16 @@ public:
     bool set(std::size_t row, std::size_t col, char value);
     char get(std::size_t row, std::size_t col);
 };
+
+
+
+// Für die Tests (muss noch fertig implementiert werden)
+template<std::size_t N>
+bool Sudoku<N>::set(std::size_t row, std::size_t col, char value) {
+    return false; // Noch leer gelassen
+}
+
+template<std::size_t N>
+char Sudoku<N>::get(std::size_t row, std::size_t col) {
+    return '_'; // Einfach einen Standardwert zurückgeben für das Kompilieren
+}
