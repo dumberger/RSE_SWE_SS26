@@ -7,14 +7,16 @@ class List
 {
 private:
     ListNode<T>* first;
+    ListNode<T>* last;
 public:
     List();
     ~List();
 
     bool get(unsigned int index, T& val);
-    void push_back(T value);
+    void push(T value);
     void remove(unsigned int index);
     void print();
+    void printReverse();
     unsigned int length();
 
     ListIterator<T> begin();
@@ -23,4 +25,4 @@ public:
 
 // not a good design but it woks fo templating the List afterwards
 // do not use this in production code
-//#include "../src/list.cpp"
+#include "../src/list.cpp"
