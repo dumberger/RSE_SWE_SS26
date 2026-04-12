@@ -1,6 +1,8 @@
 #pragma once
-#include <stdlib.h>
+#include "ListIterator.hpp"
+#include "ListNode.hpp"
 
+template<typename T>
 class List
 {
 public:
@@ -12,13 +14,10 @@ public:
     unsigned int length();
     void print();
     void print_reverse();
-private:
-    struct ListNode {
-        int value;
-        struct ListNode* next;
-        struct ListNode* prev;
-    };
 
+    ListIterator<T> begin();
+    ListIterator<T> end();
+private:
     ListNode* first;
     ListNode* last;
 };

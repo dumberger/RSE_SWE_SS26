@@ -10,14 +10,16 @@ der Funktionen
 #include <stdlib.h>
 
 // Erstellt eine neue Liste und initialisiert die Zeiger auf NULL.
-List::List() {
+template<typename T>
+List<T>::List() {
   first = nullptr; // Anfang der Liste ist leer
   last = nullptr;  // Ende der Liste ist leer
 };
 
 // Gibt den Wert eines Elements an einer bestimmten Position in der Liste
 // zurück. Gibt `false` zurück, wenn der Index außerhalb der Liste liegt.
-bool List::get(unsigned int index, int &val) {
+template<typename T>
+bool List<T>::get(unsigned int index, int &val) {
     ListNode* node = this->first;
         if (node == nullptr) {
             return false;
@@ -38,7 +40,8 @@ bool List::get(unsigned int index, int &val) {
 };
 
 // Fügt ein neues Element am Ende der Liste hinzu.
-void List::push_back(int value) {
+template<typename T>
+void List<T>::push_back(int value) {
     ListNode *node = first;
 
     if (node == NULL) { // Wenn die Liste leer ist
@@ -69,7 +72,8 @@ void List::push_back(int value) {
 };
 
 // Löscht alle Elemente der Liste und gibt den Speicher frei.
-List::~List() {
+template<typename T>
+List<T>::~List() {
     ListNode *curr = first;
     while (curr != nullptr) {
         ListNode *next = curr->next;
@@ -81,7 +85,8 @@ List::~List() {
 };
 
 // Entfernt ein Element an einer bestimmten Position in der Liste.
-void List::remove(unsigned int index) {
+template<typename T>
+void List<T>::remove(unsigned int index) {
     ListNode *node = first;
     if (first == nullptr) {
         // Erste Element der Liste NULL = Liste leer
@@ -129,7 +134,8 @@ void List::remove(unsigned int index) {
 };
 
 // Gibt die Liste aus
-void List::print() {
+template<typename T>
+void List<T>::print() {
     ListNode *node = first;
     printf("List in Forward Oder: ");
     while (node != NULL) {
@@ -137,9 +143,25 @@ void List::print() {
         node = node->next;
     }
     printf("\n\n");
+
+    /*
+    for (auto i : list) {
+        printf("%i", i);
+    }
+
+    
+    Obiges ist eine Kurzform für:
+
+    for(auto i = list.begin(); i !=list.end(); ++i)
+        printf("%i, ", *i);
+
+    */
+
 };
 
-void List::print_reverse() {
+
+template<typename T>
+void List<T>::print_reverse() {
     ListNode *node = last;
     printf("List in Reverse Oder: ");
     while (node != nullptr) {
@@ -150,10 +172,22 @@ void List::print_reverse() {
 };
 
 // Gibt die Länge der Liste zurück.
-    unsigned int List::length() {
+template<typename T>
+unsigned int List<T>::length() {
     unsigned int len = 0;
     for (ListNode *i = first; i != nullptr; i = i->next) { // Durchlaufe die Liste
         len++;                                               // Zähle jedes Element
     }
     return len;
 };
+
+template<typename T>
+ListIterator<T> List<T>::begin() {
+    return ListIterator(first);
+}
+
+template<typename T>
+ListIterator<T> List<T>::end() {
+    // Das Ende der Liste ist nicht beim letzten Element sondern bei dem Element NACH DEM LETZTEN!
+    return ListIterator(last->next);
+}
