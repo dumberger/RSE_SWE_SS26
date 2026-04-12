@@ -2,6 +2,8 @@
 
 #include <stdlib.h>
 #include <iostream>
+#include "../include/list.hpp"
+
 
 template<typename T>
 List<T>::List() {

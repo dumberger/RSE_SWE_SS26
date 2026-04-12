@@ -4,14 +4,14 @@
 
 
 TEST(List, get_on_emty){
-    List list;
+    List<int> list;
     int value;
     ASSERT_FALSE(list.get(0,value));
 }
 
 
 TEST(list, insert_element){
-    List list;
+    List<int> list;
     EXPECT_EQ(list.length(), 0); // Expect erwarten und wenns nicht funktioniert mache ich weiter
     list.push_back(123);
     EXPECT_EQ(list.length(), 1);

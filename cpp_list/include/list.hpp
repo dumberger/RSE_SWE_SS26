@@ -1,8 +1,6 @@
 #pragma once
 #include "ListIterator.hpp"
-
 #include "ListNode.hpp"
-#include "ListIterator.hpp"
 
 template<typename T>
 class List 
@@ -25,4 +23,4 @@ public:
 
 // not a good design but it woks fo templating the List afterwards
 // do not use this in production code
-#include "../src/list.cpp"
+//#include "../src/list.cpp"
