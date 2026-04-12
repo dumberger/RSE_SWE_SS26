@@ -1,8 +1,9 @@
 #pragma once
 
+template<typename T> 
 struct ListNode
 {
-    int value;
+    T value;
     ListNode* next;
     ListNode* prev;
 };

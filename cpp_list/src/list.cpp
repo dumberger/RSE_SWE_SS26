@@ -1,21 +1,24 @@
 /* list.cpp */
-#include "list.hpp"
+
+// the errors in this file cannot be avoided because the IDE does not recognize the include cpp pattern
 #include <stdlib.h>
 
-List::List()
+template<typename T>
+List<T>::List()
 {
     first = nullptr;
     last = nullptr;
 }
 
-List::~List()
+template<typename T>
+List<T>::~List()
 {
     // get the first node
-    ListNode* node = this->first;
+    ListNode<T>* node = this->first;
     // delete all nodes
     while (node != nullptr)
     {
-        ListNode* next = node->next;
+        ListNode<T>* next = node->next;
         delete node;
         node = next;
     }
@@ -28,9 +31,10 @@ List::~List()
 }
 
 // get the value at the given index
-bool List::get(unsigned int index, int& val) const
+template<typename T>
+bool List<T>::get(unsigned int index, T& val) const
 {    
-    ListNode* node = this->first;
+    ListNode<T>* node = this->first;
     // get the node at the given index
     for (unsigned int i = 0; i < index; i++)
     {
@@ -54,10 +58,10 @@ bool List::get(unsigned int index, int& val) const
 }
 
 // add a new value to the end of the list
-void List::push_back(int value)
-{
+template<typename T>
+void List<T>::push_back(T value) {
     // create a new node
-    ListNode* newNode = new ListNode;
+    ListNode<T>* newNode = new ListNode<T>;
     // check if malloc succeeded
     if (newNode == nullptr)
     {
@@ -65,7 +69,7 @@ void List::push_back(int value)
     }
 
     // get the actual last node
-    ListNode* nodeLastAct = this->last;
+    ListNode<T>* nodeLastAct = this->last;
     // set new node values
     newNode->value = value;
     newNode->next = nullptr;
@@ -88,9 +92,10 @@ void List::push_back(int value)
 }
 
 // remove the node at the given index
-bool List::remove(unsigned int index)
+template<typename T>
+bool List<T>::remove(unsigned int index)
 {
-    ListNode* node = this->first;
+    ListNode<T>* node = this->first;
     // if the first node is nullptr the list is empty
     if (node == nullptr)
     {        
@@ -125,7 +130,7 @@ bool List::remove(unsigned int index)
     }
 
     // get the next node which one is the one to remove
-    ListNode* tmp = node->next;
+    ListNode<T>* tmp = node->next;
     //if temp is a nullptr -> out of index and return
     if (tmp == nullptr)
     {
@@ -146,9 +151,10 @@ bool List::remove(unsigned int index)
 }
 
 // print the list from first to last
-void List::print(std::ostream& os) const
+template<typename T>
+void List<T>::print(std::ostream& os) const
 {
-    for (ListNode* i = this->first; i != nullptr; i = i->next)
+    for (ListNode<T>* i = this->first; i != nullptr; i = i->next)
     {
         if (i->next == nullptr)
         {
@@ -163,9 +169,10 @@ void List::print(std::ostream& os) const
 }
 
 // print the list from last to first
-void List::printReverse(std::ostream& os) const
+template<typename T>
+void List<T>::printReverse(std::ostream& os) const
 {
-    for (ListNode* i = this->last; i != nullptr; i = i->prev)
+    for (ListNode<T>* i = this->last; i != nullptr; i = i->prev)
     {
         if (i->prev == nullptr)
         {
@@ -180,12 +187,27 @@ void List::printReverse(std::ostream& os) const
 }
 
 // return the number of elements in the list
-unsigned int List::length() const
+template<typename T>
+unsigned int List<T>::length() const
 {
     unsigned int len = 0;
-    for (ListNode* i = this->first; i != nullptr; i = i->next)
+    for (ListNode<T>* i = this->first; i != nullptr; i = i->next)
     {
         len++;
     }
     return len;
+}
+
+// return an iterator to the first element
+template<typename T>
+ListIterator<T> List<T>::begin() 
+{
+    return ListIterator(first);
+}
+
+// return an iterator to the position after the last element
+template<typename T>
+ListIterator<T> List<T>::end() 
+{
+    return ListIterator<T>(nullptr);
 }

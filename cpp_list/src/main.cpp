@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) 
 {
     //create a list
-    List list;
+    List<int> list;
     
     int number = 0;
     int num_read = 0;
@@ -30,6 +30,20 @@ int main(int argc, char *argv[])
     list.printReverse();
     std::cout << "\n\n";
 
-    // the destructor will be called automatically        
+    // optimized for loops using iterators
+    // forward for now but reverse is possible in most containers using rbegin() and rend()
+    for (auto i = list.begin(); i != list.end(); ++i) {
+        printf("%i, ", *i);
+    }
+    printf("\n\n");
+
+    // shorthand version of the loop above
+    for (int& i : list) {
+        printf("%i, ", i);
+    }
+    printf("\n\n");
+    
+    // release memory to avoid a memory leak
+    // -> now automatic
     return 0;
 }

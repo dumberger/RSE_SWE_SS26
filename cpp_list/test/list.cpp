@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 
 // helper function to check the value at the given index
-void expectValue(const List& list, int index, int expected)
+void expectValue(const List<int>& list, int index, int expected)
 {
     int value;
     ASSERT_TRUE(list.get(index, value));
@@ -16,14 +16,14 @@ void expectValue(const List& list, int index, int expected)
 // length of an empty list should be 0
 TEST(LIST, length_on_empty)
 {
-    List list;
+    List<int> list;
     EXPECT_EQ(list.length(), 0);
 }
 
 // get on empty list should return false
 TEST(LIST, get_on_empty) 
 {
-    List list;
+    List<int> list;
     int value;
     EXPECT_FALSE(list.get(0, value));
 }
@@ -31,7 +31,7 @@ TEST(LIST, get_on_empty)
 // get on out of bounds index should return false
 TEST(LIST, get_out_of_bounds)
 {
-    List list;
+    List<int> list;
     list.push_back(1);
 
     int value;
@@ -42,7 +42,7 @@ TEST(LIST, get_out_of_bounds)
 // insert an element and check if it is there
 TEST(LIST, insert_element) 
 {
-    List list;
+    List<int> list;
     EXPECT_EQ(list.length(), 0);
     list.push_back(123);
     EXPECT_EQ(list.length(), 1);
@@ -52,7 +52,7 @@ TEST(LIST, insert_element)
 // insert multiple elements and check if they are there
 TEST(LIST, insert_multiple_elements)
 {
-    List list;
+    List<int> list;
     EXPECT_EQ(list.length(), 0);
     for (int i = 0; i < 10; i++) 
     {
@@ -68,7 +68,7 @@ TEST(LIST, insert_multiple_elements)
 // remove the first element and check if the list is correct
 TEST(LIST, remove_first_element)
 {
-    List list;
+    List<int> list;
     list.push_back(1);   
     list.push_back(2);
 
@@ -84,7 +84,7 @@ TEST(LIST, remove_first_element)
 // remove the last element and check if the list is correct
 TEST(LIST, remove_last_element)
 {
-    List list;
+    List<int> list;
     list.push_back(1);   
     list.push_back(2);
 
@@ -100,7 +100,7 @@ TEST(LIST, remove_last_element)
 // remove a middle element and check if the list is correct
 TEST(LIST, remove_middle_element)
 {
-    List list;
+    List<int> list;
     list.push_back(1);   
     list.push_back(2);
     list.push_back(3);
@@ -118,7 +118,7 @@ TEST(LIST, remove_middle_element)
 // remove the last remaining element and check if the list is correct
 TEST(LIST, remove_last_remaining_element)
 {
-    List list;
+    List<int> list;
     list.push_back(1);   
 
     EXPECT_TRUE(list.remove(0));
@@ -132,7 +132,7 @@ TEST(LIST, remove_last_remaining_element)
 // remove on empty list should return false
 TEST(LIST, remove_on_empty)
 {
-    List list;
+    List<int> list;
     
     EXPECT_FALSE(list.remove(0));
 
@@ -144,7 +144,7 @@ TEST(LIST, remove_on_empty)
 // remove out of index should return false
 TEST(LIST, remove_out_of_index)
 {
-    List list;
+    List<int> list;
     list.push_back(1);
 
     EXPECT_FALSE(list.remove(1));
@@ -156,7 +156,7 @@ TEST(LIST, remove_out_of_index)
 // print an empty list should print nothing
 TEST(LIST, print_empty)
 {
-    List list;
+    List<int> list;
 
     std::stringstream ss;
     list.print(ss);
@@ -167,7 +167,7 @@ TEST(LIST, print_empty)
 // print a list with multiple elements should print the correct values
 TEST(LIST, print_list)
 {
-    List list;
+    List<int> list;
     for (int i = 0; i < 5; i++)
     {
         list.push_back(i);
@@ -182,7 +182,7 @@ TEST(LIST, print_list)
 // print a list after removing an element should print the correct values
 TEST(LIST, print_after_remove)
 {
-    List list;
+    List<int> list;
     for (int i = 0; i < 5; i++)
     {
         list.push_back(i);
@@ -199,7 +199,7 @@ TEST(LIST, print_after_remove)
 // print an empty list in reverse should print nothing
 TEST(LIST, print_reverse_empty)
 {
-    List list;
+    List<int> list;
 
     std::stringstream ss;
     list.printReverse(ss);
@@ -210,7 +210,7 @@ TEST(LIST, print_reverse_empty)
 // print a list in reverse should print the correct values
 TEST(LIST, print_reverse)
 {
-    List list;
+    List<int> list;
     for (int i = 0; i < 5; i++)
     {
         list.push_back(i);
@@ -225,7 +225,7 @@ TEST(LIST, print_reverse)
 // print a list after removing an element in reverse should print the correct values
 TEST(LIST, print_reverse_after_remove)
 {
-    List list;
+    List<int> list;
     for (int i = 0; i < 5; i++)
     {
         list.push_back(i);
@@ -242,7 +242,7 @@ TEST(LIST, print_reverse_after_remove)
 // print forward and backward should be consistent
 TEST(LIST, print_forward_backward_consistency)
 {
-    List list;
+    List<int> list;
 
     for (int i = 0; i < 5; i++)
         list.push_back(i);
