@@ -15,4 +15,3 @@ public:
 private:
     ListNode<T>* _node;
 };
-
