@@ -47,11 +47,11 @@ TEST(SUDOKU, change_entry_multiple)
     EXPECT_EQ(test.get(4, 4), '_');
 
     test.set(4, 4, '5');
-    EXPECT_EQ(test.get(3, 3), '5');
+    EXPECT_EQ(test.get(4, 4), '5');
 
     test.set(4, 4, '1');
-    EXPECT_EQ(test.get(3, 3), '1');
+    EXPECT_EQ(test.get(4, 4), '1');
 
     test.set(4, 4, '9');
-    EXPECT_EQ(test.get(3, 3), '9');
+    EXPECT_EQ(test.get(4, 4), '9');
 }
