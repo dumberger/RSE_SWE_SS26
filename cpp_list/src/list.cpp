@@ -125,7 +125,8 @@ void List::print(){
 void List::print_reverse() {
     ListNode* node = this->last;
     while(node != nullptr) {
-        printf("%d\n", node->value);
+        printf("%d, ", node->value);
+        //printf("%d\n", node->value);
         node = node->prev;
     }
 }
@@ -136,4 +137,12 @@ unsigned int List::length() {
         len++;
     }
     return len;
+}
+
+ListIterator List::begin() {
+    return ListIterator(first);
+}
+
+ListIterator List::end() {
+    return ListIterator(nullptr);
 }
