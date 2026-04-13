@@ -1,9 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 project(RSE_SWE_SS26)
 
-set(MODULE cpp_list)
-
-
 include(FetchContent)
 FetchContent_Declare(
 googletest
@@ -16,4 +13,5 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 enable_testing()
 
-add_subdirectory(${MODULE})
+add_subdirectory(cpp_list)
+add_subdirectory(sudoku)
