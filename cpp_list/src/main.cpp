@@ -1,31 +1,24 @@
 #include "list.hpp"
-#include <stdio.h> // mit spitze Klammern systemlib und mit "" eigene header Dateien
+#include <array>
+#include <stdio.h>
 
 int main(int argc, char **argv) {
   // create a list
-  List list;
-
+  List<int> list;
   /// read numbers from user
   int number = 0;
   int num_read = 0;
-
   do {
     printf("enter a number (anything else to cancel):\n");
-    num_read = scanf(
-        "%i",
-        &number); // scanf ist wie input in python, und &number ist die adresse
-                  // von number, damit scanf den wert in number speichern kann
-
+    num_read = scanf("%i", &number);
     // put number into list
     if (num_read > 0) {
       list.push_back(number);
     }
     /// until an invalid input
   } while (num_read > 0);
-
   /// output list in reverse
   printf("\n\n your numbers in reverse:\n");
-
   // Option 1 einfach verkettete Liste
   /*
     for (int i = listLength(list) - 1; i > -1; i--) {
@@ -41,7 +34,6 @@ int main(int argc, char **argv) {
 
   // Option 2 doppelt verkettete Liste
   list.printReverse();
-
   printf("\n\n");
 
   // optimized for loops using iterators

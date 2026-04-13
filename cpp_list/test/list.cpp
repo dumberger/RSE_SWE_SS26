@@ -135,18 +135,18 @@ TEST(LIST, print_single_element) {
 
 // printReverse() Tests
 TEST(LIST, print_reverse_empty) {
-    List list;
-    testing::internal::CaptureStdout();
-    list.printReverse();
-    std::string output = testing::internal::GetCapturedStdout();
-    ASSERT_EQ(output, "");
+  List list;
+  testing::internal::CaptureStdout();
+  list.printReverse();
+  std::string output = testing::internal::GetCapturedStdout();
+  ASSERT_EQ(output, "");
 }
 
 TEST(LIST, print_reverse_single_element) {
-    List list;
-    list.push_back(123);
-    testing::internal::CaptureStdout();
-    list.printReverse();
-    std::string output = testing::internal::GetCapturedStdout();
-    ASSERT_EQ(output, "123, ");
+  List list;
+  list.push_back(123);
+  testing::internal::CaptureStdout();
+  list.printReverse();
+  std::string output = testing::internal::GetCapturedStdout();
+  ASSERT_EQ(output, "123, ");
 }

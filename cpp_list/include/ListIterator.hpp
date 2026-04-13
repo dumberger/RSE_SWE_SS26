@@ -2,13 +2,14 @@
 
 #include "ListNode.hpp"
 
+template<typename T>
 class ListIterator
 {
 public:
-    ListIterator(ListNode* node);
-    int& operator*();
-    ListIterator operator++();
-    bool operator!=(ListIterator rhs);
+    ListIterator(ListNode<T>* node) : _node(node) {}
+    T& operator*() { return _node->value; }
+    ListIterator operator++()  { _node = _node->next; return *this;}
+    bool operator!=(ListIterator rhs) { return _node != rhs._node; }
 private:
-    ListNode* _node;
+    ListNode<T>* _node;
 };

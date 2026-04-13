@@ -1,80 +1,88 @@
+// the errors in this file cannot be avoided because the IDE does not recognize
+// the include cpp pattern
+
 #include "list.hpp"
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 
-List::List() { // Klasse::Konstruktor
+template <typename T> List<T>::List() {
   first = nullptr;
   last = nullptr;
 }
 
-bool List::get(unsigned int index, int *val) { // Klasse::Methode
-  ListNode *node = this->first;
-  for (int i = 0; i < index; i++) {
-    if (node == nullptr) {
-      return false;
-    }
-    node = node->next;
-  }
-
+template <typename T> bool List<T>::get(unsigned int index, T &val) {
+  ListNode<T> *node = this->first;
   if (node == nullptr) {
     return false;
   }
-
-  *val = node->value;
-  return true;
+  node = node->next;
 }
 
-void List::push_back(int value) {
-  ListNode *node = this->first;
-  if (node == nullptr) { // wenn erster knoten einen nullpointer hat, dann ist
-                         // liste leer und man erstellt neues node
+if (node == nullptr) {
+  return false;
+}
 
-    // ListNode *newNode =
-    //(ListNode *)malloc(sizeof(ListNode)); // malloc reserviert speicher
+*val = node->value;
+return true;
+}
 
-    // c code: ListNode *newNode = (ListNode *)malloc(sizeof(ListNode));
-    // cpp code:
-    ListNode *newNode = new ListNode;
-
+template <typename T> void List<T>::push_back(T value) {
+  ListNode<T> *node = this->first;
+  if (node == nullptr) {
+    // ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+    ListNode<T> *newNode = new ListNode<T>;
     if (newNode == nullptr) {
-      exit(1); // falls kein neuer speiher bekommen exit mit statuscode 1
+      exit(1);
     }
     newNode->value = value;
     newNode->next = nullptr;
-    newNode->prev = nullptr;
     this->first = newNode;
-    this->last = newNode;
     return;
   }
-  // while (node->next != nullptr) {
-  // node = node->next;
-  //}
-  ListNode *nodePrev = this->last;
-  // c code: ListNode *newNode = (ListNode *)malloc(sizeof(ListNode));
-  // cpp code: ListNode *newNode = new ListNode;
-
-  ListNode *newNode = new ListNode;
-  if (newNode == nullptr) {
-    exit(1);
+  while (node->next != nullptr) {
+    node = node->next;
   }
-
-  newNode->next = nullptr;
-  newNode->prev = nodePrev;
+  // ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+  ListNode<T> *newNode = new ListNode<T>;
+  if (newNode == nullptr) {
+    exit(1); // falls kein neuer speiher bekommen exit mit statuscode 1
+  }
   newNode->value = value;
-  nodePrev->next = newNode;
+  newNode->next = nullptr;
+  newNode->prev = nullptr;
+  this->first = newNode;
   this->last = newNode;
   return;
 }
+// while (node->next != nullptr) {
+// node = node->next;
+//}
+ListNode *nodePrev = this->last;
+// c code: ListNode *newNode = (ListNode *)malloc(sizeof(ListNode));
+// cpp code: ListNode *newNode = new ListNode;
 
-List::~List() {
+ListNode *newNode = new ListNode;
+if (newNode == nullptr) {
+  exit(1);
+}
+
+newNode->next = nullptr;
+newNode->prev = nodePrev;
+newNode->value = value;
+nodePrev->next = newNode;
+this->last = newNode;
+return;
+}
+
+template <typename T> List<T>::~List() {
   while (length() > 0) {
     remove(0);
   }
 }
 
-void List::remove(unsigned int index) {
-  ListNode *node = this->first;
+template <typename T> void List<T>::remove(unsigned int index) {
+  ListNode<T> *node = this->first;
   if (this->first == nullptr) {
     return;
   }
@@ -114,38 +122,30 @@ void List::remove(unsigned int index) {
     return;
   }
 
-  // Löschen eines Element mittendrin
-  ListNode *next_node = tmp->next;
-  node->next = next_node;
-  next_node->prev = node;
-
-  delete tmp;
-  void List::print() {
+  template <typename T> void List<T>::print() {
     for (auto &&i : *this) {
       std::cout << i << ", ";
     }
   }
 
-  unsigned int List::length() {
-    unsigned int len = 0;
-    for (ListNode *i = this->first; i != nullptr; i = i->next) {
-      len++;
-    }
-    return len;
-  }
-
-  void List::print() {
-    for (ListNode *i = this->first; i != nullptr; i = i->next) {
-      printf("%i, ", i->value);
-    }
-  }
-
-  void List::printReverse() {
+  template <typename T> void List<T>::printReverse() {
     for (ListNode *i = this->last; i != nullptr; i = i->prev) {
       printf("%i, ", i->value);
     }
   }
 
-  ListIterator List::begin() { return ListIterator(first); }
+  template <typename T> unsigned int List<T>::length() {
+    unsigned int len = 0;
+    for (ListNode<T> *i = this->first; i != nullptr; i = i->next) {
+      len++;
+    }
+    return len;
+  }
 
-  ListIterator List::end() { return ListIterator(nullptr); }
+  template <typename T> ListIterator<T> List<T>::begin() {
+    return ListIterator(first);
+  }
+
+  template <typename T> ListIterator<T> List<T>::end() {
+    return ListIterator<T>(nullptr);
+  }
