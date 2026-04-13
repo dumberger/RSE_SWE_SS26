@@ -1,24 +1,17 @@
 #pragma once
+
 #include "ListNode.hpp"
+
+template<typename T>
 
 class ListIterator {
 
 public:
-    ListIterator(ListNode* node);
-    int& operator*();
-    ListIterator operator++(); 
-    bool operator!=(ListIterator rhs); // if (i == j)
-
+    ListIterator(ListNode<T>* node) : _node(node) {}
+    T& operator*() { return _node->value; }
+    ListIterator operator++()  { _node = _node->next; return *this;}
+    bool operator!=(ListIterator rhs) { return _node != rhs._node; }
 private:
-    ListNode* _node;
+    ListNode<T>* _node;
 };
 
-/* das soll ein iterator können: 
-ListIterator p_int;
-auto test = *p_int;
-
-ListIterator i;
-auto test = ++i;
-
-if (i == j)
-*/
