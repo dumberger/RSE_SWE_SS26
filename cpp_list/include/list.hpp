@@ -11,6 +11,7 @@ private:
     struct ListNode {
         int value;
         struct ListNode* next;
+        struct ListNode* prev;
     };
     */
 
