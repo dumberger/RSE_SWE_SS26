@@ -1,5 +1,4 @@
 {
-    "cmake.sourceDirectory": "/home/bastian/workspace/RSE_SWE_SS26",
-    "cmake.ctest.testExplorerIntegrationEnabled": true,
-    "cmake.generator": "Unix Makefiles"
+    "cmake.sourceDirectory": "/home/bastian/RSE_SWE_SS26",
+    "cmake.ctest.testExplorerIntegrationEnabled": true
 }
