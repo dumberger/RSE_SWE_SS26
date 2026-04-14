@@ -52,6 +52,7 @@ public:
     /// @brief Returns an iterator to the beginning of the list.
     /// @return An iterator to the first element.
     ListIterator<T> begin();
+    
     /// @brief Returns an iterator to the end of the list.
     /// @return An iterator to the position after the last element.
     ListIterator<T> end();
