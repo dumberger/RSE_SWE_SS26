@@ -19,7 +19,7 @@ TEST(LIST, insert_element) {
 }
 
 TEST(LIST, get_last_index) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
@@ -30,7 +30,7 @@ TEST(LIST, get_last_index) {
 }
 
 TEST(LIST, get_false_index) {
-    List list;
+    List<int> list;
     list.push_back(20);
     list.push_back(30);
     int value;
@@ -38,7 +38,7 @@ TEST(LIST, get_false_index) {
 }
 
 TEST(LIST, remove_element) {
-    List list;
+    List<int> list;
     list.push_back(22);
     list.remove(0);
     EXPECT_EQ(list.length(), 0);
@@ -47,7 +47,7 @@ TEST(LIST, remove_element) {
 }
 
 TEST(LIST, remove_first) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
@@ -67,7 +67,7 @@ TEST(LIST, remove_first) {
 }
 
 TEST(LIST, remove_middle) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
@@ -87,7 +87,7 @@ TEST(LIST, remove_middle) {
 }
 
 TEST(LIST, remove_last) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
@@ -106,7 +106,7 @@ TEST(LIST, remove_last) {
 }
 
 TEST(LIST, remove_empty_index) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
@@ -129,7 +129,7 @@ TEST(LIST, remove_empty_index) {
 }
 
 TEST(LIST, push_back_after_remove) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
 
@@ -149,7 +149,7 @@ TEST(LIST, push_back_after_remove) {
 }
 
 TEST(LIST, push_back_after_empty) {
-    List list;
+    List<int> list;
     list.push_back(10);
 
     list.remove(0);
@@ -166,7 +166,7 @@ TEST(LIST, push_back_after_empty) {
 }
 
 TEST(LIST, remove_one_by_one) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
@@ -185,7 +185,7 @@ TEST(LIST, remove_one_by_one) {
 }
 
 TEST(LIST, print_output) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
@@ -199,7 +199,7 @@ TEST(LIST, print_output) {
 }
 
 TEST(LIST, print_reverse_output) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
