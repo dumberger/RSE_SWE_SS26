@@ -1,7 +1,10 @@
-#include "sudoku.hpp"
 #include <iostream>
+#include "sudoku.hpp"
 
-int main(){
+using namespace std;
+
+int main() {
     Sudoku<9> test;
+
     return 0;
 }

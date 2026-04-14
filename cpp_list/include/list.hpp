@@ -23,4 +23,7 @@ public:
     int printReversed();
     int printReversed(int* array);
     unsigned int length();
+
+    ListIterator<T> begin();
+    ListIterator<T> end();
 };
