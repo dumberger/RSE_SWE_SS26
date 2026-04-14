@@ -15,8 +15,6 @@ private:
 public:
     List();
     ~List();
-    ListNode* getFirst();
-    ListNode* getLast();
     bool get(unsigned int index, int& val);
     void push_back(int value);
     void remove(unsigned int index);
