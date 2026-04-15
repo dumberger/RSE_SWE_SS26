@@ -1,9 +1,6 @@
-#include "../include/list.hpp"
-#include <stdlib.h>
-#include <stddef.h>
-#include <stdio.h> 
-#include <stdbool.h>
-
+#include "list.hpp"
+#include <cstdio>
+#include <cstdlib>
 
 List::List() {
     first = nullptr;
@@ -21,7 +18,8 @@ bool List::get(unsigned int index, int& out_value) {
         }
         node = node->next;
     }
-    out_value = node->value;
+    if (node == nullptr) return false; // case when node is nullptr, when the last node was deleted 
+    else out_value = node->value;
     return true;
 }
 
@@ -141,6 +139,5 @@ unsigned int List::length(){
 }
 
 List::~List(){
-// is for now empty, but can be used later
-
+    _delete();
 }

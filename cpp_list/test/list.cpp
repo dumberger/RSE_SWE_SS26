@@ -1,5 +1,5 @@
-#include "../include/list.hpp"
-#include <gtest/gtest.h>
+#include "list.hpp"
+#include "gtest/gtest.h"
 
 TEST(LIST, insert_element) { // was done in the class
     List list;
@@ -13,8 +13,14 @@ TEST(LIST, insert_element) { // was done in the class
     EXPECT_EQ(list.length(), 3); //EXPECT I expect this value but if something else is returned, the test will go further
 
     int value = 0;
+    ASSERT_TRUE(list.get(0, value)); 
+    ASSERT_EQ(value, 1); //ASSERT I expect this value but if something else is returned, the test will be stopped here
+    ASSERT_TRUE(list.get(1, value)); 
+    ASSERT_EQ(value, 2);
     ASSERT_TRUE(list.get(2, value)); 
-    ASSERT_EQ(value, 3); //ASSERT I expect this value but if something else is returned, the test will be stopped here
+    ASSERT_EQ(value, 3);
+
+    // check all elements in the list to be sure that they are correct
 }
 
 TEST(LIST, remove_element) {
@@ -29,8 +35,10 @@ TEST(LIST, remove_element) {
     list.remove(1);
 
     int value = 0;
-    EXPECT_EQ(list.get(0, value), true);
-    EXPECT_EQ(list.get(1, value), true);
+    EXPECT_TRUE(list.get(0, value));
+    EXPECT_EQ(value, 1);
+    EXPECT_TRUE(list.get(1, value));
+    EXPECT_EQ(value, 3);
     EXPECT_EQ(list.length(), 2);
 
 }
@@ -71,6 +79,8 @@ TEST(LIST, get_element_out_of_bounds) {
     int value = 0;
     EXPECT_FALSE(list.get(5, value)); // should return false
     EXPECT_TRUE(list.get(2, value)); // should return true
+    EXPECT_EQ(value, 3);
+
 }
 
 TEST(LIST, remove_get_negative_index) {
@@ -87,7 +97,7 @@ TEST(LIST, remove_get_negative_index) {
     EXPECT_EQ(list.length(), 3); 
 
     int value = 0;
-    EXPECT_FALSE(list.get(-1, value)); // should return false
+    EXPECT_FALSE(list.get(-1, value)); // should return false   
 }
 
 TEST(LIST, remove_first_element) {
@@ -111,6 +121,11 @@ TEST(LIST, remove_last_element) {
 
     int value = 0;
     EXPECT_EQ(list.length(), 2);
+    EXPECT_TRUE(list.get(0, value));
+    EXPECT_EQ(value, 1);
+    EXPECT_TRUE(list.get(1, value));
+    EXPECT_EQ(value, 2);
+    EXPECT_FALSE(list.get(2, value));
 }
 
 TEST(LIST, remove_one_element) {

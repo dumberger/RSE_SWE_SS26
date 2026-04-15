@@ -1,5 +1,5 @@
-#include "../include/list.hpp" // with "" are used for user defined header files, with <> are used for system header files
-#include <stdio.h> 
+#include "list.hpp" // with "" are used for user defined header files, with <> are used for system header files
+#include <cstdio>
 
 int main (int args, char** argv)
 {
@@ -43,7 +43,6 @@ int main (int args, char** argv)
 
     list.print();
 
-    // release memory to avoid memory leaks
-    list._delete();
+    // release memory to avoid memory leaks - is done with destructor.
     return 0;
-}
+}   // destructor will be called automatically when the list goes out of scope, so we don't need to call it explicitly.
