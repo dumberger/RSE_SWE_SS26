@@ -9,7 +9,7 @@ template<std::size_t N>
 class Sudoku {
 private:
     std::array<std::array<unsigned int, N>, N> field;
-    std::string SYMBOLS="_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 public:
     Sudoku() {
@@ -22,6 +22,6 @@ public:
 
     //~Sudoku() = default;
 
-    bool set(std::size_t row, std::size_t col, char value);
-    char get(std::size_t row, std::size_t col);
+    bool set(std::size_t row, std::size_t col, char value) { return true; }
+    char get(std::size_t row, std::size_t col) { return SYMBOLS[0]; }
 };
