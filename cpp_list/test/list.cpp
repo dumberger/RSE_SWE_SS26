@@ -2,14 +2,14 @@
 #include <gtest/gtest.h>
 
 TEST(d_linked_list, length){
-    List list;
+    List<int> list;
     ASSERT_EQ(list.length(), 0);
     list.push_back(1);
     ASSERT_EQ(list.length(), 1);
 }
 
 TEST(d_linked_list, get){
-    List list;
+    List<int> list;
     int value;
     ASSERT_FALSE(list.get(0,value));
     list.push_back(1);
@@ -20,7 +20,7 @@ TEST(d_linked_list, get){
 
 TEST(d_linked_list, pushBack){
     int value;
-    List list;
+    List<int> list;
     list.push_back(1);
     list.get(0, value);
     ASSERT_EQ(value, 1);
@@ -30,7 +30,7 @@ TEST(d_linked_list, pushBack){
 }
 
 TEST(d_linked_list, remove){
-    List list;
+    List<int> list;
     int value;
     list.push_back(1);
     list.push_back(2);
@@ -51,7 +51,7 @@ TEST(d_linked_list, remove){
 }
 
 TEST(d_linked_list, print){
-    List list;
+    List<int> list;
 
     // list is empty
     ASSERT_EQ(list.print(), 0);
@@ -78,7 +78,7 @@ TEST(d_linked_list, print){
 }
 
 TEST(d_linked_list, printReverse){
-    List list;
+    List<int> list;
 
     // list is empty
     ASSERT_EQ(list.printReversed(), 0);

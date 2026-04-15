@@ -31,6 +31,10 @@ int main(int argc, char** argv) {
     }
     printf("\n\n");
 
+    // numbers in reverse with function:
+    list.printReversed();
+    printf("\n\n");
+
     // optimized for loops using iterators
     // forward for now but reverse is possible in most containers using rbegin() and rend()
     for (auto i = list.begin(); i != list.end(); ++i) {
