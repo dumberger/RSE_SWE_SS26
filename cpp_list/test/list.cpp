@@ -1,24 +1,25 @@
-#include "list.hpp"
+#include "../include/list.hpp"
 
 #include <gtest/gtest.h>
+#include <string>
 
 // Eine neue Liste sollte am Anfang leer sein.
 TEST(LIST, starts_empty) {
-    List list;
+    List<int> list;
 
     EXPECT_EQ(list.length(), 0u);
 }
 
 // Auf einer leeren Liste darf get nichts liefern.
 TEST(LIST, get_on_empty) {
-    List list;
+    List<int> list;
     int value;
     ASSERT_FALSE(list.get(0, value));
 }
 
 // Nach einem Einfügen sollte das Element wieder auslesbar sein.
 TEST(LIST, insert_element) {
-    List list;
+    List<int> list;
 
     EXPECT_EQ(list.length(), 0);
     list.push_back(123);
@@ -31,7 +32,7 @@ TEST(LIST, insert_element) {
 
 // Die Reihenfolge beim Anhängen mehrerer Werte muss erhalten bleiben.
 TEST(LIST, insert_multiple_elements_preserves_order) {
-    List list;
+    List<int> list;
 
     list.push_back(10);
     list.push_back(20);
@@ -50,7 +51,7 @@ TEST(LIST, insert_multiple_elements_preserves_order) {
 
 // Ein Remove auf leerer Liste darf nichts kaputt machen.
 TEST(LIST, remove_on_empty_keeps_list_empty) {
-    List list;
+    List<int> list;
 
     list.remove(0);
 
@@ -59,7 +60,7 @@ TEST(LIST, remove_on_empty_keeps_list_empty) {
 
 // Wenn nur ein Element da ist, muss die Liste danach wieder leer sein.
 TEST(LIST, remove_first_element_from_single_element_list) {
-    List list;
+    List<int> list;
 
     list.push_back(123);
     list.remove(0);
@@ -72,7 +73,7 @@ TEST(LIST, remove_first_element_from_single_element_list) {
 
 // Beim Entfernen des ersten Elements muss der Kopf korrekt weiterrutschen.
 TEST(LIST, remove_first_element_updates_head) {
-    List list;
+    List<int> list;
 
     list.push_back(10);
     list.push_back(20);
@@ -90,7 +91,7 @@ TEST(LIST, remove_first_element_updates_head) {
 
 // Ein Element in der Mitte entfernen sollte die Lücke sauber schließen.
 TEST(LIST, remove_middle_element_closes_gap) {
-    List list;
+    List<int> list;
 
     list.push_back(10);
     list.push_back(20);
@@ -108,7 +109,7 @@ TEST(LIST, remove_middle_element_closes_gap) {
 
 // Beim Entfernen des letzten Elements müssen die restlichen Werte erhalten bleiben.
 TEST(LIST, remove_last_element_keeps_previous_elements) {
-    List list;
+    List<int> list;
 
     list.push_back(10);
     list.push_back(20);
@@ -126,7 +127,7 @@ TEST(LIST, remove_last_element_keeps_previous_elements) {
 
 // Die Länge soll sich nach Einfügen und Entfernen korrekt ändern.
 TEST(LIST, length_changes_with_insert_and_remove) {
-    List list;
+    List<int> list;
 
     list.push_back(1);
     list.push_back(2);
@@ -141,5 +142,19 @@ TEST(LIST, length_changes_with_insert_and_remove) {
 
     list.remove(0);
     EXPECT_EQ(list.length(), 0u);
+}
+
+// Die Liste soll als Template auch mit anderen Typen funktionieren.
+TEST(LIST, works_with_string_type) {
+    List<std::string> list;
+
+    list.push_back("alpha");
+    list.push_back("beta");
+
+    std::string value;
+    ASSERT_TRUE(list.get(0, value));
+    EXPECT_EQ(value, "alpha");
+    ASSERT_TRUE(list.get(1, value));
+    EXPECT_EQ(value, "beta");
 }
 

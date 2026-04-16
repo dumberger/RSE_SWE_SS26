@@ -1,9 +1,9 @@
 file(GLOB SOURCES "src/*.cpp")
-add_executable(list ${SOURCES})
+add_executable(list src/main.cpp)
 target_include_directories(list PRIVATE include)
+target_compile_options(list PRIVATE -g3 -O0 -fno-omit-frame-pointer -fno-inline)
 
-add_executable(test_list src/list.cpp test/list.cpp)
+add_executable(test_list test/list.cpp)
 target_include_directories(test_list PRIVATE include)
 target_link_libraries(test_list GTest::gtest_main)
 gtest_discover_tests(test_list)
-
