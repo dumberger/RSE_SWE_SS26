@@ -3,13 +3,13 @@
 #include <gtest/gtest.h>
 
 TEST(LIST, get_on_empty) {
-    List list;
+    List<int> list;
     int value;
     ASSERT_FALSE(list.get(0, value));
 }
 
 TEST(LIST, insert_element) {
-    List list;
+    List<int> list;
     EXPECT_EQ(list.length(), 0);
     list.push_back(123);
     EXPECT_EQ(list.length(), 1);
@@ -19,7 +19,7 @@ TEST(LIST, insert_element) {
 }
 
 TEST(LIST, push_back_multiple) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);
@@ -36,21 +36,21 @@ TEST(LIST, push_back_multiple) {
 }
 
 TEST(LIST, get_out_of_bounds) {
-    List list;
+    List<int> list;
     list.push_back(42);
     int value;
     ASSERT_FALSE(list.get(5, value));
 }
 
 TEST(LIST, get_negative_index) {
-    List list;
+    List<int> list;
     list.push_back(42);
     int value;
     ASSERT_FALSE(list.get(-1, value));
 }
 
 TEST(LIST, remove_middle_element) {
-    List list;
+    List<int> list;
     list.push_back(10);
     list.push_back(20);
     list.push_back(30);

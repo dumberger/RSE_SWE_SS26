@@ -1,16 +1,38 @@
-#include <stdio.h>
-#include <stdlib.h>
+// Intentionally included from include/list.hpp for template definitions.
+#define LIST_TEMPLATES_SOURCE
 #include "../include/list.hpp"
+#include <iostream>
 
-List::List() {
-    first = nullptr;
-    last = nullptr;
+template<typename T>
+ListIterator<T>::ListIterator(ListNode<T>* node) : current(node) {}
 
+template<typename T>
+T& ListIterator<T>::operator*() {
+    return current->value;
 }
 
-void List::push_back(int value) {
-    //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-    ListNode* newNode = new ListNode; // C++ style memory allocation 
+template<typename T>
+ListIterator<T>& ListIterator<T>::operator++() {
+    if (current != nullptr) {
+        current = current->next;
+    }
+    return *this;
+}
+
+template<typename T>
+bool ListIterator<T>::operator!=(const ListIterator<T>& other) const {
+    return current != other.current;
+}
+
+template<typename T>
+List<T>::List() {
+    first = nullptr;
+    last = nullptr;
+}
+
+template<typename T>
+void List<T>::push_back(T value) {
+    ListNode<T>* newNode = new ListNode<T>;
     newNode->value = value;
     newNode->next = nullptr;
     newNode->prev = this->last;
@@ -25,18 +47,20 @@ void List::push_back(int value) {
     }
 }
 
-unsigned int List::length() {
-    unsigned int length = 0;
-    ListNode* current = this->first;
+template<typename T>
+unsigned int List<T>::length() {
+    unsigned int len = 0;
+    ListNode<T>* current = this->first;
     while (current != nullptr) {
-        length++;
+        len++;
         current = current->next;
     }
-    return length;
+    return len;
 }
 
-bool List::get(unsigned int index, int& val) {
-    ListNode* current = this->first;
+template<typename T>
+bool List<T>::get(unsigned int index, T& val) {
+    ListNode<T>* current = this->first;
     unsigned int currentIndex = 0;
 
     while (current != nullptr) {
@@ -47,11 +71,12 @@ bool List::get(unsigned int index, int& val) {
         current = current->next;
         currentIndex++;
     }
-    return false; /* Index out of bounds */
+    return false;
 }
 
-void List::remove(unsigned int index) {
-    ListNode* current = this->first;
+template<typename T>
+void List<T>::remove(unsigned int index) {
+    ListNode<T>* current = this->first;
     unsigned int currentIndex = 0;
 
     while (current != nullptr && currentIndex < index) {
@@ -59,8 +84,9 @@ void List::remove(unsigned int index) {
         currentIndex++;
     }
     if (current == nullptr) {
-        return; /* Index out of bounds */
+        return;
     }
+
     if (current->prev != nullptr) {
         current->prev->next = current->next;
     } else {
@@ -71,37 +97,41 @@ void List::remove(unsigned int index) {
     } else {
         this->last = current->prev;
     }
-        //free(current);
-        delete current; current = nullptr; // C++ style memory deallocation
+
+    delete current;
 }
 
-void List::print() {
-    ListNode* current = this->first;
+template<typename T>
+void List<T>::print() {
+    ListNode<T>* current = this->first;
     while (current != nullptr) {
-        printf("%d ", current->value);
+        std::cout << current->value << " ";
         current = current->next;
     }
-    printf("\n");
+    std::cout << "\n";
 }
 
-void List::print_reverse() {
-    ListNode* current = this->last;
-    while (current != nullptr) {
-        printf("%d ", current->value);
-        current = current->prev;
-    }
-    printf("\n");
+template<typename T>
+ListIterator<T> List<T>::begin() {
+    return ListIterator<T>(first);
 }
 
-List::~List() {
-    ListNode* current = this->first;
-    ListNode* next;
+template<typename T>
+ListIterator<T> List<T>::end() {
+    return ListIterator<T>(nullptr);
+}
+
+template<typename T>
+List<T>::~List() {
+    ListNode<T>* current = this->first;
+    ListNode<T>* next;
+
     while (current != nullptr) {
         next = current->next;
-        //free(current);
-        delete current; current = nullptr; // C++ style memory deallocation
+        delete current;
         current = next;
     }
+
     this->first = nullptr;
     this->last = nullptr;
 }

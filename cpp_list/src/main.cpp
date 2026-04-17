@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv) {
     // create a list
-    List list;
+    List<int> list;
     /// read numbers from user
     int number = 0;
     int num_read = 0;
