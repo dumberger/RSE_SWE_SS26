@@ -1,3 +1,4 @@
+#include <filesystem>
 #include <iostream>
 #include "sudoku.hpp"
 #include <fstream>
@@ -7,16 +8,16 @@ using namespace std;
 
 int main() {
     Sudoku<9> test;
-
-    test.set(0, 0, '1');
-    test.set(0, 1, '2');
-    test.set(0, 0, '2');
-    test.set(0, 3, '4');
     char symbol = test.get(0, 0);
     //printf("%c\n\n", symbol);
-    std::ofstream output("output.txt");
-    output << test;
-    std::ifstream input("input.txt");
+
+    std::filesystem::path directory(__FILE__);
+    directory = directory.parent_path();
+
+    std::ofstream output(directory.string() + "/template.txt");
+    Sudoku<9> sudoku_template;
+    output << sudoku_template;
+    std::ifstream input(directory.string() + "/input.txt");
     Sudoku<9> copy;
     input >> copy;
     std::cout << copy;
