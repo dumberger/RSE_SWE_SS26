@@ -14,6 +14,8 @@ int main() {
 
     printf("Symbol at (0,0): %c\n", symbol);
     cout << "Symbol at (0,0): " << symbol << endl;
+    std::cout << "Symbol at (0,0): " << test.get(0,0) << std::endl;
+    std::cout << test << "/n";
 
 
     return 0;

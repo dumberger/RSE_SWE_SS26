@@ -3,6 +3,7 @@
 #include <bitset>
 #include <cstddef>
 #include <array>
+#include <ostream>
 #include <string>
 #include <algorithm>
 #include <cmath>
@@ -10,7 +11,11 @@
 
 //HÜ Zellen überschreiben
 
+// Forward declarations
+template<std::size_t N> class Sudoku;
 
+template<std::size_t N>
+std::ostream& operator<<(std::ostream& stream, Sudoku<N> &sudoku);
 
 // defines a NxN Sudoku
 template<std::size_t N>
@@ -22,6 +27,8 @@ private:
     std::array<std::bitset<N>, N> rows;
     std::array<std::bitset<N>, N> cols;
     std::array<std::bitset<N>, N> blks;
+
+    friend std::ostream& operator<< <N>(std::ostream& stream, Sudoku<N> &sudoku);
 
 public:
     Sudoku() {
@@ -103,7 +110,39 @@ public:
     return !result[index-1]; // symbol is valid if it doesn't exist in row, column, and block
     };
 
-
-
+       bool remove_previous_element(std::size_t row, std::size_t col) {
+        std::size_t index =field[row][col];
+        if(index==0) {
+            field[row][col] = 0;
+            return true;
+        }
+        if(!check_rules(row, col, index)) {
+            std::size_t old_index = field[row][col];
+            rows[row].reset(old_index-1);
+            cols[col].reset(old_index-1);
+            blks[calculate_block(row, col)].reset(old_index-1);
+            return false;
+        }
+        field[row][col] = index;
+        rows[row].set(index-1);
+        cols[col].set(index-1);
+        blks[calculate_block(row, col)].set(index-1);
+            
+    };
     
 };
+
+template<std::size_t N >
+std::ostream& operator<<(std::ostream& stream, Sudoku<N> &sudoku) {
+    for (auto& row : sudoku.field) {
+            for (auto& cell : row) {
+               stream << cell;
+            }
+                stream << "\n";
+
+        }
+        return stream;
+        
+};
+
+   
