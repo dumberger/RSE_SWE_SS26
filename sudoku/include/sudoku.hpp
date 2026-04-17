@@ -10,6 +10,7 @@
 #include <ostream>
 #include <string>
 #include <iostream>
+#include <utility>
 
 // defines a NxN Sudoku
 template<std::size_t N>
@@ -82,6 +83,10 @@ public:
         blks[calculate_block(row, col)].set(index-1);
         return true;
     }
+
+    // get the row and col of the next placeholder in the sodoku
+    // get (N,N) when the sudoku is fully solved
+    std::pair<std::size_t, std::size_t> next();
 
 private:
     int calculate_block(std::size_t row, std::size_t col)
