@@ -1,3 +1,4 @@
+file(GLOB SOURCES "src/*.cpp")
 add_executable(list src/main.cpp)
 target_include_directories(list PRIVATE include)
 
