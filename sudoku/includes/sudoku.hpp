@@ -31,4 +31,24 @@ public:
         return true;
     }
 
+    bool remove_previous_element(std::size_t row, std::size_t col) {
+        std::size_t index =field[row][col];
+        if(index==0) {
+            field[row][col] = 0;
+            return true;
+        }
+        if(!check_rules(row, col, index)) {
+            std::size_t old_index = field[row][col];
+            rows[row].reset(old_index-1);
+            cols[col].reset(old_index-1);
+            blks[calculate_block(row, col)].reset(old_index-1);
+            return false;
+        }
+        field[row][col] = index;
+        rows[row].set(index-1);
+        cols[col].set(index-1);
+        blks[calculate_block(row, col)].set(index-1);
+            
+    }
+
 };
