@@ -21,7 +21,7 @@ TEST(Sudoku, set_value) {
 TEST(Sudoku, print_sudoku) {
     Sudoku<9> sudoku;
     std::ostringstream oss;
-    soduku.print(oss);
+    sudoku.print(oss);
     EXPECT_EQ(oss.str(), "123456789\n"
                          "123456789\n"
                          "123456789\n"
@@ -35,7 +35,7 @@ TEST(Sudoku, print_sudoku) {
 
 ///test is solved row
 TEST(Sudoku, check_solved_row) {
-    int size = 9;
+    const int size = 9;
     Sudoku<size> sudoku;
     for (int i = 0; i < size; i++) {
         sudoku.set(0,i,i);
@@ -46,7 +46,7 @@ TEST(Sudoku, check_solved_row) {
 
 ///test is solved
 TEST(Sudoku, check_solved) {
-    int size = 9;
+    const int size = 9;
     Sudoku<size> sudoku;
     ASSERT_FALSE(sudoku.isSolved);
 
