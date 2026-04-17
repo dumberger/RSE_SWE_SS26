@@ -15,5 +15,5 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 enable_testing()
 
-add_subdirectory(cpp_list)
+
 add_subdirectory(sudoku)

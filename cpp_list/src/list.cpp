@@ -1,28 +1,7 @@
-// Intentionally included from include/list.hpp for template definitions.
-#define LIST_TEMPLATES_SOURCE
+
 #include "../include/list.hpp"
+#include <stdlib.h>
 #include <iostream>
-
-template<typename T>
-ListIterator<T>::ListIterator(ListNode<T>* node) : current(node) {}
-
-template<typename T>
-T& ListIterator<T>::operator*() {
-    return current->value;
-}
-
-template<typename T>
-ListIterator<T>& ListIterator<T>::operator++() {
-    if (current != nullptr) {
-        current = current->next;
-    }
-    return *this;
-}
-
-template<typename T>
-bool ListIterator<T>::operator!=(const ListIterator<T>& other) const {
-    return current != other.current;
-}
 
 template<typename T>
 List<T>::List() {
@@ -135,4 +114,9 @@ List<T>::~List() {
     this->first = nullptr;
     this->last = nullptr;
 }
+
+// Explicit template instantiations
+template class List<int>;
+template class List<double>;
+template class List<std::string>;
 
