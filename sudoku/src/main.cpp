@@ -14,16 +14,15 @@ int main() {
     test.set(0, 3, '4');
     char symbol = test.get(0, 0);
     //printf("%c\n\n", symbol);
-    std::ifstream file("test.txt");
-    std::stringstream ss;
-    ss << test << "\n";
+    std::ofstream output("output.txt");
+    output << test;
+    std::ifstream input("input.txt");
     Sudoku<9> copy;
-    file >> copy;
+    input >> copy;
     std::cout << copy;
-    if(!file.good())
+    if(!input.good())
     {
         std::cout << "error reading file\n";
     }
-
     return 0;
 }
