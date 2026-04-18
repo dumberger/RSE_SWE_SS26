@@ -6,8 +6,6 @@
 template <typename T> class List {
 private:
   ListNode<T> *first;
-  ListNode<T> *next;
-  ListNode<T> *prev;
 
 public:
   ListNode<T> *last;
