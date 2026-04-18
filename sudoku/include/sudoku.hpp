@@ -13,46 +13,8 @@
 #include <utility>
 
 // defines a NxN Sudoku
-template<std::size_t N> class Sudoku;
-template<std::size_t N>
-std:: ostream& operator <<(std::ostream& stream, Sudoku<N>& sudoku){
-    for (auto& row : sudoku.field) {
-            for (auto& cell : row) {
-                stream <<sudoku.SYMBOLS[cell]<<" ";
-            }
-            stream<<"\n";
-        }
-    return stream;
-}
-
-template <std::size_t N>
-std::istream& operator >>(std::istream& stream, Sudoku<N>& sudoku){
-    for (int row = 0;  row < N ; ++row) {
-    
-        for (int col = 0;  col < N ; ++col) {
-        
-            char value;
-            stream >> value;
-            if(!sudoku.set(row,col, value)){
-                stream.setstate(std::ios::failbit);
-                return stream;
-            }
-        }
-    }
-    return stream;
-
-
-}
-
-
 template<std::size_t N>
 class Sudoku {
-
-    //get the row and col of the next placeholder in the sudoku
-    //get (N,N) when the sudoku is fully solved
-    std::pair<std:: size_t,std::size_t>next(){
-        std::pair<int,int>pair;
-    }
 private:
     // placeholder symbol is always the first symbol
     std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -64,14 +26,6 @@ private:
 
     template<std::size_t M>
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
-
-    std::array<std::array<unsigned int, N>, N> field;
-    std::array<std::bitset<N>, N> rows;
-    std::array<std::bitset<N>, N> cols;
-    std::array<std::bitset<N>, N> blks;
-
-    template<std::size_t M>
-    friend std:: ostream& operator <<(std::ostream& stream, Sudoku<M>&);
 
 public:
     Sudoku() {
