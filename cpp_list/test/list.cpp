@@ -2,7 +2,7 @@
 #include "gtest/gtest.h"
 
 TEST(LIST, insert_element) { // was done in the class
-    List list;
+    List<int> list;
 
     EXPECT_EQ(list.length(), 0);
 
@@ -24,7 +24,7 @@ TEST(LIST, insert_element) { // was done in the class
 }
 
 TEST(LIST, remove_element) {
-    List list;
+    List<int> list;
 
     list.pushBack(1);
     list.pushBack(2);
@@ -44,7 +44,7 @@ TEST(LIST, remove_element) {
 }
 
 TEST(LIST, remove_element_empty_list) {
-    List list;
+    List<int> list;
 
     EXPECT_EQ(list.length(), 0);
 
@@ -56,7 +56,7 @@ TEST(LIST, remove_element_empty_list) {
 }
 
 TEST(LIST, remove_element_out_of_bounds) {
-    List list;
+    List<int> list;
 
     list.pushBack(1);
     list.pushBack(2);
@@ -70,7 +70,7 @@ TEST(LIST, remove_element_out_of_bounds) {
 }
 
 TEST(LIST, get_element_out_of_bounds) {
-    List list;
+    List<int> list;
 
     list.pushBack(1);
     list.pushBack(2);
@@ -84,7 +84,7 @@ TEST(LIST, get_element_out_of_bounds) {
 }
 
 TEST(LIST, remove_get_negative_index) {
-    List list;
+    List<int> list;
 
     list.pushBack(1);
     list.pushBack(2);
@@ -101,7 +101,7 @@ TEST(LIST, remove_get_negative_index) {
 }
 
 TEST(LIST, remove_first_element) {
-    List list;
+    List<int> list;
     list.pushBack(1);
     list.pushBack(2);
     list.remove(0); 
@@ -113,7 +113,7 @@ TEST(LIST, remove_first_element) {
 }
 
 TEST(LIST, remove_last_element) {
-    List list;
+    List<int> list;
     list.pushBack(1);
     list.pushBack(2);
     list.pushBack(3);
@@ -129,7 +129,7 @@ TEST(LIST, remove_last_element) {
 }
 
 TEST(LIST, remove_one_element) {
-    List list;
+    List<int> list;
     list.pushBack(100);
     list.remove(0);
 
@@ -139,7 +139,7 @@ TEST(LIST, remove_one_element) {
 }
 
 TEST(LIST, delete_list) {
-    List list;
+    List<int> list;
     list.pushBack(1);
     list.pushBack(2);
 

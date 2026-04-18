@@ -1,14 +1,16 @@
-#include "list.hpp"
+
 #include <cstdio>
 #include <cstdlib>
 
-List::List() {
+template<typename T>
+List<T>::List() { // clang goes crazy, because there is no include for hpp, although cpp is included in hpp. Just ignore the problem with List
     first = nullptr;
     last = nullptr;
 }
 
-bool List::get(unsigned int index, int& out_value) { 
-    ListNode* node = first;
+template<typename T>
+bool List<T>::get(unsigned int index, T& out_value) { 
+    ListNode<T>* node = first;
     if (node == nullptr) return false; // handle empty list case
 
     for (unsigned int i = 0; i < index; i++) {
@@ -26,11 +28,12 @@ bool List::get(unsigned int index, int& out_value) {
 // all the parameters are just copies and not references 
 // so we need to use pointers to modify the original value
 
-void List::pushBack(int value){ 
+template<typename T>
+void List<T>::pushBack(T value){ 
     // before in c we had to pass the list as a pointer, but now we can just use the class and its members directly
     // is like metod of this exact class, so we can access the members directly without needing to pass the list as a parameter
 
-    ListNode* new_node = new ListNode; 
+    ListNode<T>* new_node = new ListNode<T>; 
     if(new_node == nullptr) exit(1); 
 
     new_node->value = value; // new node is freshly created is not part of the list, so it need a pointer to the value
@@ -47,17 +50,18 @@ void List::pushBack(int value){
     last = new_node; // updating
 }
 
-
-void List::_delete(){
+template<typename T>
+void List<T>::_delete(){
     while (length() > 0) {
         remove(0);
     }
 }
 
-void List::remove(unsigned int index){
+template<typename T>
+void List<T>::remove(unsigned int index){
     if (first == nullptr) return; 
 
-    ListNode* target = first; // list->first is actually just a var (or value), not the address of the first node
+    ListNode<T>* target = first; // list->first is actually just a var (or value), not the address of the first node
 
     // target is just a pointer used to navigate the existing nodes and safely re-link them
     // is used only for navigation and is not a specific value/node like the list itself.
@@ -87,10 +91,11 @@ void List::remove(unsigned int index){
     return;
 }
 
-void List::print() {
+template<typename T>
+void List<T>::print() {
     printf("\n\n");
     for (unsigned int i = 0; i < length(); i++) {
-        int value;
+        T value;
         // read elements from list
 
         if (i == length() - 1 && get(i, value)) {
@@ -108,12 +113,13 @@ void List::print() {
 
 }
 
-void List::printReverse() {
+template<typename T>
+void List<T>::printReverse() {
     printf("\n\n");
     unsigned int len = length();
     if (len == 0) return;
     for (unsigned int i = len - 1; ; i--) {
-        int value;
+        T value;
         // read elements from list
         
         if (i == 0 && get(i, value)) {
@@ -130,14 +136,28 @@ void List::printReverse() {
     return;
 }
 
-unsigned int List::length(){
+template<typename T>
+unsigned int List<T>::length(){
     unsigned int length = 0;
-    for (ListNode* i = first; i != nullptr; i = i->next) {
+    for (ListNode<T>* i = first; i != nullptr; i = i->next) {
         length++;
     }
     return length;
 }
 
-List::~List(){
+template<typename T>
+List<T>::~List(){
     _delete();
+}
+
+template<typename T>
+ListIterator<T> List<T>::begin() 
+{
+    return ListIterator(first);
+}
+
+template<typename T>
+ListIterator<T> List<T>::end() 
+{
+    return ListIterator<T>(nullptr);
 }

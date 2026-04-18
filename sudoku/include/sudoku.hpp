@@ -1,8 +1,18 @@
 #pragma once
 
+// clang inlay toggle -> turn off/on hints
+
+#include <algorithm>
+#include <cctype>
+#include <cmath>
 #include <cstddef>
 #include <array>
+#include <cstdio>
+#include <ostream>
 #include <string>
+#include <bitset>
+#include <iostream>
+#include <utility>
 
 // defines a NxN Sudoku
 template<std::size_t N> 
@@ -17,6 +27,11 @@ private:
     std::string SYMBOLS="_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // Dictionary for the symbols used in the sudoku, where the index of the symbol corresponds to its value (for example SYMBOLS[1] = '1', SYMBOLS[10] = 'A', etc.)
     // is also limit for the playable size. Everything till z. So N can be maximum 37
+    std::array<std::bitset<N>, N> rows;
+    std::array<std::bitset<N>, N> cols;
+    std::array<std::bitset<N>, N> blks;
+    template<std::size_t M>
+    friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
 public:
     Sudoku() {
         // old style ->
@@ -31,32 +46,126 @@ public:
             }
         }
 
-        // creates a field with all cells initialized to 0
+        // creates a field with all cells initialized to 0 (which is _)
     }
 
     //~Sudoku() = default;
 
 
-    bool set(std::size_t row, std::size_t col, char value);
-    // {
-    //     // check if the value is valid (for example, if it's a digit between 1 and N or a symbol from the SYMBOLS string)
-    //     // check if the value is already present in the same row, column or subgrid
-    //     // if all checks pass, set the value in the field and return true, otherwise return false
+    bool set(std::size_t row, std::size_t col, char value)
+    {
+        // check if the value is valid (for example, if it's a digit between 1 and N or a symbol from the SYMBOLS string)
+        // check if the value is already present in the same row, column or subgrid
+        // if all checks pass, set the value in the field and return true, otherwise return false
 
-    //     auto pos = SYMBOLS.find(value);
+        // auto pos = std::find(SYMBOLS.begin(), SYMBOLS.end(), value); is universal -> if symbols were int it would still work
+        // {
+        //     return false;
+        // }
+        // int index = pos - SYMBOLS.begin();
+        value = toupper(value);
+        auto index = SYMBOLS.find(value);
+        if(index == std::string::npos)
+        {
+            return false;
+        }
+        if(index > N)
+        {
+            return false;
+        }
+        remove_prev(row, col);
+        if(index == 0) 
+        {
+            field[row][col] = 0;
+            return true;
+        }
+        if(!is_valid(row, col, index))
+        {
+            std::size_t old_index = field[row][col];
+            if(old_index == 0)
+            {
+                return false;
+            }
+            rows[row].set(old_index-1);
+            cols[col].set(old_index-1);
+            blks[calc_block(row, col)].set(old_index-1);
+            return false;
+        }
+        field[row][col] = index;
+        rows[row].set(index-1);
+        cols[col].set(index-1);
+        blks[calc_block(row, col)].set(index-1);
+        return true;
+    }
 
-    //     if (pos == std::string::npos)
-    //         return false;
-    //     if (((row >= N) and (row < 0)) or ((col >= N) and (col < 0)))
-    //         return false;
-    //     return true;
+    // get the row and col of the next 
+    // get [N, N] when the sudoku is fully 
+    // std::pair<typename T1, typename T2>{
+    //     std::pair<typename T1, typename T2>
+    //     pair.
     // }
     
-    char get(std::size_t row, std::size_t col);
-    // {
-    //     // return the value at the specified position in the field, for example by converting the integer value to the corresponding symbol using the SYMBOLS string
-    //     char symbol = SYMBOLS[field[row][col]];
-    //     printf("%c ", symbol);
-    //     return symbol;
-    // }
+    char get(std::size_t row, std::size_t col)
+    {
+        // return the value at the specified position in the field, for example by converting the integer value to the corresponding symbol using the SYMBOLS string
+        char symbol = SYMBOLS[field[row][col]];
+        return symbol;
+    }
+private:
+    int calc_block(std::size_t row, std::size_t col)
+    {
+        std::size_t block_size = sqrt(N);
+        return floor(row / block_size) * block_size + floor(col / block_size) * block_size; // rounded by a module with floor -> like %
+    }
+
+    bool is_valid(std::size_t row, std::size_t col, int index)
+    {
+        // std::bitset<N> _row = rows[row];
+        // if (_row[index]){
+        //     return false;
+        // }
+
+        // either do this 3 times or just use code below
+        
+        std::bitset<N> result = rows[row] | cols[col] | blks[calc_block(row, col)];
+        //std::cout << result.to_string() << std::endl;
+        return !result[index];
+    }
+
+    void remove_prev (std::size_t row, std::size_t col)
+    {
+        std::size_t index = field[row][col];
+        if (index == 0)
+            return;
+        rows[row].reset(index - 1);
+        cols[col].reset(index - 1);
+        blks[calc_block(row, col)].reset(index - 1);
+    }
 };
+
+template<std::size_t N>
+std::ostream& operator<<(std::ostream& stream, Sudoku<N>& sudoku) {
+    for (auto& row : sudoku.field) {
+            for (auto& cell : row) {
+                stream << sudoku.SYMBOLS[cell] << " ";
+            }
+            stream << "\n";
+        }
+    return stream;
+}
+
+template<std::size_t N>
+std::istream& operator>>(std::istream& stream, Sudoku<N>& sudoku) {
+    for (int row = 0; row < N; ++row) {
+        for (int col = 0; col < N; ++col) {
+            char value;
+            stream >> value;
+            if(!sudoku.set(row, col, value))
+            {
+                stream.setstate(std::ios::failbit);
+                return stream;
+            }
+        }
+    }
+    return stream;
+}

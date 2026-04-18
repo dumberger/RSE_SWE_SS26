@@ -4,7 +4,7 @@
 int main (int args, char** argv)
 {
     // create a list
-    List list;
+    List<int> list;
 
     // get the size of the list
     int size;
