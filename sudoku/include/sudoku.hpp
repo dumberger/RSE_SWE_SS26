@@ -89,7 +89,7 @@ public:
         }
       }
     }
-    return {N, N};
+    return {N, N}; // ausgabe von N,N wenn das Sudoku vollständig gelöst ist
   }
 
 private:
