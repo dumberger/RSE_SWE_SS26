@@ -4,7 +4,7 @@
 
 TEST(LIST, insert_element)
 {
-    List list;
+    List<int> list;
     EXPECT_EQ(list.length(), 0);
     list.push_back(123);
     EXPECT_EQ(list.length(), 1);
@@ -15,7 +15,7 @@ TEST(LIST, insert_element)
 
 TEST(LIST, remove_element)
 {
-    List list;
+    List<int> list;
     list.push_back(123);
     list.push_back(35);
     list.push_back(63);

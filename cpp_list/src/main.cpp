@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "list.hpp"
 
+
 int main(int argc, char** argv)
 {
-    List list;
+    List<int> list;
 
     int number=0;
     int num_read=0;
@@ -20,6 +21,11 @@ int main(int argc, char** argv)
     printf("\n\n");
     list.print();
     printf("\n\n");
+
+    for(auto i=list.begin(); i!=list.end(); ++i){
+            printf("%i, ", *i);
+        
+    }
     
     return 0;
 }

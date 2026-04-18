@@ -1,17 +1,21 @@
 #include "list.hpp"
+#include "ListIterator.hpp"
 #include <stdlib.h>
 #include <stdio.h>
 
+template<typename T>
 
-List::List()
+List<T>::List()
 {
     first = nullptr;
     last = nullptr;
 }
 
-bool List::get(unsigned int index, int& val)
+
+template<typename T>
+bool List<T>::get(unsigned int index, T& val)
 {
-    ListNode* node = this->first;
+    ListNode<T>* node = this->first;
     for(int i=0; i<index; i++)
     {
         if(node==nullptr){
@@ -22,14 +26,14 @@ bool List::get(unsigned int index, int& val)
     val=node->value;
     return true;
 }
-
-void List::push_back(int value)
+template<typename T>
+void List<T>::push_back(T value)
 {
-    ListNode* node = this->first;
+    ListNode<T>* node = this->first;
     if(node==nullptr)
     {
         //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-        ListNode* newNode = new ListNode;
+        ListNode<T>* newNode = new ListNode<T>;
         if(newNode==nullptr) exit(1);
         newNode->value = value;
         newNode->next = nullptr;
@@ -44,7 +48,7 @@ void List::push_back(int value)
     }
     
     //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-    ListNode* newNode = new ListNode;
+    ListNode<T>* newNode = new ListNode<T>;
     if(newNode==nullptr) exit(1);
     newNode->value = value;
     newNode->prev = this->last;
@@ -53,18 +57,18 @@ void List::push_back(int value)
     this->last = newNode;
     return;
 }
-
-List::~List()
+template<typename T>
+List<T>::~List()
 {
     while(length() > 0)
     {
         remove(0);
     }
 }
-
-void List::remove(unsigned int index)
+template<typename T>
+void List<T>::remove(unsigned int index)
 {
-    ListNode* node = this->first;
+    ListNode<T>* node = this->first;
     if(this->first == nullptr){
     return;
     }
@@ -110,31 +114,41 @@ void List::remove(unsigned int index)
     node = nullptr;
     return;
 }
-
-void List::print()
+template<typename T>
+void List<T>::print()
 {
-    for(ListNode* node = this->first; node!=nullptr; node = node->next)
+    for(ListNode<T>* node = this->first; node!=nullptr; node = node->next)
     {
         int value; 
         printf("%i, ",node->value);
     }
 }
-
-void List::print_reverse()
+template<typename T>
+void List<T>::print_reverse()
 {
-    for(ListNode* node = this->last; node!=nullptr; node = node->prev)
+    for(ListNode<T>* node = this->last; node!=nullptr; node = node->prev)
     {
         int value; 
         printf("%i, ",node->value);
     }
 }
-
-unsigned int List::length()
+template<typename T>
+unsigned int List<T>::length()
 {
     unsigned int len=0;
-    for(ListNode* i=this->first; i!=nullptr; i=i->next)
+    for(ListNode<T>* i=this->first; i!=nullptr; i=i->next)
     {
         len++;
     }
     return len;
 }
+template<typename T>
+ListIterator<T> List<T>::begin(){
+    return ListIterator<T>(first);
+}
+template<typename T>
+ListIterator<T> List<T>::end(){
+    return ListIterator<T>(nullptr);
+}
+
+template class List<int>;
