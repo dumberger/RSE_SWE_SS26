@@ -83,18 +83,40 @@ public:
 
     //get the rowand col of the next placeholder
     // get(N,N) when  the sudoku is fullsoved
-    /*std::pair<std::size_t, std::size_t> next()
+    std::pair<std::size_t, std::size_t> next()
     {
+        //select the best the next cell to fill, the one with the least options
+        std::size_t best_row = N;
+        std::size_t best_col = N;
+        std::size_t best_options = N+1;
         for (std::size_t row = 0; row < N; ++row) {
             for (std::size_t col = 0; col < N; ++col) {
-                if (field[row][col] == 0) {
+                if (field[row][col] != 0) {
+                    continue;
+                }
+                // count the number of valid options for this cell
+                std::size_t options = 0;
+                for (std::size_t i = 1; i <= N; ++i) {
+                    if (check_rules(row, col, i)) {
+                        ++options;
+                    }
+                }
+                 //Optimalfall sofort zurück
+                if (options == 0) {
                     return {row, col};
+                }
+
+
+                if (options < best_options) {
+                    best_options = options;
+                    best_row = row;
+                    best_col = col;
                 }
             }
         }
-        return {N, N};
+        return {best_row, best_col};
 
-    }*/
+    }
 
 private:
     int calculate_block(std::size_t row, std::size_t col)
