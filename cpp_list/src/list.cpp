@@ -29,10 +29,7 @@ void List<T>::push_back(T value) {
     ListNode<T>* node = this->first;
     if (node == nullptr) {
         //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-        ListNode<T>* newNode = new ListNode<T>;
-        if (newNode == nullptr) {
-            exit(1);
-        }
+        ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
         newNode->value = value;
         newNode->next = nullptr;
         this->first = newNode;
@@ -42,10 +39,7 @@ void List<T>::push_back(T value) {
         node = node->next;
     }
     //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-    ListNode<T>* newNode = new ListNode<T>;
-    if (newNode == nullptr) {
-        exit(1);
-    }
+    ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
     newNode->value = value;
     newNode->next = nullptr;
     node->next = newNode;
