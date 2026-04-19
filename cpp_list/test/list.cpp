@@ -5,7 +5,6 @@
 
 
 TEST(LIST, get_on_empty) {
-
     List<int> list;
     int value;
     ASSERT_FALSE(list.get(0, value)); 
@@ -28,8 +27,7 @@ TEST(LIST, get_first_and_last) {
     EXPECT_EQ(value, 300);
 }
 
-TEST(LIST, insert_element) { 
-    
+TEST(LIST, insert_element) {
     List<int> list;
     EXPECT_EQ(list.length(), 0);
     list.push_back(123);

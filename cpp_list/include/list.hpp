@@ -4,12 +4,14 @@
 
 template <typename T>
 
+#include "ListNode.hpp"
+#include "ListIterator.hpp"
+
+template<typename T>
 class List 
 {
 private:
     ListNode<T>* first;
-    ListNode<T>* last; 
-
 public:
     List();
     ~List();
@@ -19,9 +21,11 @@ public:
     void remove(unsigned int index);
     void print();
     unsigned int length();
-    void reverse_print();
 
     ListIterator<T> begin();
-    ListIterator<T> end();    
+    ListIterator<T> end();
 };
+
+// not a good design but it woks fo templating the List afterwards
+// do not use this in production code
 #include "../src/list.cpp"
