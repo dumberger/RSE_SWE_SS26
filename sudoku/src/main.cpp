@@ -2,6 +2,7 @@
 #include "sudoku.hpp"
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 using namespace std;
 
@@ -14,6 +15,10 @@ int main() {
     test.set(0, 3, '4');
     char symbol = test.get(0, 0);
     //printf("%c\n\n", symbol);
+    
+    //std::filesystem::path directory(__FILE__);
+    //std::cout<<directory.parent_path();
+    
     std::ofstream output("output.txt");
     output << test;
     std::ifstream input("input.txt");

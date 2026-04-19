@@ -83,6 +83,9 @@ public:
         return true;
     }
 
+    //get the row an col of the next placeholder in the sudoku
+    //
+
 private:
     int calculate_block(std::size_t row, std::size_t col)
     {
