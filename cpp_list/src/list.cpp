@@ -1,22 +1,24 @@
 #include "list.hpp"
-#include "ListIterator.hpp"
-#include "stdio.h"
-#include <cstdio>
+#include "ListNode.hpp"
 #include <stdlib.h>
+#include <cstdio>
 
-List::List() {
+template <typename T>
+List<T>::List() {
     first = nullptr; 
     last = nullptr; 
 }
 
-bool List::get(unsigned int index, int& val) {
+template <typename T>
+bool List<T>::get(unsigned int index, T& val) {
 
-    if(index >= length()|| index < 0 || this->first == nullptr) {
+    if(index >= length() || this->first == nullptr) {
         return false;
     }
-    ListNode* node;
 
-    // 🔍 Richtung wählen (wie bei remove
+    ListNode<T>* node;
+
+    // Richtung wählen (wie bei remove
     if(index < length() / 2) {
         node = this->first;
         for (int i = 0; i < index; i++) {
@@ -33,8 +35,11 @@ bool List::get(unsigned int index, int& val) {
 
 }
 
-void List::push_back(int value) {
-    ListNode* newNode = new ListNode;
+template <typename T>
+void List<T>::push_back(T value) { 
+
+    ListNode<T>* newNode = new ListNode<T>;
+
     newNode->value = value;
     newNode->next = nullptr;
     newNode->prev = this->last;
@@ -49,25 +54,31 @@ void List::push_back(int value) {
     this->last = newNode;
 }
 
-List::~List() {
-    while (first != nullptr) {
-        ListNode* tmp = first;
-        first = first->next;
-        delete tmp;
+template <typename T>
+List<T>::~List() {
+
+    ListNode<T>* node = this->first;
+    ListNode<T>* tmp;
+
+    while(node != nullptr){
+        tmp = node->next;
+        delete node;
+        node = tmp;
     }
+    first = nullptr;
     last = nullptr;
+
 }
 
 
-void List::remove(unsigned int index){
+template <typename T>
+void List<T>::remove(unsigned int index){
     
     if(index >= length()) {
         return;
     }
 
-
-    ListNode* node; 
-    // 🔍 Richtung wählen (wie bei get)
+    ListNode<T>* node; 
 
     if(index < length() / 2) {
         node = this->first;
@@ -97,7 +108,8 @@ void List::remove(unsigned int index){
     delete node;
 }
 
-void List::print(){
+template <typename T>
+void List<T>::print(){
     //HOMEWORK
     for(auto i= begin(); i != end(); ++i) {
         printf(" %i,", *i);
@@ -106,16 +118,17 @@ void List::print(){
 
 }
 
-void List::reverse_print() {
+template <typename T>
+void List<T>::reverse_print() {
     //HOMEWORK
-   
-    for(auto i = ListIterator(last); i != end(); --i) {
+    for(auto i = ListIterator<T>(last); i != end(); --i) {
         printf(" %i,", *i);
     }
     printf("\n");
 }   
 
-unsigned int List::length() {
+template <typename T>
+unsigned int List<T>::length() {
     unsigned int len = 0;
     for (auto i = begin(); i != end(); ++i) {
         len++;
@@ -123,10 +136,12 @@ unsigned int List::length() {
     return len;
 }
 
-ListIterator List::begin() {
-    return ListIterator(first);
+template <typename T>
+ListIterator<T> List<T>::begin() {
+    return ListIterator<T>(first);
 }
 
-ListIterator List::end() {
-    return ListIterator(nullptr);
+template <typename T>
+ListIterator<T> List<T>::end() {
+    return ListIterator<T>(nullptr);
 }

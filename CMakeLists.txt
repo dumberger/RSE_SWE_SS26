@@ -15,4 +15,3 @@ include(GoogleTest)
 enable_testing()
 
 add_subdirectory(cpp_list)
-add_subdirectory(c_list)
