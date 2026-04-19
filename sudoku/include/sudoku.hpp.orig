@@ -9,6 +9,7 @@
 #include <cmath>
 #include <iostream>
 
+
 // defines a NxN Sudoku
 template<std::size_t N>
 class Sudoku 
