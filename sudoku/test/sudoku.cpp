@@ -18,7 +18,7 @@ TEST(SUDOKU, init_empty)
     {
         for (std::size_t col = 0; col < N; col++) 
         {
-            EXPECT_EQ(sudoku.get(row, col), 0);
+            EXPECT_EQ(sudoku.get(row, col), '_');
         }
     }    
 }
@@ -46,7 +46,7 @@ TEST(SUDOKU, multiple_set_get)
     {
         EXPECT_EQ(sudoku.get(i, i), '0' + i);
     }
-    EXPECT_EQ(sudoku.get(0, 0), 0);
+    EXPECT_EQ(sudoku.get(0, 0), '_');
 }
 
 // setting a cell to a valid character at the edge of the Sudoku should work correctly
@@ -80,8 +80,8 @@ TEST(SUDOKU, set_independent)
     ASSERT_TRUE(sudoku.set(4, 4, '8'));
 
     EXPECT_EQ(sudoku.get(4, 4), '8');
-    EXPECT_EQ(sudoku.get(4, 5), 0);
-    EXPECT_EQ(sudoku.get(5, 4), 0);
+    EXPECT_EQ(sudoku.get(4, 5), '_');
+    EXPECT_EQ(sudoku.get(5, 4), '_');
 }
 
 // setting a cell to an invalid character should return false and not change the value of the cell
@@ -93,7 +93,7 @@ TEST(SUDOKU, set_invalid_char)
     EXPECT_FALSE(sudoku.set(0, 0, ';'));   
     EXPECT_FALSE(sudoku.set(0, 0, 'c'));
 
-    EXPECT_EQ(sudoku.get(0, 0), 0);
+    EXPECT_EQ(sudoku.get(0, 0), '_');
 }
 
 // setting a cell to a character that is valid for a smaller Sudoku but not for the current size should return false and not change the value of the cell
@@ -103,7 +103,7 @@ TEST(SUDOKU, set_char_out_of_range)
 
     EXPECT_FALSE(sudoku.set(0, 0, 'A'));
     EXPECT_FALSE(sudoku.set(0, 0, 'B'));
-    EXPECT_EQ(sudoku.get(0, 0), 0);
+    EXPECT_EQ(sudoku.get(0, 0), '_');
 }
 
 // setting a cell out of bounds should return false
