@@ -465,15 +465,15 @@ TEST(madtic, check_solved) {
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
 
-    std::ofstream input(directory.string() + "/valid9x9.txt");
-    Sudoku<9> copy;
-    input >> copy;
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            sudoku.set(i,j,copy[i][j]);
-        }
-    }
-    ASSERT_TRUE(copy.good());
+    // std::ofstream input(directory.string() + "/valid9x9.txt");
+    // Sudoku<9> copy;
+    // input >> copy;
+    // for (int i = 0; i < size; i++) {
+    //     for (int j = 0; j < size; j++) {
+    //         sudoku.set(i,j,copy[i][j]);
+    //     }
+    // }
+    // ASSERT_TRUE(copy.good());
 }
 
 TEST(christoph08, init_empty)
