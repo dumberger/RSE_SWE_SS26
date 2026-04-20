@@ -109,41 +109,39 @@ public:
         return SYMBOLS[index];
     }
 
-    bool solve(Sudoku<N>& sudoku)
+    bool solve()
     {
-        auto [row, col] = sudoku.next();
+        //next free
+        auto [row, col] = next();
 
-        if (row == N && col == N)
-        {
-            return true;
-        }
+        if (row == N) return true;
 
+        //try every symbol
         for (std::size_t i = 1; i <= N; ++i)
         {
-            char value = sudoku.symbol(i);
-
-            if (sudoku.set(row, col, value))
+            char value = symbol(i);
+            if (set(row, col, value))
             {
-                if (solve(sudoku))
-                {
+                //recursive solve next
+                if (solve())
                     return true;
-                }
-
-                sudoku.set(row, col, '_'); // Backtracking
+                set(row, col, '_');
             }
         }
-
         return false;
     }
 
 private:
 
+    const std::size_t BLOCK_SIZE = static_cast<std::size_t>(std::sqrt(N));
+
     // get block from column and row
     int calculate_block(std::size_t row, std::size_t col)
     {
-        std::size_t block_size = sqrt(N);
-        // integer divisions will automatically be rounded down
-        return (row / block_size) * block_size + (col / block_size);
+        // std::size_t block_size = sqrt(N);
+        // // integer divisions will automatically be rounded down
+        // return (row / block_size) * block_size + (col / block_size);
+        return (row / BLOCK_SIZE) * BLOCK_SIZE + (col / BLOCK_SIZE);
     }
 
     // is valid sudoku

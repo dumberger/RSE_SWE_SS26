@@ -36,7 +36,7 @@ int main() {
         std::cout << "error reading file\n";
     }
 
-    if (copy.solve(copy))
+    if (copy.solve())
     {
         std::cout << copy;
     }
