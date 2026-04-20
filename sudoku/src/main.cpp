@@ -22,19 +22,27 @@ int main() {
 
     //read from input file
     std::ifstream input(directory.string() + "/input.txt");
-
-    //stream from input into copy
-    Sudoku<9> copy;
-    input >> copy;
-
-    //stream copy to cout
-    std::cout << copy;
-
+    input.exceptions(std::ifstream::failbit | std::ifstream::badbit);
     //if no good print
     if(!input.good())
     {
-        std::cout << "error reading file\n";
+        std::cout << "error reading input.txt file\n";
+        return -1;
     }
+
+    //stream from input into copy
+    Sudoku<9> copy;
+    //stream copy to cout
+    std::cout << copy;
+
+    try {
+        input >> copy;
+    } catch (const std::ios_base::failure& e) {
+        std::cout << "error setting input to sudoku\n";
+        return -1;
+    }
+
+
 
     if (copy.solve())
     {
