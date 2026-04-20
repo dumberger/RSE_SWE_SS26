@@ -186,9 +186,9 @@ TEST(PeterGrininger, OverwriteValue) {
 TEST (BastHalb, SET)
 {
     Sudoku<9> sudoku;
-    EXPECT_TRUE(sudoku.set(0, 0, '5'));
+    EXPECT_TRUE(sudoku.set(0, 0, '4'));
     EXPECT_TRUE(sudoku.set(0, 1, '3'));
-    EXPECT_TRUE(sudoku.set(0, 0, '4')); // Cell already occupied
+    EXPECT_TRUE(sudoku.set(0, 0, '5')); // Cell already occupied
     EXPECT_FALSE(sudoku.set(0, 2, '5')); // Duplicate in row
     EXPECT_FALSE(sudoku.set(1, 0, '5')); // Duplicate in column
     EXPECT_FALSE(sudoku.set(1, 1, '5')); // Duplicate in box
@@ -292,17 +292,17 @@ TEST(KissEmil_RSE, change_entry_multiple)
 // checking if sudoku has correctly initialized. All field should be equal to "_"
 TEST(DenisTheStudentAT, CheckInitialEmptyField){
     Sudoku<3> s;
+    EXPECT_EQ(s.get(0, 0), '_');
+    EXPECT_EQ(s.get(0, 1), '_');
+    EXPECT_EQ(s.get(0, 2), '_');
+    
+    EXPECT_EQ(s.get(1, 0), '_');
     EXPECT_EQ(s.get(1, 1), '_');
     EXPECT_EQ(s.get(1, 2), '_');
-    EXPECT_EQ(s.get(1, 3), '_');
     
+    EXPECT_EQ(s.get(2, 0), '_');
     EXPECT_EQ(s.get(2, 1), '_');
     EXPECT_EQ(s.get(2, 2), '_');
-    EXPECT_EQ(s.get(2, 3), '_');
-    
-    EXPECT_EQ(s.get(3, 1), '_');
-    EXPECT_EQ(s.get(3, 2), '_');
-    EXPECT_EQ(s.get(3, 3), '_');
     
 }
 
@@ -350,8 +350,8 @@ TEST(schaetztho, get_on_filled) {
 
 TEST(schaetztho, get_out_of_bounds) {
   Sudoku<9> sudoku;
-  ASSERT_EQ(sudoku.get(0, 10), '\0');
-  ASSERT_EQ(sudoku.get(10, 0), '\0');
+  ASSERT_EQ(sudoku.get(0, 10), '_');
+  ASSERT_EQ(sudoku.get(10, 0), '_');
 }
 
 // set() Tests
@@ -416,15 +416,15 @@ TEST(erikst21, invalid_symbol)
 TEST(madtic, get_value) {
     Sudoku<9> sudoku;
     char c = sudoku.get(8,8);
-    ASSERT_TRUE(c == 0);
+    ASSERT_EQ(c, '_');
 }
 
 ///set a value
 TEST(madtic, set_value) {
     Sudoku<9> sudoku;
-    char c = 7;
+    char c = '7';
     ASSERT_TRUE(sudoku.set(8,8,c));
-    EXPECT_EQ(sudoku.get(8,8), 7);
+    EXPECT_EQ(sudoku.get(8,8), c);
 }
 
 ///print the sudoku
@@ -448,7 +448,7 @@ TEST(madtic, check_solved_row) {
     constexpr int size = 9;
     Sudoku<size> sudoku;
     for (int i = 0; i < size; i++) {
-        ASSERT_TRUE(sudoku.set(0,i,i));
+        ASSERT_TRUE(sudoku.set(0,i,'1'+i));
     }
 }
 
@@ -487,7 +487,7 @@ TEST(christoph08, init_empty)
     {
         for (std::size_t col = 0; col < N; col++) 
         {
-            EXPECT_EQ(sudoku.get(row, col), 0);
+            EXPECT_EQ(sudoku.get(row, col), '_');
         }
     }    
 }
@@ -517,7 +517,7 @@ TEST(christoph08, multiple_set_get)
     {
         EXPECT_EQ(sudoku.get(i, i), '0' + i);
     }
-    EXPECT_EQ(sudoku.get(0, 0), 0);
+    EXPECT_EQ(sudoku.get(0, 0), '_');
 }
 
 // setting a cell to a valid character at the edge of the Sudoku should work correctly
@@ -554,8 +554,8 @@ TEST(christoph08, set_independent)
     ASSERT_TRUE(sudoku.set(4, 4, '8'));
 
     EXPECT_EQ(sudoku.get(4, 4), '8');
-    EXPECT_EQ(sudoku.get(4, 5), 0);
-    EXPECT_EQ(sudoku.get(5, 4), 0);
+    EXPECT_EQ(sudoku.get(4, 5), '_');
+    EXPECT_EQ(sudoku.get(5, 4), '_');
 }
 
 // setting a cell to an invalid character should return false and not change the value of the cell
@@ -568,7 +568,7 @@ TEST(christoph08, set_invalid_char)
     EXPECT_FALSE(sudoku.set(0, 0, ';'));   
     EXPECT_FALSE(sudoku.set(0, 0, 'c'));
 
-    EXPECT_EQ(sudoku.get(0, 0), 0);
+    EXPECT_EQ(sudoku.get(0, 0), '_');
 }
 
 // setting a cell to a character that is valid for a smaller Sudoku but not for the current size should return false and not change the value of the cell
@@ -579,7 +579,7 @@ TEST(christoph08, set_char_out_of_range)
 
     EXPECT_FALSE(sudoku.set(0, 0, 'A'));
     EXPECT_FALSE(sudoku.set(0, 0, 'B'));
-    EXPECT_EQ(sudoku.get(0, 0), 0);
+    EXPECT_EQ(sudoku.get(0, 0), '_');
 }
 
 // setting a cell out of bounds should return false
@@ -690,6 +690,7 @@ TYPED_TEST(dumberger_diff_size, solves_correctly) {
     for (int r = 0; r < N; ++r) {
         for (int c = 0; c < N; ++c) {
             int solve = (r * k + r / k + c) % N + 1;
+            EXPECT_TRUE(cud.set(r, c, valid_symbol_list[solve]));
             EXPECT_EQ(cud.get(r, c), valid_symbol_list[solve]);
         }
     }
