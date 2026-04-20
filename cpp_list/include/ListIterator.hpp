@@ -8,12 +8,8 @@ class ListIterator
 public:
     ListIterator(ListNode<T>* node) : _node(node) {}
     T& operator*() { return _node->value; }
-<<<<<<< KissEmil-RSE
-    ListIterator operator++()  { _node = _node->next; return *this;}
-    ListIterator operator--()  { _node = _node->prev; return *this;}
-=======
+    ListIterator& operator--()  { _node = _node->prev; return *this;}
     ListIterator& operator++()  { _node = _node->next; return *this;}
->>>>>>> master
     bool operator!=(ListIterator rhs) { return _node != rhs._node; }
 
 private:
