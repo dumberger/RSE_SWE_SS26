@@ -63,6 +63,9 @@ public:
         //     return false;
         // }
         // int index = pos - SYMBOLS.begin();
+        if (row >= N || col >= N) {
+            return false;
+        }
         value = toupper(value);
         auto index = SYMBOLS.find(value);
         if(index == std::string::npos)
@@ -100,11 +103,17 @@ public:
 
     // get the row and col of the next 
     // get [N, N] when the sudoku is fully 
-    // std::pair<typename T1, typename T2>{
-    //     std::pair<typename T1, typename T2>
-    //     pair.
-    // }
     
+    std::pair<std::size_t, std::size_t> next()
+    {
+        for (auto& row : field) {
+            for (auto& cell : row) {
+                std::cout << cell;
+            }
+        } 
+    }
+
+
     char get(std::size_t row, std::size_t col)
     {
         // return the value at the specified position in the field, for example by converting the integer value to the corresponding symbol using the SYMBOLS string
@@ -115,7 +124,9 @@ private:
     int calc_block(std::size_t row, std::size_t col)
     {
         std::size_t block_size = sqrt(N);
-        return floor(row / block_size) * block_size + floor(col / block_size) * block_size; // rounded by a module with floor -> like %
+        return (row / block_size) * block_size + (col / block_size); 
+        // rounded by a module with floor -> like %, but integer divisions will automatically be rounded down
+        // so no floor
     }
 
     bool is_valid(std::size_t row, std::size_t col, int index)

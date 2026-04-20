@@ -10,31 +10,26 @@ using namespace std;
 int main() {
     Sudoku<9> test;
 
-    test.set(0, 0, '1');
-    test.set(0, 1, '2');
-    test.set(0, 0, '2');
-    test.set(0, 3, '4');
-
     //__FUNCTION__; // says which function is that
     //__FILE__; // absolute path to this file
 
     std::filesystem::path directory(__FILE__);
-    std::cout << directory.parent_path();
+    std::cout << directory.parent_path() << "\n"; // cout -> character output. Displays everything, what is thrown at it. << is insertion operator
 
-    std::ofstream output = directory.parent_path();
-    output << test;
-    std::ifstream input("input.txt");
-    Sudoku<9> copy;
+    Sudoku<9> sudoku_template;
+    std::ofstream output(directory.parent_path().string() + "/template.txt"); // output file stream. Write
+    output << sudoku_template; // insert data iinto the stream
 
-    input >> copy;
-    std::cout << copy;
+    std::ifstream input(directory.parent_path().string() + "/input.txt"); // file stream. Read
+    input >> test; // extract data from the stream and store it in copy
+    std::cout << test;
     
     if(!input.good())
     {
         std::cout << "error reading file\n";
     }
 
-
+    test.next();
 
     return 0;
 }
