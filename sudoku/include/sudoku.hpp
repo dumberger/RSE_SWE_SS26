@@ -103,27 +103,7 @@ bool set(std::size_t row, std::size_t col, char value)
     return true;
 }
 
-// get the row and col of the next placeholder in the sodoku
-// get (N,N) when the sudoku is fully solved
-std::pair<std::size_t, std::size_t> next() 
-{
-    // Go through every row and col
-    // Check if the current field has entry 0 (equal to "_")
-    for (std::size_t row = 0; row < N; ++row) 
-    {
-        for (std::size_t col = 0; col < N; ++col) 
-        {
-            if (field[row][col] == 0) 
-            {
-                return {row, col};
-            }      
-        }
-    }
 
-    // If no return happened field has no 0 ("_")
-    // return field size N x N
-    return {N, N};
-}
 
 private:
     // Returns the block index for row and col position

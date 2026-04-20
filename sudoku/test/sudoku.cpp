@@ -289,45 +289,7 @@ TEST(KissEmil_RSE, change_entry_multiple)
     EXPECT_EQ(test.get(4, 4), '9');
 }
 
-// Test funcionality of next()
-TEST(KissEmil_RSE, next_return)
-{
-     Sudoku<9> test;
-    
-    // Check at empty sudoku
-    auto [row, col] = test.next();
-    EXPECT_EQ(row, 0);
-    EXPECT_EQ(col, 0);
 
-    // Check with one entry
-    test.set(0, 0, '9');
-    auto [row2, col2] = test.next();
-    EXPECT_EQ(row2, 0);
-    EXPECT_EQ(col2, 1);
-
-    // Check with full sudoku
-    std::string solution = "123456789"
-                           "456789123"
-                           "789123456"
-                           "214365897"
-                           "365897214"
-                           "897214365"
-                           "531642978"
-                           "642978531"
-                           "978531642";
-    Sudoku<9> full;
-    for (int i = 0; i < 9; ++i)
-    {
-        for (int j = 0; j < 9; ++j)
-        {
-            full.set(i, j, solution[i * 9 + j]);
-        }
-    }
-
-    auto [row3, col3] = full.next();
-    EXPECT_EQ(row3, 9);
-    EXPECT_EQ(col3, 9);
-}
 
 
 // checking if sudoku has correctly initialized. All field should be equal to "_"
