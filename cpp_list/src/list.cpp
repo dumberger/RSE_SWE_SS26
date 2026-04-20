@@ -51,6 +51,7 @@ void List<T>::push_back(T value) {
     ListNode<T>* node = this->last;
 
     if (node == nullptr) {
+<<<<<<< KissEmil-RSE
         ListNode<T>* newNode = new ListNode<T>;
         
         // !!! In Cpp new cannot return a nullptr, will notice std::bad_alloc
@@ -63,6 +64,10 @@ void List<T>::push_back(T value) {
             exit(1);
         }
         */
+=======
+        //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+        ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
+>>>>>>> master
         newNode->value = value;
         newNode->next = nullptr;
         newNode->prev = nullptr;
@@ -70,9 +75,17 @@ void List<T>::push_back(T value) {
         this->last = newNode;
         return;
     }
+<<<<<<< KissEmil-RSE
 
     ListNode<T>* newNode = new ListNode<T>;
 
+=======
+    while(node->next != nullptr) {
+        node = node->next;
+    }
+    //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+    ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
+>>>>>>> master
     newNode->value = value;
     newNode->next = nullptr;
     newNode->prev = node;
