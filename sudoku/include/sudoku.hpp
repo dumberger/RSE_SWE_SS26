@@ -106,11 +106,15 @@ public:
     
     std::pair<std::size_t, std::size_t> next()
     {
-        for (auto& row : field) {
-            for (auto& cell : row) {
-                std::cout << cell;
+        for (std::size_t r = 0; r < N; ++r) {
+            for (std::size_t c = 0; c < N; ++c) {
+                if (field[r][c] == 0) { 
+                    std::cout << r << " "<< c << '\n';
+                    return {r, c}; 
+                }
             }
-        } 
+        }
+        return {N, N};  // if there is no free spaces
     }
 
 
@@ -140,7 +144,7 @@ private:
         
         std::bitset<N> result = rows[row] | cols[col] | blks[calc_block(row, col)];
         //std::cout << result.to_string() << std::endl;
-        return !result[index];
+        return !result[index - 1];
     }
 
     void remove_prev (std::size_t row, std::size_t col)

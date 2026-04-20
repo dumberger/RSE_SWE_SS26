@@ -23,8 +23,8 @@ int main() {
     std::ifstream input(directory.parent_path().string() + "/input.txt"); // file stream. Read
     input >> test; // extract data from the stream and store it in copy
     std::cout << test;
-    
-    if(!input.good())
+
+    if(input.fail())
     {
         std::cout << "error reading file\n";
     }
