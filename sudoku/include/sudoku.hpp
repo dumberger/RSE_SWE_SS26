@@ -96,11 +96,28 @@ public:
     // get (N,N) when the sudoku is fully solved 
     // HOMEWORK till 24.06.26
 
-    std::pair<std::size_t, std::size_t> next()
+   std::pair<std::size_t, std::size_t> next()
+{
+    std::pair<std::size_t, std::size_t> pos;
+
+    for (std::size_t row = 0; row < N; ++row)
     {
-        std::pair<int,int> pair;
-        
-    };
+        for (std::size_t col = 0; col < N; ++col)
+        {
+            if (field[row][col] == 0) // freier Platz
+            {
+                pos.first = row;
+                pos.second = col;
+                return pos;
+            }
+        }
+    }
+
+    // kein freier Platz mehr → Sudoku voll
+    pos.first = N;
+    pos.second = N;
+    return pos;
+}
 
 private:
     int calculate_block(std::size_t row, std::size_t col) 
