@@ -21,5 +21,10 @@ int main() {
     {
         std::cout << "error reading file\n";
     }
+
+    std::pair<std::size_t, std::size_t> nextField = copy.next();
+    printf("Row (First): %lu\n",nextField.first);
+    printf("Col (Second): %lu\n",nextField.second);
+    
     return 0;
 }
