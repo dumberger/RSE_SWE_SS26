@@ -6,10 +6,9 @@
 template <typename T> class List {
 private:
   ListNode<T> *first;
-
-public:
   ListNode<T> *last;
 
+public:
   List();
   ~List();
 
