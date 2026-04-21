@@ -54,24 +54,20 @@ TEST(d_linked_list, print){
     List<int> list;
 
     // list is empty
-    ASSERT_EQ(list.print(), 0);
-
-
     list.push_back(1);
     int arr1[list.length()];
+    list.print(arr1);
     
     //tests if holding only 1 element works
-    ASSERT_EQ(list.print(arr1), 1);
     EXPECT_EQ(arr1[0], 1);
 
 
     list.push_back(2);
     list.push_back(3);
     int arr2[list.length()];
-    
+    list.print(arr2);
 
     //tests if more than 1 elements works
-    ASSERT_EQ(list.print(arr2), 3);
     EXPECT_EQ(arr2[0], 1);
     EXPECT_EQ(arr2[1], 2);
     EXPECT_EQ(arr2[2], 3);
@@ -81,24 +77,21 @@ TEST(d_linked_list, printReverse){
     List<int> list;
 
     // list is empty
-    ASSERT_EQ(list.printReversed(), 0);
-
 
     list.push_back(1);
     int arr1[list.length()];
-    
+    list.printReversed(arr1);
+
     //tests if holding only 1 element works
-    ASSERT_EQ(list.printReversed(arr1), 1);
     EXPECT_EQ(arr1[0], 1);
 
 
     list.push_back(2);
     list.push_back(3);
     int arr2[list.length()];
-    
+    list.printReversed(arr2);
 
     //tests if more than 1 elements works
-    ASSERT_EQ(list.printReversed(arr2), 3);
     EXPECT_EQ(arr2[0], 3);
     EXPECT_EQ(arr2[1], 2);
     EXPECT_EQ(arr2[2], 1);

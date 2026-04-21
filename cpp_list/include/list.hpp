@@ -23,10 +23,10 @@ public:
     bool get(unsigned int index, T& val);
     void push_back(T value);
     void remove(unsigned int index);
-    int print(); // returns how many items are written
-    int print(T* array);
-    int printReversed();
-    int printReversed(T* array);
+    void print(); // returns how many items are written
+    void print(T* array);
+    void printReversed();
+    void printReversed(T* array);
     unsigned int length();
 
     ListIterator<T> begin();
@@ -128,34 +128,32 @@ void List<T>::remove(unsigned int index){
 }
 
 template<typename T>
-int List<T>::print(){
+void List<T>::print(){
     ListNode<T>* curr = first;
     if(curr == nullptr){
-        return 0;
+        return;
     }
     if(curr->next == nullptr){
         printf("%i\n", curr->value);
-        return 1;
+        return;
     }
-    int i = 0;
     while(curr != nullptr){
         printf("%i ", curr->value);
-        i++;
         curr = curr->next;
     }
-    return i;
+    return;
 }
 
 template<typename T>
-int List<T>::print(T* array){
+void List<T>::print(T* array){
     ListNode<T>* curr = first;
     if(curr == nullptr){
-        return 0;
+        return;
     }
     if(curr->next == nullptr){
         printf("%i\n", curr->value);
         array[0] = curr->value;
-        return 1;
+        return;
     }
     int i;
     for(i = 0; i < length(); i++){
@@ -163,38 +161,36 @@ int List<T>::print(T* array){
         array[i] = curr->value;
         curr = curr->next;
     }  
-    return i;
+    return;
 }
 
 template<typename T>
-int List<T>::printReversed(){
+void List<T>::printReversed(){
         ListNode<T>* curr = last;
     if(curr == nullptr){
-        return 0;
+        return;
     }
     if(curr->prev == nullptr){
         printf("%i\n", curr->value);
-        return 1;
+        return;
     }
-    int i = 0;
     while(curr != nullptr){
         printf("%i ", curr->value);
-        i++;
         curr = curr->prev;
     }
-    return i;
+    return;
 }
 
 template<typename T>
-int List<T>::printReversed(T* array){
+void List<T>::printReversed(T* array){
         ListNode<T>* curr = last;
     if(curr == nullptr){
-        return 0;
+        return;
     }
     if(curr->prev == nullptr){
         printf("%i\n", curr->value);
         array[0] = curr->value;
-        return 1;
+        return;
     }
     int i;
     for(i = 0; i < length(); i++){
@@ -202,7 +198,7 @@ int List<T>::printReversed(T* array){
         array[i] = curr->value;
         curr = curr->prev;
     }
-    return i;
+    return;
 }
 
 template<typename T>
