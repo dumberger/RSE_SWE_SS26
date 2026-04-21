@@ -5,4 +5,5 @@ struct ListNode
 {
     T value;
     ListNode* next;
+    ListNode* prev;
 };
