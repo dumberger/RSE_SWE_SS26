@@ -157,3 +157,17 @@ std::istream& operator>>(std::istream& stream, Sudoku<N>& sudoku) {
     }
     return stream;
 }
+
+
+template<std::size_t N>
+    std::pair<std::size_t, std::size_t> Sudoku<N>::next() {
+        for (std::size_t row = 0; row < N; ++row) {
+            for (std::size_t col = 0; col < N; ++col) {
+                // Wenn der Wert im Feld 0 ist, ist die Zelle leer
+                if (field[row][col] == 0) {
+                    return {row, col};
+                }
+            }
+        }
+        return {N, N};// Rückgabe von (N, N)
+    }
