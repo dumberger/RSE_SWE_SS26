@@ -101,18 +101,19 @@ public:
         return {N, N};
     }
 
+    //get number to insert from symbols
     static char symbol(std::size_t index) {
         return SYMBOLS[index];
     }
 
+    //find solution to sudoku
     bool solve()
     {
-        //next free
+        //next free cell
         auto [row, col] = next();
-
         if (row == N) return true;
 
-        //try every symbol
+        //try every symbol -> could be optimized
         for (std::size_t i = 1; i <= N; ++i)
         {
             char value = symbol(i);

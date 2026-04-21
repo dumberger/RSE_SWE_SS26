@@ -4,6 +4,9 @@
 #include <fstream>
 #include <gtest/gtest.h>
 
+#include <iostream>
+#include <sstream>
+
 using namespace std;
 
 TEST(Halaa222, field_empty_at_first) {
@@ -465,15 +468,13 @@ TEST(madtic, check_solved) {
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
 
-    // std::ofstream input(directory.string() + "/valid9x9.txt");
-    // Sudoku<9> copy;
-    // input >> copy;
-    // for (int i = 0; i < size; i++) {
-    //     for (int j = 0; j < size; j++) {
-    //         sudoku.set(i,j,copy[i][j]);
-    //     }
-    // }
-    // ASSERT_TRUE(copy.good());
+    std::ifstream input(directory.string() + "/valid9x9.txt");
+    input.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    ASSERT_TRUE(input.good());
+
+    Sudoku<9> completed;
+    input >> completed;
+    ASSERT_TRUE(completed.solve());
 }
 
 TEST(christoph08, init_empty)

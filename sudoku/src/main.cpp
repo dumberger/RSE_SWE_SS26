@@ -42,8 +42,7 @@ int main() {
         return -1;
     }
 
-
-
+    //if solved print to cout
     if (copy.solve())
     {
         std::cout << copy;
