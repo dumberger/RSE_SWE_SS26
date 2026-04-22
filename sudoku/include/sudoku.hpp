@@ -86,7 +86,30 @@ public:
 
     // get the row and col of the next placeholder in the sodoku
     // get (N,N) when the sudoku is fully solved
-    std::pair<std::size_t, std::size_t> next();
+    std::pair<std::size_t, std::size_t> next(){
+        int count = 0;
+        int prev_count = N+1;
+        std::pair<std::size_t, std::size_t> next_cell = std::make_pair(N, N);
+        for (std::size_t row = 0; row < N; ++row)
+        {
+            for (std::size_t col = 0; col < N; ++col)
+            {
+                if(get(row, col) == SYMBOLS[0]){
+                    for (std::size_t num = 0; num < N; ++num){
+                        if(check_rules(row, col, num+1)){
+                            ++count;
+                        };
+                    }
+                    if(count < prev_count){
+                            prev_count = count;
+                            next_cell = std::make_pair(row, col);
+                    }
+                    count = 0;
+                }
+            }
+        }
+        return next_cell;
+    }
 
 private:
     int calculate_block(std::size_t row, std::size_t col)
