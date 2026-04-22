@@ -1,5 +1,7 @@
+#include <filesystem>
 #include <cstdio>
 #include <iostream>
+#include <fstream>
 #include "../include/sudoku.hpp"
 #include <fstream>
 #include <iterator>
@@ -10,6 +12,7 @@
 using namespace std;
 
 int main() {
+   
     Sudoku<9> test;
 
     test.set(0,0,'5');

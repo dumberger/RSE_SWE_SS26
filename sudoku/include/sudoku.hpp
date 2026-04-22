@@ -9,6 +9,10 @@
 #include <cmath>
 #include <iostream>
 
+
+
+
+
 // defines a NxN Sudoku
 template<std::size_t N>
 class Sudoku {
@@ -23,7 +27,6 @@ private:
 
     template<std::size_t M>
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
-
 public:
     Sudoku() {
         for (auto& row : field) {
