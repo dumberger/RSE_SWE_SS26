@@ -111,7 +111,36 @@ public:
     // get (N, N) when the sudoku is fully solved
     std::pair<std::size_t, std::size_t> next()
     {
-        std::pair<std::size_t, std::size_t> next;
+        std::pair<std::size_t, std::size_t> next(N, N);
+        std::size_t minOptions = N + 1;
+
+        for (std::size_t row = 0; row < N; row++)
+        {
+            if (rows[row].all())
+                continue;
+            
+            for (std::size_t col = 0; col < N; col++)
+            {               
+                if (field[row][col] != 0)
+                    continue;
+                
+                auto possibleValues  = ~(rows[row] | cols[col] | blks[calculate_block(row, col)]);
+
+                if (possibleValues.none())
+                    continue;
+                
+                auto candidateCount  = possibleValues.count();
+
+                if (candidateCount == 1)                   
+                    return {row, col};
+
+                if (candidateCount < minOptions)
+                {
+                    minOptions = candidateCount;
+                    next = {row, col};          
+                }                               
+            }                   
+        }
         return next;
     }
 

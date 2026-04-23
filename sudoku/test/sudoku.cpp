@@ -138,3 +138,88 @@ TEST(SUDOKU, set_get_16x16)
     EXPECT_EQ(sudoku.get(15, 15), 'G');
 }
 
+// should return the next cell with the least number of candidates
+TEST(SUDOKU, next_cell_with_fewest_candidates)
+{
+    Sudoku<4> sudoku;
+
+    /*
+        4x4 Sudoku (Blockgröße 2)
+
+        _ _ | 1 _
+        1 2 | _ _
+        ----+----
+        _ 3 | _ _
+        _ _ | _ _
+
+        Feld (0,1) kann nur '4' sein
+    */
+
+    sudoku.set(0,2,'1');
+    sudoku.set(1,0,'1');
+    sudoku.set(1,1,'2');
+    sudoku.set(2,1,'3');
+
+    auto [row, col] = sudoku.next();
+
+    EXPECT_EQ(row, 0);
+    EXPECT_EQ(col, 1);    
+}
+
+// if there is a cell with only one candidate, next should return that cell
+TEST(SUDOKU, next_cell_with_single_candidate)
+{
+    Sudoku<4> sudoku;
+
+    /*
+        4x4 Sudoku (Blockgröße 2)
+
+        _ 2 | 3 4
+        3 4 | 1 2
+        ----+----
+        2 1 | 4 3
+        4 3 | 2 1
+
+        Feld (0,0) kann nur '1' sein
+    */
+
+    sudoku.set(0,1,'2');
+    sudoku.set(0,2,'3');
+    sudoku.set(0,3,'4');
+
+    sudoku.set(1,0,'3');
+    sudoku.set(1,1,'4');
+    sudoku.set(1,2,'1');
+    sudoku.set(1,3,'2');
+
+    sudoku.set(2,0,'2');
+    sudoku.set(2,1,'1');
+    sudoku.set(2,2,'4');
+    sudoku.set(2,3,'3');
+
+    sudoku.set(3,0,'4');
+    sudoku.set(3,1,'3');
+    sudoku.set(3,2,'2');
+    sudoku.set(3,3,'1');
+
+    auto [row, col] = sudoku.next();
+
+    EXPECT_EQ(row, 0);
+    EXPECT_EQ(col, 0);
+}
+
+// when the Sudoku is fully solved, next should return (N, N)
+TEST(SUDOKU, next_cell_returns_NN_when_solved)
+{
+    Sudoku<4> sudoku;
+
+    sudoku.set(0,0,'1'); sudoku.set(0,1,'2'); sudoku.set(0,2,'3'); sudoku.set(0,3,'4');
+    sudoku.set(1,0,'3'); sudoku.set(1,1,'4'); sudoku.set(1,2,'1'); sudoku.set(1,3,'2');
+    sudoku.set(2,0,'2'); sudoku.set(2,1,'1'); sudoku.set(2,2,'4'); sudoku.set(2,3,'3');
+    sudoku.set(3,0,'4'); sudoku.set(3,1,'3'); sudoku.set(3,2,'2'); sudoku.set(3,3,'1');
+
+    auto [row, col] = sudoku.next();
+
+    EXPECT_EQ(row, 4);
+    EXPECT_EQ(col, 4);
+}
