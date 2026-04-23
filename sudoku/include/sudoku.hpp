@@ -84,9 +84,16 @@ public:
         return true;
     }
 
-    // get the row and col of the next placeholder in the sodoku
-    // get (N,N) when the sudoku is fully solved
-    std::pair<std::size_t, std::size_t> next();
+    std::pair<std::size_t, std::size_t> next(){
+    for (std::size_t row = 0; row < N; ++row) {
+        for (std::size_t col = 0; col < N; ++col) {
+            if (field[row][col] == 0) {
+                return {row, col};
+            }
+        }
+    }
+    return {N, N};
+}
 
 private:
     int calculate_block(std::size_t row, std::size_t col)
