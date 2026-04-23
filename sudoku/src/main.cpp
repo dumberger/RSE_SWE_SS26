@@ -22,5 +22,12 @@ int main() {
     {
         std::cout << "error reading file\n";
     }
+
+    //Test HÜ
+    auto p = copy.next();
+    std::cout << "next: (" << p.first << ", " << p.second << ")\n";
+
+
     return 0;
 }
+
