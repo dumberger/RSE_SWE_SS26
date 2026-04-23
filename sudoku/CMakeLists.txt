@@ -10,3 +10,4 @@ target_include_directories(test_sudoku PRIVATE include)
 target_link_libraries(test_sudoku GTest::gtest_main)
 gtest_discover_tests(test_sudoku)
 
+set_target_properties(sudoku PROPERTIES CXX_STANDARD 17)
