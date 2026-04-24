@@ -5,8 +5,9 @@
 class Solver {
 public:
     bool solve();
-    bool loadSudoku(Sudoku<9> & sudoku);
+    bool loadSudoku(std::filesystem::path sudoku_path);
 private:
     Sudoku<9> sudoku;
     bool solve_cell();
+    void write_solution();
 };
