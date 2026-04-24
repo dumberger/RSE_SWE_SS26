@@ -5,7 +5,7 @@
 #include <array>
 #include <ostream>
 #include <string>
-#include <algorithm>
+//#include <algorithm>
 #include <cmath>
 #include <iostream>
 
@@ -32,8 +32,6 @@ class Sudoku
 
 
 private:
-    std::string SYMBOLS="_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     std::array<std::array<unsigned int, N>, N> field;
     std::array<std::bitset<N>, N> rows;
     std::array<std::bitset<N>, N> cols;
@@ -43,6 +41,9 @@ private:
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
 
 public:
+
+    inline static const std::string SYMBOLS="_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     Sudoku() 
     {
         for (auto& row : field) 
@@ -126,9 +127,9 @@ public:
                 
                 auto possibleValues  = ~(rows[row] | cols[col] | blks[calculate_block(row, col)]);
 
-                if (possibleValues.none())
-                    continue;
-                
+                if (possibleValues.none()) // fehler im sudoku
+                    return {row, col};      
+                                   
                 auto candidateCount  = possibleValues.count();
 
                 if (candidateCount == 1)                   
@@ -138,7 +139,7 @@ public:
                 {
                     minOptions = candidateCount;
                     next = {row, col};          
-                }                               
+                }                         
             }                   
         }
         return next;
