@@ -26,6 +26,13 @@ bool Solver::loadSudoku(std::filesystem::path file)
     return false;
 }
 
+bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
+{
+    sudoku = reference;
+    base_directory = base_path;
+    return true;
+}
+
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9)
