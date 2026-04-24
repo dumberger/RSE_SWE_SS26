@@ -106,28 +106,6 @@ public:
         return SYMBOLS[index];
     }
 
-    //find solution to sudoku
-    bool solve()
-    {
-        //next free cell
-        auto [row, col] = next();
-        if (row == N) return true;
-
-        //try every symbol -> could be optimized
-        for (std::size_t i = 1; i <= N; ++i)
-        {
-            char value = symbol(i);
-            if (set(row, col, value))
-            {
-                //recursive solve next
-                if (solve())
-                    return true;
-                set(row, col, '_');
-            }
-        }
-        return false;
-    }
-
 private:
 
     const std::size_t BLOCK_SIZE = static_cast<std::size_t>(std::sqrt(N));

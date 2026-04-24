@@ -16,9 +16,9 @@ int main() {
     directory = directory.parent_path();
 
 
-    std::ofstream output(directory.string() + "/template.txt");
-    Sudoku<9> sudoku_template;
-    output << sudoku_template;
+    // std::ofstream output(directory.string() + "/template.txt");
+    // Sudoku<9> sudoku_template;
+    // output << sudoku_template;
 
     //read from input file
     std::ifstream input(directory.string() + "/input.txt");
@@ -32,8 +32,6 @@ int main() {
 
     //stream from input into copy
     Sudoku<9> copy;
-    //stream copy to cout
-    std::cout << copy;
 
     try {
         input >> copy;
@@ -42,14 +40,25 @@ int main() {
         return -1;
     }
 
+    //stream copy to cout
+    std::cout << copy;
+
+    printf("Solution:\n");
     //if solved print to cout
-    if (copy.solve())
-    {
-        std::cout << copy;
-    }
-    else
-    {
-        std::cout << "Keine Lösung gefunden\n";
-    }
+
+    // if (solve())
+    // {
+    //     std::cout << copy;
+    //     std::ofstream output(directory.string() + "/solution.txt", std::ios::trunc);
+    //     if (output.is_open()) {
+    //         output << copy;
+    //         output.close();
+    //     }
+    //
+    // }
+    // else
+    // {
+    //     std::cout << "Keine Lösung gefunden\n";
+    // }
     return 0;
 }
