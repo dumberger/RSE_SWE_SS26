@@ -23,7 +23,7 @@ int main() {
           << std::fixed << std::setprecision(3)
           << elapsed.count() << " ms\n";
 
-        printf("Lösung gefunden\n");
+        printf("Mindestens eine Lösung gefunden\n");
         //if solved print to cout
 
         //std::cout << solver.sudoku;

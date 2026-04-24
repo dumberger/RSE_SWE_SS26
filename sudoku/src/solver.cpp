@@ -10,6 +10,7 @@ bool Solver::loadSudoku(std::filesystem::path sudoku_path) {
     if (!std::filesystem::exists(sudoku_path)) {
         return false;
     }
+    printf(sudoku_path.string().c_str());
     //read from input file
     std::ifstream input(sudoku_path);
     input.exceptions(std::ifstream::failbit | std::ifstream::badbit);
@@ -48,6 +49,7 @@ void Solver::write_solution() {
     std::stringstream solution_name;
     solution_name << "results/" << solutions << ".txt";
     std::ofstream file(base_directory / solution_name.str());
+    printf((base_directory.string() + "/" + solution_name.str()).c_str());
     file << sudoku << "\n\n" << std::endl;
     std::cout << sudoku << "\n\n" << std::endl;
 }
