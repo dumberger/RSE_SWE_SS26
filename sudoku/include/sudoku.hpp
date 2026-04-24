@@ -16,9 +16,6 @@
 template<std::size_t N>
 class Sudoku {
 private:
-    // placeholder symbol is always the first symbol
-    static constexpr std::string_view SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     std::array<std::array<unsigned int, N>, N> field;
     std::array<std::bitset<N>, N> rows;
     std::array<std::bitset<N>, N> cols;
@@ -28,6 +25,10 @@ private:
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
 
 public:
+
+    // placeholder symbol is always the first symbol
+    inline static const std::string_view SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     Sudoku() {
         for (auto& row : field) {
             row.fill(0);
@@ -99,11 +100,6 @@ public:
             }
         }
         return {N, N};
-    }
-
-    //get number to insert from symbols
-    static char symbol(std::size_t index) {
-        return SYMBOLS[index];
     }
 
 private:

@@ -1,5 +1,12 @@
 #pragma once
 
-bool solver::solve();
-bool Sover::loadSudoku();
-bool Solver::solve_cell();
+#include "sudoku.hpp"
+
+class Solver {
+public:
+    bool solve();
+    bool loadSudoku(Sudoku<9> & sudoku);
+private:
+    Sudoku<9> sudoku;
+    bool solve_cell();
+};
