@@ -3,7 +3,8 @@
 #include <fstream>
 
 bool Solver::solve() {
-    return solve_cell();
+    solve_cell();
+    return solutions > 0;
 }
 bool Solver::loadSudoku(std::filesystem::path sudoku_path) {
     if (!std::filesystem::exists(sudoku_path)) {
@@ -12,13 +13,14 @@ bool Solver::loadSudoku(std::filesystem::path sudoku_path) {
     //read from input file
     std::ifstream input(sudoku_path);
     input.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    input >> sudoku;
     //if no good print
     if(!input.good())
     {
         std::cout << "error reading input.txt file\n";
         return false;
     }
-    input >> sudoku;
+    base_directory = sudoku_path.parent_path();
     return true;
  }
 
@@ -26,7 +28,8 @@ bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
         write_solution();
-        return true;
+        solutions++;
+        return false;
     }
     for (int i = 0 ; i < 9 ; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
@@ -42,5 +45,9 @@ bool Solver::solve_cell() {
 }
 
 void Solver::write_solution() {
+    std::stringstream solution_name;
+    solution_name << "results/" << solutions << ".txt";
+    std::ofstream file(base_directory / solution_name.str());
+    file << sudoku << "\n\n" << std::endl;
     std::cout << sudoku << "\n\n" << std::endl;
 }
