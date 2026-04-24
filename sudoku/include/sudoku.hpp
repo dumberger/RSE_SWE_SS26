@@ -4,7 +4,6 @@
 #include <stdlib.h>
 #include <array>
 #include <string>
-#include <algorithm>
 #include <bitset>
 #include <cctype>
 #include <cmath>
@@ -16,6 +15,8 @@
 template<std::size_t N>
 class Sudoku {
     public:
+        inline static const std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOQRSTUVWXYZ";
+        
         Sudoku() 
         {
             for (auto& row : field) 
@@ -113,7 +114,6 @@ class Sudoku {
         std::array<std::bitset<N>, N> rows;
         std::array<std::bitset<N>, N> cols;
         std::array<std::bitset<N>, N> blks;
-        std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOQRSTUVWXYZ";
 
         template<std::size_t M>
         friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
