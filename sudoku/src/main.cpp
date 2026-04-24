@@ -1,4 +1,5 @@
 #include <filesystem>
+#include <iomanip>
 #include "sudoku.hpp"
 #include "solver.hpp"
 
@@ -17,8 +18,16 @@ int main() {
     Solver solver;
     solver.loadSudoku(directory.string() + "/input.txt");
 
+    auto start = std::chrono::high_resolution_clock::now();
+
     if (solver.solve())
     {
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed = end - start;
+        std::cout << "Dauer: "
+          << std::fixed << std::setprecision(3)
+          << elapsed.count() << " ms\n";
+
         printf("Lösung gefunden\n");
         //if solved print to cout
 
