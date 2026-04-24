@@ -6,11 +6,6 @@
 using namespace std;
 
 int main() {
-    Sudoku<9> test;
-    char symbol = test.get(0, 0);
-    //printf("%c\n\n", symbol);
-
-    //get parent dir
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
 

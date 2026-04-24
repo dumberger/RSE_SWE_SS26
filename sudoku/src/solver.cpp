@@ -1,7 +1,6 @@
-#include <fstream>
-#include <filesystem>
 #include "solver.hpp"
-#include "sudoku.hpp"
+
+#include <fstream>
 
 bool Solver::solve() {
     return solve_cell();
@@ -43,5 +42,5 @@ bool Solver::solve_cell() {
 }
 
 void Solver::write_solution() {
-    std::cout << sudoku << std::endl;
+    std::cout << sudoku << "\n\n" << std::endl;
 }
