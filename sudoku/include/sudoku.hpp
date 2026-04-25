@@ -8,6 +8,7 @@
 #include <cstddef>
 #include <ios>
 #include <iostream>
+#include <numeric>
 #include <ostream>
 #include <string>
 #include <utility>
@@ -15,9 +16,6 @@
 // defines a NxN Sudoku
 template <std::size_t N> class Sudoku {
 private:
-  // placeholder symbol is always the first symbol
-  std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
   std::array<std::array<unsigned int, N>, N> field;
   std::array<std::bitset<N>, N> rows;
   std::array<std::bitset<N>, N> cols;
@@ -27,6 +25,10 @@ private:
   friend std::ostream &operator<<(std::ostream &, Sudoku<M> &);
 
 public:
+  // placeholder symbol is always the first symbol
+  inline static const std::string SYMBOLS =
+      "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
   Sudoku() {
     for (auto &row : field) {
       for (auto &cell : row) {
@@ -82,14 +84,11 @@ public:
   // get the row and col of the next placeholder in the sodoku
   // get (N,N) when the sudoku is fully solved
   std::pair<std::size_t, std::size_t> next() {
-    for (std::size_t row = 0; row < N; ++row) {
-      for (std::size_t col = 0; col < N; ++col) {
-        if (field[row][col] == 0) {
+    for (int row = 0; row < N; ++row)
+      for (int col = 0; col < N; ++col)
+        if (field[row][col] == 0)
           return {row, col};
-        }
-      }
-    }
-    return {N, N}; // ausgabe von N,N wenn das Sudoku vollständig gelöst ist
+    return {N, N};
   }
 
 private:
