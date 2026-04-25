@@ -5,9 +5,7 @@
 
 using namespace std;
 
-int main() 
-{
-    // Get directory of the current source file
+int main() {
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
     Solver solver;
