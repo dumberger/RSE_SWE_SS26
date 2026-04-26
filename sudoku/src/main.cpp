@@ -1,5 +1,6 @@
 #include "solver.hpp"
-#include "random"
+
+#include <cstdlib>
 #include <random>
 
 using namespace std;
@@ -12,8 +13,5 @@ int main() {
     {
         solver.solve();
     }
-    //uniform_int_distribution<int> random; //für random Zahlen
-    
-
     return 0;
 }

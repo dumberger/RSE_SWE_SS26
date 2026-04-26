@@ -1,7 +1,7 @@
 #include "solver.hpp"
 
+#include <filesystem>
 #include <fstream>
-#include <sstream>
 
 std::size_t Solver::solve() {
     solve_cell();
@@ -14,16 +14,27 @@ bool Solver::loadSudoku(std::filesystem::path file) {
     }
     std::ifstream input(file);
     input >> sudoku;
-    return input.good();
+    if (input.good()) {
+        base_directory = file.parent_path();
+        std::filesystem::create_directory(base_directory / "results");
+        return true;
+    }
+    return false;
  }
+
+bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
+{
+    sudoku = reference;
+    base_directory = base_path;
+    return true;
+}
 
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
         write_solution();
-        solutions ++;
+        solutions++;
         return false;
-        //return true; // erste Lösung
     }
     for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
@@ -40,7 +51,7 @@ bool Solver::solve_cell() {
 
 void Solver::write_solution() {
     std::stringstream solution_name;
-    solution_name << "results/"<<solutions <<".txt";
-    std::ofstream file(solution_name.str());
-    std::cout << sudoku << "\n\n" << std::endl;
+    solution_name << "results/" << solutions << ".txt";
+    std::ofstream file(base_directory / solution_name.str());
+    file << sudoku;
 }
