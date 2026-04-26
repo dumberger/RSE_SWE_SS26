@@ -34,7 +34,7 @@ bool Solver::solve_cell() {
     if (row == 9 || col == 9) {
         write_solution();
         solutions++;
-        return false;
+        return true; // auf true ändern um nicht alle Lösungen zu erhalten
     }
     for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
