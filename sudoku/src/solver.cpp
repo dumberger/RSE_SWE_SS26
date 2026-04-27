@@ -3,7 +3,14 @@
 #include <filesystem>
 #include <fstream>
 
-std::size_t Solver::solve() {
+std::size_t Solver::solve(int searchLimit) {
+    limit = searchLimit;
+    solve_cell();
+    return solutions;
+}
+
+std::size_t Solver::solve_one() {
+    limit = 1;
     solve_cell();
     return solutions;
 }
@@ -17,6 +24,7 @@ bool Solver::loadSudoku(std::filesystem::path file) {
     if (input.good()) {
         base_directory = file.parent_path();
         std::filesystem::create_directory(base_directory / "results");
+        solutions = 0;
         return true;
     }
     return false;
@@ -24,8 +32,9 @@ bool Solver::loadSudoku(std::filesystem::path file) {
 
 bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
 {
-   this->sudoku = reference;
+    this->sudoku = reference;
     base_directory = base_path;
+    solutions = 0;
     return true;
 }
 
@@ -34,6 +43,8 @@ bool Solver::solve_cell() {
     if (row == 9 || col == 9) {
         write_solution();
         solutions++;
+        if (solutions >= limit)
+            return true;
         return false;
     }
     for (int i = 0; i < 9; i++) {

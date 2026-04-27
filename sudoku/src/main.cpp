@@ -28,7 +28,7 @@ int main() {
 
     auto start = std::chrono::high_resolution_clock::now();
 
-    if (!solver.solve()) {
+    if (!solver.solve(-1)) {
         std::cout << "Keine Lösung gefunden\n";
         return -2;
     }
