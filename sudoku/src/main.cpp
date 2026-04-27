@@ -1,10 +1,10 @@
 #include <filesystem>
 #include <iomanip>
-#include "sudoku.hpp"
-#include "solver.hpp"
-
 #include <cstdlib>
 #include <random>
+#include "sudoku.hpp"
+#include "solver.hpp"
+#include "generator.hpp"
 
 using namespace std;
 
@@ -12,9 +12,16 @@ int main() {
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
 
+    string sudoku_file;
+    sudoku_file = directory.string() + "/input.txt";
+
+    std::mt19937 rand(std::random_device{}());
+    Generator generator;
+    generator.generateSudoku(sudoku_file, 33, rand);
+
     //load sudoku
     Solver solver;
-    if (!solver.loadSudoku(directory.string() + "/input.txt")) {
+    if (!solver.loadSudoku(sudoku_file)) {
         std::cout << "Failed to load input.txt to solver\n";
         return -1;
     }

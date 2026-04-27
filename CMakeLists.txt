@@ -3,7 +3,6 @@ project(RSE_SWE_SS26)
 
 set(MODULE sudoku)
 
-
 include(FetchContent)
 FetchContent_Declare(
 googletest

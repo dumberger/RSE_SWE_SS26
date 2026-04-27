@@ -1,19 +1,16 @@
 #pragma once
 
 #include "sudoku.hpp"
-#include <cstddef>
 #include <filesystem>
 #include <random>
 
 class Generator {
 public:
-    Generator ();
-    bool generateSudoku(std::filesystem::path file, int prefilled = 30);
+    bool generateSudoku(std::filesystem::path file, int prefilled, std::mt19937& random);
 private:
     Sudoku<9> sudoku;
-    std::mt19937 rng;
-    std::filesystem::path base_directory;
+    std::filesystem::path file_path;
 
+    void seed_sudoku(std::mt19937& random);
     bool remove_cell();
-    void write_suduko();
 };
