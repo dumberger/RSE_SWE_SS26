@@ -3,6 +3,9 @@
 #include "sudoku.hpp"
 #include "solver.hpp"
 
+#include <cstdlib>
+#include <random>
+
 using namespace std;
 
 int main() {

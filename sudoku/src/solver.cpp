@@ -1,29 +1,33 @@
 #include "solver.hpp"
 
+#include <filesystem>
 #include <fstream>
 
-bool Solver::solve() {
+std::size_t Solver::solve() {
     solve_cell();
-    return solutions > 0;
+    return solutions;
 }
-bool Solver::loadSudoku(std::filesystem::path sudoku_path) {
-    if (!std::filesystem::exists(sudoku_path)) {
+
+bool Solver::loadSudoku(std::filesystem::path file) { 
+    if(!std::filesystem::exists(file)) {
         return false;
     }
-    printf(sudoku_path.string().c_str());
-    //read from input file
-    std::ifstream input(sudoku_path);
-    input.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+    std::ifstream input(file);
     input >> sudoku;
-    //if no good print
-    if(!input.good())
-    {
-        std::cout << "error reading input.txt file\n";
-        return false;
+    if (input.good()) {
+        base_directory = file.parent_path();
+        std::filesystem::create_directory(base_directory / "results");
+        return true;
     }
-    base_directory = sudoku_path.parent_path();
-    return true;
+    return false;
  }
+
+bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
+{
+    sudoku = reference;
+    base_directory = base_path;
+    return true;
+}
 
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
@@ -32,10 +36,10 @@ bool Solver::solve_cell() {
         solutions++;
         return false;
     }
-    for (int i = 0 ; i < 9 ; i++) {
+    for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
         bool valid = sudoku.set(row, col, symbol);
-        if (valid) {
+        if(valid) {
             if (solve_cell()) {
                 return true;
             }
@@ -49,7 +53,5 @@ void Solver::write_solution() {
     std::stringstream solution_name;
     solution_name << "results/" << solutions << ".txt";
     std::ofstream file(base_directory / solution_name.str());
-    printf((base_directory.string() + "/" + solution_name.str()).c_str());
-    file << sudoku << "\n\n" << std::endl;
-    std::cout << sudoku << "\n\n" << std::endl;
+    file << sudoku;
 }
