@@ -17,7 +17,7 @@ int main() {
 
     std::mt19937 rand(std::random_device{}());
     Generator generator;
-    generator.generateSudoku(sudoku_file, 33, rand);
+    generator.generateSudoku(sudoku_file, 42, rand);
 
     //load sudoku
     Solver solver;

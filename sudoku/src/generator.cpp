@@ -67,7 +67,7 @@ bool Generator::generateSudoku(std::filesystem::path file, int prefilled, std::m
         solver.loadSudoku(sudoku,base_directory);
         if (solver.solve(2) >= 2) {
             sudoku.set(r, c, value);
-            std::cout << "Generator desired prefill not reached!\n" << std::endl;
+            std::cout << "Generator desired prefill not reached! prefilled " << (82 -i) << "\n" << std::endl;
             break;
         }
     }
