@@ -1,22 +1,18 @@
 #pragma once
-#include <filesystem>
+
 #include "sudoku.hpp"
+#include <cstddef>
+#include <filesystem>
+
 class Solver {
 public:
-    bool solve();
-    bool loadSudoku(const std::filesystem::path& file);
-    bool loadSudoku(const Sudoku<9> reference, const std::filesystem::path& base_path);
-
-
+    std::size_t solve();
+    bool loadSudoku(std::filesystem::path file);
+    bool loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path);
 private:
     Sudoku<9> sudoku;
     int solutions = 0;
+    std::filesystem::path base_directory;
     bool solve_cell();
-    void write_solution(const std::filesystem::path& file);
-    std::pair<std::size_t, std::size_t> next() {
-        return sudoku.next();
-    }
-
-
-   
+    void write_solution();
 };
