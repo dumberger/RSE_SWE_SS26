@@ -24,7 +24,7 @@ bool Solver::loadSudoku(std::filesystem::path file) {
 
 bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
 {
-    sudoku = reference;
+   this->sudoku = reference;
     base_directory = base_path;
     return true;
 }

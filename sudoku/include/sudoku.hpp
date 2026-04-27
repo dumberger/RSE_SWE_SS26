@@ -99,15 +99,13 @@ public:
 
 private:
 
-    const std::size_t BLOCK_SIZE = static_cast<std::size_t>(std::sqrt(N));
-
     // get block from column and row
     int calculate_block(std::size_t row, std::size_t col)
     {
-        // std::size_t block_size = sqrt(N);
+        std::size_t block_size = sqrt(N);
         // // integer divisions will automatically be rounded down
         // return (row / block_size) * block_size + (col / block_size);
-        return (row / BLOCK_SIZE) * BLOCK_SIZE + (col / BLOCK_SIZE);
+        return (row / block_size) * block_size + (col / block_size);
     }
 
     // is valid sudoku
