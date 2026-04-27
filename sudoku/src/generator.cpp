@@ -49,7 +49,6 @@ bool Generator::generateSudoku(std::filesystem::path file, int prefilled, std::m
     //std::cout << sudoku << std::endl;
 
     //remove number as long as one solution or prefill reached
-
     std::vector<std::pair<size_t, size_t>> entries;
     entries.reserve(81);
     for (size_t r = 0; r < 9; ++r) {

@@ -12,5 +12,4 @@ private:
     std::filesystem::path file_path;
 
     void seed_sudoku(std::mt19937& random);
-    bool remove_cell();
 };
