@@ -1,106 +1,101 @@
 #include "creator.hpp"
 #include "solver.hpp"
-#include <filesystem>
+#include <algorithm>
 #include <fstream>
-#include <random>
 
-Sudoku<9> Creator::create(int holes) {
+bool Creator::setupFromTemplate(std::filesystem::path path) {
+  if (!std::filesystem::exists(path))
+    return false;
 
-  // Random Generator
-  std::random_device rd;
-  std::mt19937 g(rd());
-  std::uniform_int_distribution<> dist(0, 8);
+  std::ifstream stream(path);
+  if (!(stream >> grid))
+    return false;
 
-  // Pfad für temporäre Dateien des Solvers
-  std::filesystem::path temp_path =
-      std::filesystem::current_path() / "temp_gen";
-  std::filesystem::create_directories(temp_path / "results");
+  work_dir = path.parent_path();
+  return true;
+}
 
-  // Suche nach einem vollständigen Sudoku
-  Sudoku<9> full_sudoku;
-  bool found_full = false;
+bool Creator::setupFromReference(const Sudoku<9> &ref,
+                                 std::filesystem::path output_path) {
+  grid = ref;
+  work_dir = output_path;
 
-  while (!found_full) {
-    // KORREKTUR 1: Objekt INSIDE die Schleife, damit es immer leer startet
-    Sudoku<9> full_sudoku_attempt;
-    Sudoku<9> start_grid;
+  // WICHTIG: Erstelle den results-Ordner, damit der Solver dort hineinschreiben
+  // kann
+  std::error_code ec;
+  std::filesystem::create_directory(work_dir / "results", ec);
 
-    // KORREKTUR 2: Sicherstellen, dass dist(0, 8) genutzt wird (falls oben
-    // definiert)
-    int row = dist(g);
-    int col = dist(g);
-    char symbol = Sudoku<9>::SYMBOLS[1 + (g() % 9)];
-    start_grid.set(row, col, symbol);
+  return true;
+}
 
-    Solver solver;
-    solver.loadSudoku(start_grid, temp_path);
+void Creator::build() {
+  generateBasics(); // Erst vollmachen
+  removeNumbers();  // Dann so viel wie möglich löschen
+  saveResult();     // Speichern
+}
 
-    if (solver.solve() > 0) {
-      std::filesystem::path sol_path = temp_path / "results/0.txt";
+bool Creator::tryFill(std::array<int, 9> &nums) {
+  auto [r, c] = grid.next();
 
-      // Kurz warten oder sicherstellen, dass Datei existiert
-      if (std::filesystem::exists(sol_path)) {
-        std::ifstream sol_file(sol_path);
-        if (sol_file >> full_sudoku_attempt) {
-          full_sudoku = full_sudoku_attempt; // Zuweisung an die äußere Variable
-          found_full = true;
-          std::cout << "Erfolg: Volles Sudoku geladen!" << std::endl;
-        } else {
-          std::cerr << "Fehler: Konnte 0.txt nicht in Sudoku-Objekt lesen!"
-                    << std::endl;
-        }
-      }
-    }
+  // Wenn r == 9 fertig
+  if (r >= 9)
+    return true;
 
-    // WICHTIG: Erst nach dem Einlesen loeschen!
-    std::filesystem::remove_all(temp_path / "results");
-    std::filesystem::create_directory(temp_path / "results");
-
-    if (!found_full) {
-      std::cout << "Neuer Versuch..." << std::endl;
-    }
+  // Zahlen mischen
+  for (size_t i = 0; i < 9; ++i) {
+    std::uniform_int_distribution<size_t> dist(i, 8);
+    std::swap(nums[i], nums[dist(prng)]);
   }
 
-  // Entferne zufällige Zahlen
-  bool visited[9][9] = {false};
-  int removed = 0;
-  int attempts = 0;
+  for (int val : nums) {
+    // SYMBOLS[val] entspricht der Zahl (1-9)
+    if (grid.set(r, c, Sudoku<9>::SYMBOLS[val])) {
+      if (tryFill(nums))
+        return true;
 
-  while (removed < holes && attempts < 81) {
-    int row = dist(g);
-    int col = dist(g);
-
-    std::cout << "\nwhile schleife removed" << std::endl;
-
-    if (!visited[row][col]) {
-      visited[row][col] = true;
-      attempts++;
-
-      char original_value = full_sudoku.get(row, col);
-      full_sudoku.set(row, col, '_');
-
-      Solver solver;
-      solver.loadSudoku(full_sudoku, temp_path);
-
-      if (solver.solve() == 1) {
-        removed++;
-      } else {
-        full_sudoku.set(row, col, original_value);
-      }
+      // Backtracking: Feld wieder leeren
+      grid.set(r, c, Sudoku<9>::SYMBOLS[0]);
     }
   }
+  return false;
+}
 
-  std::filesystem::path output_dir =
-      std::filesystem::current_path() / "created";
-  std::filesystem::create_directories(output_dir);
-  std::filesystem::path file_path = output_dir / "created_sudoku.txt";
-  std::ofstream out_file(file_path);
+void Creator::generateBasics() {
+  std::array<int, 9> digits = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+  tryFill(digits);
+}
 
-  if (out_file.is_open()) {
-    out_file << full_sudoku;
-    out_file.close();
+void Creator::removeNumbers() {
+  // Zufällig Zahlen entfernen, bis die Eindeutigkeit kippt
+  bool keepRemoving = true;
+  while (keepRemoving) {
+    std::uniform_int_distribution<int> coord(0, 8);
+    int r = coord(prng);
+    int c = coord(prng);
+
+    char backup = grid.get(r, c);
+    if (backup == Sudoku<9>::SYMBOLS[0])
+      continue;
+
+    // Versuchsweise löschen
+    grid.set(r, c, Sudoku<9>::SYMBOLS[0]);
+
+    Solver check;
+    check.loadSudoku(grid, work_dir);
+
+    // Sobald mehr als eine Lösung existiert, war es zu viel
+    if (check.solve() > 1) {
+      grid.set(r, c, backup);
+      keepRemoving = false; // Abbruch
+    }
   }
+}
 
-  std::filesystem::remove_all(temp_path);
-  return full_sudoku;
+void Creator::saveResult() {
+  std::string fileName = "output.txt";
+  std::filesystem::path outputPath = work_dir / "results" / fileName;
+
+  std::ofstream out(outputPath);
+
+  out << grid;
 }
