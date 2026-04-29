@@ -43,7 +43,7 @@ public:
 
     //~Sudoku() = default;
 
-    char get(std::size_t row, std::size_t col) { return SYMBOLS[field[row][col]]; }
+    char get(std::size_t row, std::size_t col) const { return SYMBOLS[field[row][col]]; }
 
     bool set(std::size_t row, std::size_t col, char value) 
     {
@@ -125,7 +125,7 @@ public:
         return {best_row, best_col};
 
     }
-    
+
 
 private:
     int calculate_block(std::size_t row, std::size_t col)
