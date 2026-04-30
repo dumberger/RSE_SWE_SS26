@@ -167,17 +167,3 @@ std::istream& operator>>(std::istream& stream, Sudoku<N>& sudoku) {
     }
     return stream;
 }
-
-//Hü
-template<std::size_t N>
-std::pair<std::size_t, std::size_t> Sudoku<N>::next() {
-    for (std::size_t row = 0; row < N; ++row) {
-        for (std::size_t col = 0; col < N; ++col) {
-            if (field[row][col] == 0) {
-                return {row, col};
-            }
-        }
-    }
-    return {N, N};
-}   // getestet mit alles voll, dann next(9,9)
-    // getestet mit letzte Zahl in erste Zeile entfernt, dann next(0,8)
