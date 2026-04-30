@@ -1,5 +1,7 @@
 #include"solver.hpp"
 #include<chrono>
+#include <iostream>
+#include <random>
 using namespace std;
 
 int main() {
@@ -17,5 +19,13 @@ int main() {
         
         std::cout << "Lösungszeit: " << duration.count() << " ms" << std::endl;
     }
+
+    // random_device rd;
+    // mt19937 gen(rd());
+    // uniform_int_distribution<> distrib(1,9);
+
+    // cout << distrib(gen) << endl;
+
+
     return 0;
 }

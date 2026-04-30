@@ -1,4 +1,5 @@
 #include "solver.hpp"
+#include "sudoku.hpp"
 #include <cstddef>
 #include <filesystem>
 #include <fstream>
@@ -6,6 +7,12 @@
 std::size_t Solver::solve(){
     solve_cell();
     return solutions;    
+}
+
+bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path){
+    sudoku = reference;
+    base_directory = base_path;
+    return true;
 }
 
 bool Solver::loadSudoku(std::filesystem::path file){
