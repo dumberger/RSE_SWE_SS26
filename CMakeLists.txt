@@ -4,7 +4,7 @@ cmake_policy(SET CMP0135 NEW)
 
 project(RSE_SWE_SS26)
 
-set(MODULE pybind)
+set(MODULE sudoku)
 
 include(FetchContent)
 FetchContent_Declare(
