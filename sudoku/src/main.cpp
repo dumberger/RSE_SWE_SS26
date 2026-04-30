@@ -1,8 +1,4 @@
-#include <filesystem>
-#include <iostream>
-#include "sudoku.hpp"
-#include <fstream>
-//#include <sstream>
+#include "solver.hpp"
 
 using namespace std;
 
@@ -10,23 +6,11 @@ int main() {
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
     
-    std::ofstream output(directory.string() + "/template.txt");
-    Sudoku<9> sudoku_template;
-    output << sudoku_template;
+    Solver solver;
 
-    std::ifstream input(directory.string() + "/input.txt");
-    Sudoku<9> copy;
-    input >> copy;
-    std::cout << copy;
-    if(!input.good())
-    {
-        std::cout << "error reading file\n";
+    if(solver.loadSudoku(directory/ "input.txt")){
+        
     }
-
-    //Test HÜ
-    auto p = copy.next();
-    std::cout << "next: (" << p.first << ", " << p.second << ")\n";
-
 
     return 0;
 }

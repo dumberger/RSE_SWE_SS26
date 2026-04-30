@@ -12,6 +12,8 @@
 #include <iostream>
 #include <utility>
 
+#include <fstream>
+
 // defines a NxN Sudoku
 template<std::size_t N>
 class Sudoku {
@@ -28,6 +30,8 @@ private:
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
 
 public:
+    // placeholder symbol is always the first symbol
+    inline static const std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     Sudoku() {
         for (auto& row : field) {
             for (auto& cell : row) {
