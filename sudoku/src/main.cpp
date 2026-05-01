@@ -1,31 +1,18 @@
-#include"solver.hpp"
-#include<chrono>
-#include <iostream>
+#include "solver.hpp"
+
+#include <cstdlib>
 #include <random>
+
 using namespace std;
 
 int main() {
     Solver solver;
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
-
-    if(solver.loadSudoku(directory / "input.txt")){
-        auto start = std::chrono::high_resolution_clock::now();
-        
+    Solver solver;
+    if(solver.loadSudoku(directory / "input.txt"))
+    {
         solver.solve();
-
-        auto end = std::chrono::high_resolution_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-        
-        std::cout << "Lösungszeit: " << duration.count() << " ms" << std::endl;
     }
-
-    // random_device rd;
-    // mt19937 gen(rd());
-    // uniform_int_distribution<> distrib(1,9);
-
-    // cout << distrib(gen) << endl;
-
-
     return 0;
 }

@@ -8,6 +8,7 @@
 #include <array>
 #include <vector>
 #include <ios>
+#include <numeric>
 #include <ostream>
 #include <string>
 #include <iostream>
@@ -18,7 +19,6 @@
 template<std::size_t N>
 class Sudoku {
 private:
-    // placeholder symbol is always the first symbol
 
     std::array<std::array<unsigned int, N>, N> field;
     std::array<std::bitset<N>, N> rows;
@@ -29,7 +29,7 @@ private:
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
 
 public:
-
+    // placeholder symbol is always the first symbol
     inline static const std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     Sudoku() {
