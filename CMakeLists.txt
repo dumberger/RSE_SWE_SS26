@@ -14,3 +14,4 @@ enable_testing()
 
 add_subdirectory(sudoku)
 add_subdirectory(cpp_list)
+add_subdirectory(pybind)

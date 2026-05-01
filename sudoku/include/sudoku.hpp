@@ -24,7 +24,7 @@ private:
     std::array<std::array<unsigned int, N>, N> field;
     // is like int field[N][N] but with the advantage that we can use the functions of the array class
     // for example to get the size of the array with field.size() and field[0].size() 
-    std::string SYMBOLS="_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    // std::string SYMBOLS="_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     // Dictionary for the symbols used in the sudoku, where the index of the symbol corresponds to its value (for example SYMBOLS[1] = '1', SYMBOLS[10] = 'A', etc.)
     // is also limit for the playable size. Everything till z. So N can be maximum 37
     std::array<std::bitset<N>, N> rows;
@@ -32,7 +32,9 @@ private:
     std::array<std::bitset<N>, N> blks;
     template<std::size_t M>
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
+    
 public:
+    inline static const std::string SYMBOLS="_123456789";
     Sudoku() {
         // old style ->
         // for (int i = 0; i < field.size(); i++) {
@@ -109,7 +111,7 @@ public:
         for (std::size_t r = 0; r < N; ++r) {
             for (std::size_t c = 0; c < N; ++c) {
                 if (field[r][c] == 0) { 
-                    std::cout << r << " "<< c << '\n';
+                    //std::cout << r << " "<< c << '\n';
                     return {r, c}; 
                 }
             }
