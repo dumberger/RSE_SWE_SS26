@@ -1,6 +1,7 @@
 #include <filesystem>
 #include <iomanip>
 #include <cstdlib>
+#include <fstream>
 #include <random>
 #include "sudoku.hpp"
 #include "solver.hpp"
@@ -15,6 +16,7 @@ int main() {
     string sudoku_file;
     sudoku_file = directory.string() + "/input.txt";
 
+    //generator to generate new sudoku
     std::mt19937 rand(std::random_device{}());
     Generator generator;
     generator.generateSudoku(sudoku_file, 42, rand);
@@ -26,21 +28,19 @@ int main() {
         return -1;
     }
 
-    auto start = std::chrono::high_resolution_clock::now();
-
+    //find all solutions, should be only one due to generator
     if (!solver.solve(-1)) {
         std::cout << "Keine Lösung gefunden\n";
         return -2;
     }
 
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end - start;
-    std::cout << "Dauer: "
-      << std::fixed << std::setprecision(3)
-      << elapsed.count() << " ms\n";
-
-    printf("Mindestens eine Lösung gefunden\n");
     //if solved print to cout
+    printf("Mindestens eine Lösung gefunden\n");
+    std::ifstream input(directory.string() + "/results/0.txt");
+    Sudoku<9> sudoku;
+    input >> sudoku;
+
+    std::cout << "Sudoku Solution:\n" << sudoku << std::endl;
 
     return 0;
 }
