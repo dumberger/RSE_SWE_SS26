@@ -9,6 +9,7 @@ class Generator
 public:
     bool loadSudoku(std::filesystem::path file);
     bool loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path);
+    Sudoku<9> getSudoku() { return sudoku; }
 
     void generate();
 

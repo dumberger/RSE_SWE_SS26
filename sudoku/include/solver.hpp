@@ -9,6 +9,7 @@ public:
     std::size_t solve();
     bool loadSudoku(std::filesystem::path file);
     bool loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path);
+    Sudoku<9> getSudoku() { return sudoku; }
 
     // Added a method that mutes the .txt-generation of solutions
     void mute_solver(bool is_muted) { silent = is_muted; }

@@ -1,8 +1,10 @@
 #!/usr/bin/python3
+#source ~/workspace/RSE_SWE_SS26/sudoku/python/venvSUDOKU/bin/activate
 
 # TKinter is a simple graphics library and should come with the normal python installation. 
 # Otherwise it needs to be installed with "sudo apt install python-tk"
 import tkinter as tk
+import pathlib
 
 import sudoku_py
 
@@ -11,6 +13,7 @@ class SudokuUI:
         # private variables
         self.entries = []
         self.sudoku = sudoku_py.sudoku()
+        self.sudoku_path = "template.txt"
 
         # draw a window
         self.root = root
@@ -88,6 +91,7 @@ class SudokuUI:
                 entry = self.entries[r][c]
 
                 #TODO: read a value from the sudoku class and store in value variable
+                value = self.sudoku.get(r, c)
 
                 entry.config(bg="white")
                 entry.delete(0, tk.END)
@@ -97,6 +101,7 @@ class SudokuUI:
     def set_cell(self, row, col, value):
 
         #TODO: interact with C++ Sudoku here and set valid variable
+        valid = self.sudoku.set(row, col, value)
 
         if not valid:
             entry = self.entries[row][col]
@@ -107,6 +112,10 @@ class SudokuUI:
         print("solving...")
 
         #TODO: call solver to solve the sudoku
+        solver = sudoku_py.solver()
+        solver.load_sudoku(self.sudoku_path)
+        solver.solve()
+        self.sudoku = solver.get_sudoku()
 
         self.sync_with_sudoku_class()
 
@@ -114,6 +123,10 @@ class SudokuUI:
         print("generating a new Sudoku")
 
         #TODO: call sudoku generator
+        gen = sudoku_py.generator()
+        gen.load_sudoku(pathlib.Path(self.sudoku_path))
+        gen.generate()
+        self.sudoku = gen.get_sudoku()
 
         self.sync_with_sudoku_class()
 
