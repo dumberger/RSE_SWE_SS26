@@ -3,6 +3,7 @@
 
 PYBIND11_MODULE(sudoku_py, m){
     m.doc() = "Sudoku wrapper for python";
+
     pybind11::class_<Sudoku<9>>(m, "sudoku")
         .def(pybind11::init())
         .def("get", &Sudoku<9>::get)
