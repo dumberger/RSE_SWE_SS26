@@ -15,4 +15,4 @@ target_include_directories(sudoku_py PRIVATE include)
 
 set_target_properties(sudoku_py PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../sudoku/python
-    )
+)
