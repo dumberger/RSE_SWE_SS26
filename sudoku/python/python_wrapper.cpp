@@ -2,9 +2,9 @@
 #include <pybind11/pybind11.h>
 
 PYBIND11_MODULE(sudoku_py, m) {
-  m.doc() = "sudoku module";
+  m.doc() = "Sudoku wrapper for python";
 
-  pybind11::class_<Sudoku<9>>(m, "Sudoku")
+  pybind11::class_<Sudoku<9>>(m, "sudoku")
       .def(pybind11::init())
       .def("get", &Sudoku<9>::get)
       .def("set", &Sudoku<9>::set)
