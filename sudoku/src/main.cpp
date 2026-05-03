@@ -1,5 +1,5 @@
 #include "solver.hpp"
-#include "creator.hpp"
+#include "generator.hpp"
 
 #include <cstdlib>
 
@@ -9,12 +9,12 @@ int main() {
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
 
-    Creator creator;
+    Generator generator;
     // load template format
-    if(creator.loadSudoku(directory / "template.txt"))
+    if(generator.loadSudoku(directory / "template.txt"))
     {
         // Create sudoku with parameters
-        creator.create();
+        generator.generate();
     }
     
     Solver solver;
@@ -24,8 +24,7 @@ int main() {
     std::string is_to_solve = "random_generated.txt";
     if(solver.loadSudoku(directory / is_to_solve))
     {
-        // Since Solver is used in Creator this would only produce a second file 1.txt with the same solution
-        // solver.solve();
+        solver.solve();
     }
     return 0;
 }

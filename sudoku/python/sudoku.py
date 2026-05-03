@@ -10,7 +10,7 @@ class SudokuUI:
     def __init__(self, root):
         # private variables
         self.entries = []
-        self.sudoku = sudoku_py.sudoku();
+        self.sudoku = sudoku_py.sudoku()
 
         # draw a window
         self.root = root
