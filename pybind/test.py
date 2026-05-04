@@ -1,10 +1,7 @@
-#!usr/bin/python3
+#!/usr/bin/python3
 
 import adder
 
-n = adder.increment_loop(0,1000000000)
+n = adder.inc(0, 10_000_000)
 
 print(n)
-
-
-
