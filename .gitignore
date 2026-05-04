@@ -43,3 +43,7 @@ _deps/
 
 # debug information files
 *.dwo
+
+# custom files
+
+sudoku/src/template.txt
