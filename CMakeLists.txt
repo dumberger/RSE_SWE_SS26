@@ -17,4 +17,3 @@ include(GoogleTest)
 enable_testing()
 
 add_subdirectory(${MODULE})
-add_subdirectory(pybind)
