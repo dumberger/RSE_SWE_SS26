@@ -1,7 +1,7 @@
 #pragma once
 
 #include "sudoku.hpp"
-#include <random>
+#include <string>
 #include <vector>
 
 class SudokuGenerator {
