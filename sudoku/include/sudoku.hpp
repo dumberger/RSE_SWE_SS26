@@ -1,6 +1,5 @@
 #pragma once
 
-#include <algorithm>
 #include <bitset>
 #include <cctype>
 #include <cmath>
@@ -8,7 +7,6 @@
 #include <array>
 #include <vector>
 #include <ios>
-#include <numeric>
 #include <ostream>
 #include <string>
 #include <iostream>
@@ -126,6 +124,14 @@ public:
             }
         }
         return resultField;
+    }
+
+    void clear(){
+        for(int row = 0; row < N; row++){
+            for(int col = 0; col < N; col++){
+                set(row, col, SYMBOLS[0]);
+            }
+        }
     }
 
 private:

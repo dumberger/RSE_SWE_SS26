@@ -20,7 +20,7 @@ bool Solver::loadSudoku(std::filesystem::path file) {
         return true;
     }
     return false;
- }
+}
 
 bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
 {
@@ -29,12 +29,17 @@ bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
     return true;
 }
 
+bool Solver::loadSudoku(const Sudoku<9>& reference){
+    sudoku = reference;
+    return true;
+}
+
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
         write_solution();
         solutions++;
-        return false;
+        return true;
     }
     for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
@@ -54,4 +59,5 @@ void Solver::write_solution() {
     solution_name << "results/" << solutions << ".txt";
     std::ofstream file(base_directory / solution_name.str());
     file << sudoku;
+    file.close();
 }
