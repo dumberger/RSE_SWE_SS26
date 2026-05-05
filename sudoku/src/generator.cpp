@@ -51,6 +51,9 @@ void Generator::fill_random(std::mt19937& rng)
 
     // Use a list of all possible entries and shuffle it
     // NOTE: Did not know shuffle, KI Claude Sonnet 4.6 suggested it, Normally i would have just skipped shuffle, but this makes it "more random"
+    // Explaination for generated Code:
+    //      Array just contains numbers, all valid entry numbers in this case
+    //      std:shuffle just random-orders (using rng generated with std::mt19937) between the defined start and end of the array
     std::array<int, 9> entries = {1,2,3,4,5,6,7,8,9};
     std::shuffle(entries.begin(), entries.end(), rng);
 
@@ -85,7 +88,8 @@ void Generator::erode(std::mt19937& rng)
             cells[idx++] = {r, c};
         }
     }
-        
+    
+    // Shuffle a position of all empty cells
     std::shuffle(cells.begin(), cells.end(), rng);
 
     // Try to remove each cell

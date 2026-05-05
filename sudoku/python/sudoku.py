@@ -13,6 +13,8 @@ class SudokuUI:
         # private variables
         self.entries = []
         self.sudoku = sudoku_py.sudoku()
+        
+        # Since my Generate class depends on a template.txt ...
         self.sudoku_path = "template.txt"
 
         # draw a window
