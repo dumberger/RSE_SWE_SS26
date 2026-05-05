@@ -3,7 +3,9 @@
 #include <filesystem>
 #include <fstream>
 
-std::size_t Solver::solve() {
+std::size_t Solver::solve(bool write_files) { //gegen viele txt
+    solutions = 0; //das auch
+    write_files_enabled = write_files; //das auch
     solve_cell();
     return solutions;
 }
@@ -32,7 +34,9 @@ bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
-        write_solution();
+        if (write_files_enabled) { //und hier
+            write_solution();
+        }
         solutions++;
         return false;
     }

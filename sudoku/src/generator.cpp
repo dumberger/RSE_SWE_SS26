@@ -41,7 +41,7 @@ bool Generator::one_solution_only(std::filesystem::path path_directory) {
         return false;
     }
 
-    std::size_t amount_solutions = solver.solve();
+    std::size_t amount_solutions = solver.solve(false);
 
     if (amount_solutions == 1) {
         return true;
