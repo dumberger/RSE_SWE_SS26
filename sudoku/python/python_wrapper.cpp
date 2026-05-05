@@ -1,7 +1,7 @@
 #include <pybind11/pybind11.h>
 #include "sudoku.hpp"
 
-PYBIND11_MODULE(sudoku_py, m) {
+PYBIND11_MODULE(sudoku_py, m){
     m.doc() = "Sudoku wrapper for python";
 
     pybind11::class_<Sudoku<9>>(m, "sudoku")

@@ -2,14 +2,14 @@
 
 int increment_loop(int start, int end) {
     int n = start;
-
     for (int i = start; i < end; i++) {
-        n = n+1;
+        n = n + 1;
     }
     return n;
 }
 
 PYBIND11_MODULE(adder, m) {
     m.doc() = "fancy adder module";
-    m.def("inc", &increment_loop, "add two variables in a loop");
+
+    m.def("inc", &increment_loop, "add values in a loop");
 }
