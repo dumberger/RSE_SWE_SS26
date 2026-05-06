@@ -1,26 +1,25 @@
-#include "list.hpp"
+#include "../include/list.hpp"
 #include <stdio.h>
-#include <array>
 
 int main(int argc, char** argv) {
-    // create a list
+    // Eine Liste erstellen
     List<int> list;
-    /// read numbers from user
+    /// Zahlen vom Nutzer einlesen
     int number = 0;
     int num_read = 0;
     do {
-        printf("enter a number (anything else to cancel):\n");
+        printf("Gib eine Zahl ein (alles andere bricht ab):\n");
         num_read = scanf("%i", &number);
-        // put number into list
+        // Zahl in die Liste einfuegen
         if (num_read > 0) {
             list.push_back(number);
         }
-        /// until an invalid input
+        /// solange die Eingabe gueltig ist
     } while(num_read > 0);
-    /// output list in reverse
-    printf("\n\n your numbers in reverse:\n");
+    /// Liste in umgekehrter Reihenfolge ausgeben
+    printf("\n\n Deine Zahlen in umgekehrter Reihenfolge:\n");
     for (int i = list.length() - 1; i > -1; i--) {
-        // read elements from list
+        // Elemente aus der Liste lesen
         int value;
         if (list.get(i, value)){
             printf("%i, ", value);
@@ -28,20 +27,20 @@ int main(int argc, char** argv) {
     }
     printf("\n\n");
 
-    // optimized for loops using iterators
-    // forward for now but reverse is possible in most containers using rbegin() and rend()
+    // Optimierte Schleife mit Iteratoren
+    // Vorwaerts; bei vielen Containern waere rueckwaerts mit rbegin() und rend() moeglich
     for (auto i = list.begin(); i != list.end(); ++i) {
         printf("%i, ", *i);
     }
     printf("\n\n");
 
-    // shorthand version of the loop above
+    // Kurzschreibweise der Schleife oben
     for (int& i : list) {
         printf("%i, ", i);
     }
     printf("\n\n");
     
-    // release memory to avoid a memory leak
-    // -> now automatic
+    // Speicherfreigabe zur Vermeidung von Leaks
+    // -> jetzt automatisch
     return 0;
 }
