@@ -1,7 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 project(RSE_SWE_SS26)
 
-set(MODULE sudoku)
+#add pyblind
+add_subdirectory(pyblind)
+
 
 
 include(FetchContent)
@@ -16,4 +18,5 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 enable_testing()
 
-add_subdirectory(${MODULE})
+
+add_subdirectory(sudoku)

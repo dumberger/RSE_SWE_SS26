@@ -9,6 +9,7 @@ import sudoku_py
 class SudokuUI:
     def __init__(self, root):
         # private variables
+        self.updating_ui = False
         self.entries = []
         self.sudoku = sudoku_py.sudoku();
 
@@ -83,37 +84,59 @@ class SudokuUI:
 
     # callback to sync the internal sudoku state with the UI
     def sync_with_sudoku_class(self):
-        for r in range(9):
-            for c in range(9):
-                entry = self.entries[r][c]
+        self.updating_ui = True
+        try:
+            for r in range(9):
+                for c in range(9):
+                    entry = self.entries[r][c]
+                    value = self.sudoku.get(r, c)
 
-                #TODO: read a value from the sudoku class and store in value variable
-
-                entry.config(bg="white")
-                entry.delete(0, tk.END)
-                if value != '_':
-                    entry.insert(0, value)
+                    entry.config(bg="white")
+                    entry.delete(0, tk.END)
+                    if value != '_':
+                        entry.insert(0, value)
+        finally:
+            self.updating_ui = False
 
     def set_cell(self, row, col, value):
+        if self.updating_ui:
+            return True
 
-        #TODO: interact with C++ Sudoku here and set valid variable
+        # normalize to single char expected by C++ binding
+        if value == '_':
+            ch = '_'
+        else:
+            ch = str(value)[0]
+
+        valid = False
+        try:
+            valid = self.sudoku.set(row, col, ch)
+        except Exception:
+            valid = False
 
         if not valid:
             entry = self.entries[row][col]
             entry.config(bg="red")
             entry.delete(0, tk.END)
 
+        return valid
+
     def solve(self):
         print("solving...")
-
-        #TODO: call solver to solve the sudoku
+        try:
+            solved = sudoku_py.solve_sudoku(self.sudoku)
+            self.sudoku = solved
+        except Exception as e:
+            print("Solver error:", e)
 
         self.sync_with_sudoku_class()
 
     def generate(self):
         print("generating a new Sudoku")
-
-        #TODO: call sudoku generator
+        try:
+            self.sudoku = sudoku_py.generate_puzzle(40)
+        except Exception as e:
+            print("Generator error:", e)
 
         self.sync_with_sudoku_class()
 

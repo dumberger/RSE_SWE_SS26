@@ -1,107 +1,122 @@
-// the errors in this file cannot be avoided because the IDE does not recognize the include cpp pattern
 
+#include "../include/list.hpp"
 #include <stdlib.h>
 #include <iostream>
 
 template<typename T>
 List<T>::List() {
     first = nullptr;
-}
-
-template<typename T>
-bool List<T>::get(unsigned int index, T& val) {
-    ListNode<T>* node = this->first;
-    if (node == nullptr) {
-        return false;
-    }
-    for (int i = 0; i < index; i++) {
-        if (node == nullptr) {
-            return false;
-        }
-        node = node->next;
-    }
-    val = node->value;
-    return true;
+    last = nullptr;
 }
 
 template<typename T>
 void List<T>::push_back(T value) {
-    ListNode<T>* node = this->first;
-    if (node == nullptr) {
-        //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-        ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
-        newNode->value = value;
-        newNode->next = nullptr;
-        this->first = newNode;
-        return;
-    }
-    while(node->next != nullptr) {
-        node = node->next;
-    }
-    //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
-    ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
+    ListNode<T>* newNode = new ListNode<T>;
     newNode->value = value;
     newNode->next = nullptr;
-    node->next = newNode;
-    return;
-}
+    newNode->prev = this->last;
 
-template<typename T>
-List<T>::~List() {
-    while(length() > 0) {
-        remove(0);
+    if (this->last != nullptr) {
+        this->last->next = newNode;
     }
-}
+    this->last = newNode;
 
-template<typename T>
-void List<T>::remove(unsigned int index){
-    ListNode<T>* node = this->first;
     if (this->first == nullptr) {
-        return;
+        this->first = newNode;
     }
-    ListNode<T>* tmp;
-    if(index == 0) {
-        this->first = node->next;
-        //free(node); node = NULL;
-        delete node; node = nullptr;
-        return;
-    }
-    for (int i = 0; i < index - 1; i++) {
-        node = node->next;
-        if (node->next == nullptr) {
-            return;
-        }
-    }
-    tmp = node->next;
-    node->next = tmp->next;
-    //free(tmp); tmp = NULL;
-    delete tmp; tmp = nullptr;
-    return;
-}
-
-template<typename T>
-void List<T>::print() {
-    for (auto &&i : *this) {
-        std::cout << i << ", ";
-    }
-    
 }
 
 template<typename T>
 unsigned int List<T>::length() {
     unsigned int len = 0;
-    for (ListNode<T>* i = this->first; i != nullptr; i = i->next) {
+    ListNode<T>* current = this->first;
+    while (current != nullptr) {
         len++;
+        current = current->next;
     }
     return len;
 }
 
 template<typename T>
+bool List<T>::get(unsigned int index, T& val) {
+    ListNode<T>* current = this->first;
+    unsigned int currentIndex = 0;
+
+    while (current != nullptr) {
+        if (currentIndex == index) {
+            val = current->value;
+            return true;
+        }
+        current = current->next;
+        currentIndex++;
+    }
+    return false;
+}
+
+template<typename T>
+void List<T>::remove(unsigned int index) {
+    ListNode<T>* current = this->first;
+    unsigned int currentIndex = 0;
+
+    while (current != nullptr && currentIndex < index) {
+        current = current->next;
+        currentIndex++;
+    }
+    if (current == nullptr) {
+        return;
+    }
+
+    if (current->prev != nullptr) {
+        current->prev->next = current->next;
+    } else {
+        this->first = current->next;
+    }
+    if (current->next != nullptr) {
+        current->next->prev = current->prev;
+    } else {
+        this->last = current->prev;
+    }
+
+    delete current;
+}
+
+template<typename T>
+void List<T>::print() {
+    ListNode<T>* current = this->first;
+    while (current != nullptr) {
+        std::cout << current->value << " ";
+        current = current->next;
+    }
+    std::cout << "\n";
+}
+
+template<typename T>
 ListIterator<T> List<T>::begin() {
-    return ListIterator(first);
+    return ListIterator<T>(first);
 }
 
 template<typename T>
 ListIterator<T> List<T>::end() {
     return ListIterator<T>(nullptr);
 }
+
+template<typename T>
+List<T>::~List() {
+    ListNode<T>* current = this->first;
+    ListNode<T>* next;
+
+    while (current != nullptr) {
+        next = current->next;
+        delete current;
+        current = next;
+    }
+
+    this->first = nullptr;
+    this->last = nullptr;
+}
+
+// Explicit template instantiations
+template class List<int>;
+template class List<double>;
+template class List<std::string>;
+

@@ -1,4 +1,4 @@
-#include "list.hpp"
+#include "../include/list.hpp"
 
 #include <gtest/gtest.h>
 
@@ -16,4 +16,53 @@ TEST(LIST, insert_element) {
     int value;
     ASSERT_TRUE(list.get(0, value));
     ASSERT_EQ(value, 123);
+}
+
+TEST(LIST, push_back_multiple) {
+    List<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    list.push_back(30);
+    EXPECT_EQ(list.length(), 3);
+
+    int value;
+    ASSERT_TRUE(list.get(0, value));
+    ASSERT_EQ(value, 10);
+    ASSERT_TRUE(list.get(1, value));
+    ASSERT_EQ(value, 20);
+    ASSERT_TRUE(list.get(2, value));
+    ASSERT_EQ(value, 30);
+    ASSERT_FALSE(list.get(3, value));
+}
+
+TEST(LIST, get_out_of_bounds) {
+    List<int> list;
+    list.push_back(42);
+    int value;
+    ASSERT_FALSE(list.get(5, value));
+}
+
+TEST(LIST, get_negative_index) {
+    List<int> list;
+    list.push_back(42);
+    int value;
+    ASSERT_FALSE(list.get(-1, value));
+}
+
+TEST(LIST, remove_middle_element) {
+    List<int> list;
+    list.push_back(10);
+    list.push_back(20);
+    list.push_back(30);
+
+    list.remove(1);
+
+    EXPECT_EQ(list.length(), 2);
+
+    int value;
+    ASSERT_TRUE(list.get(0, value));
+    EXPECT_EQ(value, 10);
+    ASSERT_TRUE(list.get(1, value));
+    EXPECT_EQ(value, 30);
+    ASSERT_FALSE(list.get(2, value));
 }
