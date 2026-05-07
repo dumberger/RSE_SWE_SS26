@@ -39,11 +39,6 @@ bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
     return true;
 }
 
-bool Solver::loadSudoku(const Sudoku<9>& reference){
-    sudoku = reference;
-    return true;
-}
-
 bool Solver::solve_cell(bool just_one) {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
