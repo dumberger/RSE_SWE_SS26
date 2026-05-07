@@ -1,10 +1,14 @@
 #include "generator.hpp"
+#include <algorithm>
 #include <iostream>
 #include <iterator>
 #include <random>
 #include "sudoku.hpp"
 #include "solver.hpp"
 #include <fstream>
+#include <utility>
+#include <vector>
+
 
 bool Generator::generate(){
     Solver solver;
@@ -16,30 +20,52 @@ bool Generator::generate(){
 
     prefillSudoku();
     int failedAttempts = 0;
-    int solutions = solver.solve();
+    solver.loadSudoku(sudoku, base_directory);
+    int solutions = solver.solve(true);
     while(solutions == 0){
         sudoku.clear();
         prefillSudoku();
-        solver.loadSudoku(sudoku);
-        //std::cout << sudoku << std::endl;
+        solver.loadSudoku(sudoku, base_directory);
+        solutions = solver.solve(true);
+    }
+    std::cout << sudoku << std::endl;
+
+    std::stringstream solution_name;
+    solution_name << "results/0.txt";
+    std::ifstream input(base_directory / solution_name.str());
+    input >> sudoku;
+    std::cout << sudoku << std::endl;
+
+    //emty random cells till solutions > 1 then one step back
+    char value;
+    std::vector<std::pair<int, int>> emptiedCells;
+    do{
+        std::pair<int, int> cell = {mt() % 9, mt() % 9};
+        if(std::binary_search(emptiedCells.begin(), emptiedCells.end(), cell)){
+            continue;
+        }
+
+        emptiedCells.push_back(cell);
+        value = sudoku.get(cell.first, cell.second);
+        sudoku.set(cell.first, cell.second, '_');
+
+        Solver solver;
+        solver.loadSudoku(sudoku, base_directory);
         solutions = solver.solve();
-        
-    }
-    //solver.loadSudoku(directory / "input.txt");
-    std::cout << sudoku << std::endl;
-    if(loadSudoku(directory / "results" / "0.txt")){
-        std::cout << "loaded sudoku 0.txt correctly" << std::endl;
-    }
-    std::cout << sudoku << std::endl;
-    
+    }while(solutions == 1);
+
+    std::pair<int, int> lastCell = emptiedCells.back();
+    sudoku.set(lastCell.first, lastCell.second, value);
     writeGeneratedSudoku();
+
     return true;
 }
 
 void Generator::writeGeneratedSudoku(){
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
-    std::ofstream file(directory / "input.txt");
+    std::filesystem::create_directory(directory / "generated");
+    std::ofstream file(directory / "generated/gen_sudoku.txt");
     file << sudoku;
 }
 
@@ -91,17 +117,3 @@ std::pair<std::size_t, std::size_t> Generator::next(){
     }
     return resultField;
 }
-
-bool Generator::loadSudoku(std::filesystem::path file) { 
-    if(!std::filesystem::exists(file)) {
-        return false;
-    }
-    std::ifstream input(file);
-    input >> sudoku;
-    if (!input.fail()) {
-        // base_directory = file.parent_path();
-        // std::filesystem::create_directory(base_directory / "results");
-        return true;
-    }
-    return false;
- }

@@ -11,5 +11,4 @@ private:
     void writeGeneratedSudoku();
     std::pair<std::size_t, std::size_t> next();
     void prefillSudoku();
-    bool loadSudoku(std::filesystem::path file);
 };
