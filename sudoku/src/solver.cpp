@@ -3,7 +3,9 @@
 #include <filesystem>
 #include <fstream>
 
-std::size_t Solver::solve() {
+std::size_t Solver::solve(bool saveSolutions) {
+    m_saveSolutions = saveSolutions;
+    solutions = 0; 
     solve_cell();
     return solutions;
 }
@@ -25,16 +27,34 @@ bool Solver::loadSudoku(std::filesystem::path file) {
 bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
 {
     sudoku = reference;
-    base_directory = base_path;
+    if (base_path.empty())
+    {
+        base_directory = std::filesystem::path(__FILE__).parent_path();
+        std::filesystem::create_directory(base_directory / "results");
+    }
+    else
+    {
+        base_directory = base_path;
+    }    
     return true;
 }
 
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
-        write_solution();
         solutions++;
-        return false;
+
+        if (!m_saveSolutions && solutions > 1)
+        {
+            return true;  
+        }
+
+        if (m_saveSolutions)
+        {
+            write_solution();
+        }
+
+        return false;     
     }
     for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
