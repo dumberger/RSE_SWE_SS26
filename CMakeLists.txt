@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.22)
 project(RSE_SWE_SS26)
 
 set(MODULE sudoku)
@@ -16,4 +16,5 @@ FetchContent_MakeAvailable(googletest)
 include(GoogleTest)
 enable_testing()
 
+# Changed to only one build at a time
 add_subdirectory(${MODULE})

@@ -1,8 +1,10 @@
 #!/usr/bin/python3
+#source ~/workspace/RSE_SWE_SS26/sudoku/python/venvSUDOKU/bin/activate
 
 # TKinter is a simple graphics library and should come with the normal python installation. 
 # Otherwise it needs to be installed with "sudo apt install python-tk"
 import tkinter as tk
+import pathlib
 
 import sudoku_py
 
@@ -10,7 +12,11 @@ class SudokuUI:
     def __init__(self, root):
         # private variables
         self.entries = []
-        self.sudoku = sudoku_py.sudoku();
+        self.sudoku = sudoku_py.sudoku()
+        
+        # Since my Generate class depends on a template.txt ...
+        self.sudoku_template_file = pathlib.Path("template.txt")
+        self.sudoku_generated_file = pathlib.Path("random_generated.txt")
 
         # draw a window
         self.root = root
@@ -88,6 +94,9 @@ class SudokuUI:
                 entry = self.entries[r][c]
 
                 #TODO: read a value from the sudoku class and store in value variable
+                value = self.sudoku.get(r, c)
+                if isinstance(value, int):
+                    value = chr(value)
 
                 entry.config(bg="white")
                 entry.delete(0, tk.END)
@@ -97,6 +106,7 @@ class SudokuUI:
     def set_cell(self, row, col, value):
 
         #TODO: interact with C++ Sudoku here and set valid variable
+        valid = self.sudoku.set(row, col, value)
 
         if not valid:
             entry = self.entries[row][col]
@@ -107,15 +117,31 @@ class SudokuUI:
         print("solving...")
 
         #TODO: call solver to solve the sudoku
+        solver = sudoku_py.solver()
+        solver.target_solutions = 1
+        solver.mute_solver(False)
 
-        self.sync_with_sudoku_class()
+        if self.sudoku_generated_file.is_file():
+            solver.load_sudoku(self.sudoku_generated_file)
+            solver.solve()
+            self.sudoku = solver.get_sudoku()
+            self.sync_with_sudoku_class()
+        else:
+            print("No sudoku was generated yet")
 
     def generate(self):
         print("generating a new Sudoku")
 
         #TODO: call sudoku generator
+        generator = sudoku_py.generator()
 
-        self.sync_with_sudoku_class()
+        if self.sudoku_template_file.is_file():
+            generator.load_sudoku(self.sudoku_template_file)
+            generator.generate()
+            self.sudoku = generator.get_sudoku()
+            self.sync_with_sudoku_class()
+        else:
+            print("No sudoku template found for generation")
 
 # generate the UI and start the update loop
 if __name__ == "__main__":
