@@ -9,6 +9,7 @@ class Generator
   public:
     std::size_t generate();
     bool saveSudoku(std::filesystem::path file);
+    Sudoku<9>& getSudoku() { return sudoku; };
   private:
     Sudoku<9> sudoku;
     int solutions = 0;

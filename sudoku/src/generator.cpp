@@ -126,6 +126,7 @@ bool Generator::saveSudoku(std::filesystem::path file)
 	{
 		return false;
 	}
+	printf("saving sudoku to %s...\n", file.string().c_str());
 
 	out << sudoku << std::endl;
 	return out.good();

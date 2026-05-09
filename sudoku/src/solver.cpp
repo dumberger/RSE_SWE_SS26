@@ -9,6 +9,12 @@ std::size_t Solver::solve()
     return solutions;
 }
 
+std::size_t Solver::solve_for_ui()
+{
+    solve_cell_keep_solution();
+    return solutions;
+}
+
 bool Solver::loadSudoku(std::filesystem::path file) 
 {
     if(!std::filesystem::exists(file))
@@ -48,6 +54,30 @@ bool Solver::solve_cell() {
         if (valid)
         {
             if (solve_cell())
+            {
+                return true;
+            }
+            sudoku.set(row, col, sudoku.SYMBOLS[0]);
+        }
+    }
+    return false;
+}
+
+bool Solver::solve_cell_keep_solution() {
+    auto [row, col] = sudoku.next();
+    if (row == 9 || col == 9)
+    {
+        write_solution();
+        solutions++;
+        return true;
+    }
+
+    for (int i = 0; i < 9; i++)
+    {
+        char symbol = sudoku.SYMBOLS[i+1];
+        if (sudoku.set(row, col, symbol))
+        {
+            if (solve_cell_keep_solution())
             {
                 return true;
             }

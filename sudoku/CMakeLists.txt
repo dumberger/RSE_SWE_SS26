@@ -10,8 +10,13 @@ gtest_discover_tests(test_sudoku)
 set(PYBIND11 FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
 
-pybind11_add_module(sudoku_py python/python_wrapper.cpp)
+pybind11_add_module(sudoku_py
+    python/python_wrapper.cpp
+    src/generator.cpp
+    src/solver.cpp
+)
 target_include_directories(sudoku_py PRIVATE include)
+target_link_libraries(sudoku_py PRIVATE pybind11::module)
 
 set_target_properties(sudoku_py PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/../sudoku/python
