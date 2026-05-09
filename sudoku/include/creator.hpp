@@ -10,6 +10,7 @@ public:
   bool setupFromTemplate(std::filesystem::path path);
   bool setupFromReference(const Sudoku<9> &ref,
                           std::filesystem::path output_path);
+  Sudoku<9> &getGrid() { return grid; }
 
   void build();
 
