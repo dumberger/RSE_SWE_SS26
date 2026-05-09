@@ -30,7 +30,7 @@ class Sudoku {
 
         //~Sudoku() = default;
 
-        char get(std::size_t row, std::size_t col) 
+        const char get(std::size_t row, std::size_t col) 
         { 
             return SYMBOLS[field[row][col]]; 
         }
@@ -129,7 +129,7 @@ class Sudoku {
         bool check_rules(std::size_t row, std::size_t col, int index)
         {
             std::bitset<N> result = rows[row] | cols[col] | blks[calculate_block(row, col)];
-            std::cout << result.to_string() << std::endl;
+            // std::cout << result.to_string() << std::endl;
             return !result[index-1];
         }
 
