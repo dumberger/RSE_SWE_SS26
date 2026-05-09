@@ -109,10 +109,10 @@ void Generator::erode(std::mt19937& rng)
         // Check if sudoku still has exactly one solution
         Solver solver;
         solver.mute_solver(true);
-        solver.target_solutions = 1;
+        solver.target_solutions = 2;
         solver.loadSudoku(sudoku, base_directory);
 
-        // If not solvable anymore, restore the cell
+        // If not exactly one solution exists anymore, restore the cell
         if (solver.solve() != 1)
         {
             sudoku.set(row, col, current);

@@ -15,7 +15,8 @@ class SudokuUI:
         self.sudoku = sudoku_py.sudoku()
         
         # Since my Generate class depends on a template.txt ...
-        self.sudoku_path = "template.txt"
+        self.sudoku_template_file = pathlib.Path("template.txt")
+        self.sudoku_generated_file = pathlib.Path("random_generated.txt")
 
         # draw a window
         self.root = root
@@ -94,6 +95,8 @@ class SudokuUI:
 
                 #TODO: read a value from the sudoku class and store in value variable
                 value = self.sudoku.get(r, c)
+                if isinstance(value, int):
+                    value = chr(value)
 
                 entry.config(bg="white")
                 entry.delete(0, tk.END)
@@ -115,22 +118,30 @@ class SudokuUI:
 
         #TODO: call solver to solve the sudoku
         solver = sudoku_py.solver()
-        solver.load_sudoku(self.sudoku_path)
-        solver.solve()
-        self.sudoku = solver.get_sudoku()
+        solver.target_solutions = 1
+        solver.mute_solver(False)
 
-        self.sync_with_sudoku_class()
+        if self.sudoku_generated_file.is_file():
+            solver.load_sudoku(self.sudoku_generated_file)
+            solver.solve()
+            self.sudoku = solver.get_sudoku()
+            self.sync_with_sudoku_class()
+        else:
+            print("No sudoku was generated yet")
 
     def generate(self):
         print("generating a new Sudoku")
 
         #TODO: call sudoku generator
-        gen = sudoku_py.generator()
-        gen.load_sudoku(pathlib.Path(self.sudoku_path))
-        gen.generate()
-        self.sudoku = gen.get_sudoku()
+        generator = sudoku_py.generator()
 
-        self.sync_with_sudoku_class()
+        if self.sudoku_template_file.is_file():
+            generator.load_sudoku(self.sudoku_template_file)
+            generator.generate()
+            self.sudoku = generator.get_sudoku()
+            self.sync_with_sudoku_class()
+        else:
+            print("No sudoku template found for generation")
 
 # generate the UI and start the update loop
 if __name__ == "__main__":

@@ -31,7 +31,7 @@ bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
 
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
-    if (row == 9 || col == 9) {
+    if (row == 9 && col == 9) {
         
         if(!silent) 
         {
@@ -40,7 +40,7 @@ bool Solver::solve_cell() {
 
         solutions++;
 
-        if(solutions > target_solutions)
+        if(solutions >= target_solutions)
         {
             return true;
         }
