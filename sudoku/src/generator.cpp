@@ -30,32 +30,39 @@ bool Generator::fillRecursive() {
 }
 
 bool Generator::GenerateSudoku() {
-    // Clear the board
+    // Сlear the board
     for(int r=0; r<9; ++r) 
         for(int c=0; c<9; ++c) 
             sudoku.set(r, c, sudoku.SYMBOLS[0]);
 
-    if (!fillRecursive()) return false;
-
     std::vector<std::pair<std::size_t, std::size_t>> cells;
-    for (std::size_t r = 0; r < 9; ++r) {
-        for (std::size_t c = 0; c < 9; ++c) {
+    for (std::size_t r = 0; r < 9; ++r)
+        for (std::size_t c = 0; c < 9; ++c) 
             cells.push_back({r, c});
-        }
-    }
+    
     std::shuffle(cells.begin(), cells.end(), gen);
 
     for (auto [row, col] : cells) {
-        char backup = sudoku.get(row, col);
-        sudoku.set(row, col, sudoku.SYMBOLS[0]);
+        std::vector<int> nums(9);
+        std::iota(nums.begin(), nums.end(), 1);
+        std::shuffle(nums.begin(), nums.end(), gen);
 
-        Solver solver;
-        solver.LoadSudoku(sudoku, ""); 
-        
-        if (solver.solve() != 1) {
-            sudoku.set(row, col, backup);
+        for (int num : nums) {
+            if (sudoku.set(row, col, sudoku.SYMBOLS[num])) {
+                Solver solver;
+                solver.LoadSudoku(sudoku, "");
+                std::size_t count = solver.solve();
+
+                if (count == 1) return true; 
+                
+                if (count > 1) {
+                    break; 
+                }
+                
+                // if count == 0, this number was bad
+                sudoku.set(row, col, sudoku.SYMBOLS[0]);
+            }
         }
     }
-
-    return true;
+    return false;
 }
