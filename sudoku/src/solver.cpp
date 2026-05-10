@@ -4,6 +4,7 @@
 #include <fstream>
 
 std::size_t Solver::solve() {
+    solutions = 0;
     solve_cell();
     return solutions;
 }
@@ -30,19 +31,26 @@ bool Solver::LoadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
 }
 
 bool Solver::solve_cell() {
+    if (solutions > 1) {
+        return false; 
+    }
+
     auto [row, col] = sudoku.next();
+
     if (row == 9 || col == 9) {
         write_solution();
         solutions++;
-        return false;
+        return true; // if on true -> first solution
     }
     for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
-        bool valid = sudoku.set(row, col, symbol);
-        if(valid) {
-            if (solve_cell()) { // jede schelife rekursiv, jede rekursion kann schleife sein
-                return true;
-            }
+        if(sudoku.set(row, col, symbol)) {
+            solve_cell();
+
+            if (solutions > 1) break;
+            // if (solve_cell()) { // jede schelife rekursiv, jede rekursion kann schleife sein
+            //     return true;
+            // }
             sudoku.set(row, col, sudoku.SYMBOLS[0]);
         }
     }
