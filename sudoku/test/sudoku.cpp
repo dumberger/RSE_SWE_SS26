@@ -1,8 +1,7 @@
 #include "sudoku.hpp"
-#include <cmath>
 #include <gtest/gtest.h>
 
-TEST(Halaa222, field_empty_at_first) {
+TEST(SUDOKU, field_empty_at_first) {
     Sudoku<9> sudoku;
     EXPECT_EQ(sudoku.get(0,0), '_'); //oben
     EXPECT_EQ(sudoku.get(0,1), '_');
@@ -15,7 +14,7 @@ TEST(Halaa222, field_empty_at_first) {
     EXPECT_EQ(sudoku.get(8,7), '_');
 }
 
-TEST(Halaa222, set_get_functions) {
+TEST(SUDOKU, set_get_functions) {
     Sudoku<9> sudoku;
     ASSERT_TRUE(sudoku.set(1,1,'8'));
     ASSERT_TRUE(sudoku.set(1,2,'3'));
@@ -23,7 +22,7 @@ TEST(Halaa222, set_get_functions) {
     EXPECT_EQ(sudoku.get(1,2), '3');
 }
 
-TEST(Halaa222, cell_does_not_affect_others) {
+TEST(SUDOKU, cell_does_not_affect_others) {
     Sudoku<9> sudoku;
     ASSERT_TRUE(sudoku.set(1,1,'8'));
     EXPECT_EQ(sudoku.get(1,1), '8');
@@ -31,27 +30,27 @@ TEST(Halaa222, cell_does_not_affect_others) {
     EXPECT_EQ(sudoku.get(3,2), '_');
 }
 
-TEST(Halaa222, overwrite_cell) {
+TEST(SUDOKU, overwrite_cell) {
     Sudoku<9> sudoku;
     ASSERT_TRUE(sudoku.set(1,1,'8'));
     ASSERT_TRUE(sudoku.set(1,1,'3'));
     EXPECT_EQ(sudoku.get(1,1), '3');
 }
 
-TEST(Halaa222, valid_symbol) {
+TEST(SUDOKU, valid_symbol) {
     Sudoku<9> sudoku;
     ASSERT_TRUE(sudoku.set(1,1,'8'));
     ASSERT_TRUE(sudoku.set(4,4,'5'));
 }
 
-TEST(Halaa222, invalid_symbol) {
+TEST(SUDOKU, invalid_symbol) {
     Sudoku<9> sudoku;
     ASSERT_FALSE(sudoku.set(2,2,'x'));
     ASSERT_FALSE(sudoku.set(1,3,'.'));
     EXPECT_EQ(sudoku.get(2,2), '_');
 }
 
-TEST(Halaa222, invalid_symbol_cannot_overwrite_cell) {
+TEST(SUDOKU, invalid_symbol_cannot_overwrite_cell) {
     Sudoku<9> sudoku;
     ASSERT_TRUE(sudoku.set(1,1,'8'));
     ASSERT_FALSE(sudoku.set(1,1,'x'));
@@ -59,13 +58,13 @@ TEST(Halaa222, invalid_symbol_cannot_overwrite_cell) {
     EXPECT_EQ(sudoku.get(1,1), '8');
 }
 
-TEST(Halaa222, out_of_cell_index) {
+TEST(SUDOKU, out_of_cell_index) {
     Sudoku<9> sudoku;
     ASSERT_FALSE(sudoku.set(9, 0, '5'));
     ASSERT_FALSE(sudoku.set(0, 9, '5'));
 }
 
-TEST(Halaa222, alphabetic_for_larger_sudoku) {
+TEST(SUDOKU, alphabetic_for_larger_sudoku) {
     Sudoku<16> sudoku;
 
     ASSERT_TRUE(sudoku.set(0, 0, 'A'));

@@ -19,6 +19,8 @@ int main(int argc, char** argv) {
     } while(num_read > 0);
     /// output list in reverse
     printf("\n\n your numbers in reverse:\n");
+    list.print_reverse();
+    /*
     for (int i = list.length() - 1; i > -1; i--) {
         // read elements from list
         int value;
@@ -26,21 +28,21 @@ int main(int argc, char** argv) {
             printf("%i, ", value);
         }
     }
+    */
     printf("\n\n");
 
-    // optimized for loops using iterators
-    // forward for now but reverse is possible in most containers using rbegin() and rend()
-    for (auto i = list.begin(); i != list.end(); ++i) {
+    for (auto i = list.begin(); i != list.end(); ++i){
         printf("%i, ", *i);
     }
-    printf("\n\n");
 
-    // shorthand version of the loop above
+    printf("\n\n");
+    //for (auto i : list) {
     for (int& i : list) {
         printf("%i, ", i);
     }
+
     printf("\n\n");
-    
+
     // release memory to avoid a memory leak
     // -> now automatic
     return 0;
