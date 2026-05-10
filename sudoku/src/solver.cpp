@@ -34,10 +34,13 @@ bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
+        solutions++;
         if (write_files_enabled) { //und hier
             write_solution();
         }
-        solutions++;
+        else if (solutions>1) {
+            return true;
+        }
         return false;
     }
     for (int i = 0; i < 9; i++) {

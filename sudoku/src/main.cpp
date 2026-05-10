@@ -10,7 +10,7 @@ int main() {
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
     
-    //Solver solver;
+    Solver solver;
     //if(solver.loadSudoku(directory / "input.txt"))
     //{
     //    solver.solve();
@@ -19,7 +19,10 @@ int main() {
     Generator generator;
     Sudoku<9> sudoku = generator.generateSudoku(directory);
 
-    std::cout << sudoku;
+    //std::cout << sudoku;
+    std::cout << sudoku << std::endl;
+    solver.loadSudoku(sudoku, directory);
+    std::cout << "Solutions: " << solver.solve(true) << std::endl;
 
     return 0;
 }

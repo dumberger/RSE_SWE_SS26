@@ -14,7 +14,7 @@ private:
     char symbol_random();
     bool has_empty_cell();
     std::pair<std::size_t, std::size_t> empty_cell_random();
-    bool one_solution_only(std::filesystem::path path_directory);
+    std::size_t solution_count(std::filesystem::path path_directory);
 
 public:
     Generator();

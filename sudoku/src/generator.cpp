@@ -1,6 +1,8 @@
 #include "generator.hpp"
 #include "solver.hpp"
 
+#include <cstddef>
+
 Generator::Generator()
     : rng(std::random_device{}())
 {
@@ -34,30 +36,31 @@ std::pair<std::size_t, std::size_t> Generator::empty_cell_random() {
     return {row, col};
 }
 
-bool Generator::one_solution_only(std::filesystem::path path_directory) {
+std::size_t Generator::solution_count(std::filesystem::path path_directory) {
     Solver solver;
 
     if (!solver.loadSudoku(sudoku, path_directory)) {
-        return false;
+        return 0;
     }
 
-    std::size_t amount_solutions = solver.solve(false);
-
-    if (amount_solutions == 1) {
-        return true;
-    } else {
-        return false;
-    }
+    return solver.solve(false);
 }
 
 Sudoku<9> Generator::generateSudoku(std::filesystem::path path_directory) {
-    while (!one_solution_only(path_directory) && has_empty_cell()) {
-        auto [row, col] = empty_cell_random();
+    std::size_t solutions = 0;
 
+    while (solutions != 1 && has_empty_cell()) {
+        auto [row, col] = empty_cell_random();
         char value = symbol_random();
 
         if (!sudoku.set(row, col, value)) {
             continue;
+        }
+
+        solutions = solution_count(path_directory);
+
+        if (solutions == 0) {
+            sudoku.set(row, col, '_');
         }
     }
 
