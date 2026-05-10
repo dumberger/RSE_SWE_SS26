@@ -3,7 +3,7 @@
 
 int main(int argc, char** argv) {
     // create a list
-    List<int> list;
+    List list;
     /// read numbers from user
     int number = 0;
     int num_read = 0;
@@ -50,7 +50,7 @@ int main(int argc, char** argv) {
             case 1:
                 printf("Enter the index of the number you want to see: ");
                 if(scanf("%i", &index) > 0) {
-                    if(list.get(index, value_found)) {
+                    if(list.get(index, &value_found)) {
                         printf("Number at index %i: %i\n", index, value_found);
                     } else {
                         printf("Invalid index %i. No number found.\n", index);
@@ -85,3 +85,4 @@ int main(int argc, char** argv) {
     // release memory to avoid a memory leak
     return 0;
 }
+

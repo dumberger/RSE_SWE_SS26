@@ -1,24 +1,22 @@
-// the errors in this file cannot be avoided because the IDE does not recognize the include cpp pattern
-
-#include <stdlib.h>
-#include <iostream>
 #include "../include/list.hpp"
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
 
-
-template<typename T>
-List<T>::List() {
+// Liste erstellen, indem der Zeiger auf das erste Element auf NULL gesetzt wird (leere Liste)
+List::List() {
     first = nullptr;
     last = nullptr;
 }
 
-template<typename T>
-bool List<T>::get(unsigned int index, T& val) {
+
+bool List::get(unsigned int index, int* val) {
     unsigned int lenght = length();
     if (index >= lenght) { // Wenn der Index größer oder gleich der Anzahl der Elemente in der Liste ist, gibt es keinen Wert an diesem Index, daher wird false zurückgegeben
         return false;
     }
 
-    ListNode<T>* node;
+    ListNode* node;
     // Prüfen ob der Index in der ersten oder zweiten Hälfte der Liste liegt, um die Suche zu verbessern
     if (index > lenght / 2) { // Wenn der Index in der zweiten Hälfte der Liste liegt:
         node = last;
@@ -31,50 +29,50 @@ bool List<T>::get(unsigned int index, T& val) {
             node = node->next;
         }
     }
-    val = node->value;
+    *val = node->value;
     return true;
-
 }
 
 
-template<typename T>
-void List<T>::push(T value) {
-        // ____________________Neuen Knoten erstellen und speichern______________________ 
-    ListNode<T>* newNode = new ListNode<T>;
-    if (newNode == nullptr) { //Wenn kein Speicher mehr verfügbar ist, gibt malloc NULL zurück, daher wird die Funktion mit einem Fehlercode verlassen
-        exit(1);     
-    }
 
-    // ____________________Die Date im neuen Knoten setzen______________________
-    newNode -> value = value;
-    newNode -> next = nullptr; // Der neue Knoten wird das letzte Element der Liste sein, daher wird sein next-Zeiger auf NULL gesetzt
-    newNode -> prev = last; // Der prev-Zeiger, zeigt zum alten leetzten Element der Liste
-
-    // ____________________Den Knoten in die Liste einfügen______________________
-    if(first == nullptr) { // Wenn die Liste leer ist, wird der neue Knoten zum ersten Element der Liste
-        first = newNode;
-        newNode -> prev = nullptr; // Da es das erste Element ist, zeigt der prev-Zeiger auf NULL
-    } else { // Ansonsten wird der neue Knoten an das Ende der Liste angehängt
-        last -> next = newNode; // Der next-Zeiger des alten letzten Elements zeigt auf den neuen Knoten
-    }
-
-    // ____________________Den Zeiger auf das letzte Element der Liste aktualisieren______________________
-    last = newNode; // Der neue Knoten wird zum letzten Element der Liste
+void List::push( int value) {
+// ____________________Neuen Knoten erstellen und speichern______________________ 
+ListNode* newNode = new ListNode;
+if (newNode == nullptr) { //Wenn kein Speicher mehr verfügbar ist, gibt malloc NULL zurück, daher wird die Funktion mit einem Fehlercode verlassen
+    exit(1);     
 }
 
-template<typename T>
-List<T>::~List() {
-    while(length() > 0) {
+// ____________________Die Date im neuen Knoten setzen______________________
+newNode -> value = value;
+newNode -> next = nullptr; // Der neue Knoten wird das letzte Element der Liste sein, daher wird sein next-Zeiger auf NULL gesetzt
+newNode -> prev = last; // Der prev-Zeiger, zeigt zum alten leetzten Element der Liste
+
+// ____________________Den Knoten in die Liste einfügen______________________
+if(first == nullptr) { // Wenn die Liste leer ist, wird der neue Knoten zum ersten Element der Liste
+    first = newNode;
+    newNode -> prev = nullptr; // Da es das erste Element ist, zeigt der prev-Zeiger auf NULL
+} else { // Ansonsten wird der neue Knoten an das Ende der Liste angehängt
+    last -> next = newNode; // Der next-Zeiger des alten letzten Elements zeigt auf den neuen Knoten
+}
+
+// ____________________Den Zeiger auf das letzte Element der Liste aktualisieren______________________
+last = newNode; // Der neue Knoten wird zum letzten Element der Liste
+}
+
+
+// Alle Elemente der Liste löschen, indem die Funktion listRemove wiederholt aufgerufen wird, bis die Liste leer ist
+List::~List() {
+    while(length()> 0) {
         remove(0);
     }
 }
 
-template<typename T>
-void List<T>::remove(unsigned int index){
+
+void List::remove(unsigned int index){
     if(first == nullptr) { // Wenn die Liste leer ist, gibt es nichts zu entfernen, daher wird die Funktion verlassen
         return;
     }
-    ListNode<T>* node = first;
+    ListNode* node = first;
 
     // ____________________Den Knoten, der entfernt werden soll, finden_____________________
     for (int i = 0; i < index; i++) {
@@ -107,20 +105,19 @@ void List<T>::remove(unsigned int index){
     delete node;
 }
 
-template<typename T>
-void List<T>::print() {
-    ListNode<T>* currentNode = first; //Am Anfang der Liste anfangen
+
+
+void List::print(){
+    ListNode* currentNode = first; //Am Anfang der Liste anfangen
     while(currentNode != nullptr){
         printf("%i, ", currentNode->value);
         currentNode = currentNode->next; // Knoten weitergehen, bis zum Ende der Liste
     }
     printf("\n");
-    
 }
 
-template<typename T>
-void List<T>::printReverse() {
-    ListNode<T>* currentNode = last; // Ganz am Ende der Liste beginnen
+void List::printReverse() {
+    ListNode* currentNode = last; // Ganz am Ende der Liste beginnen
     while (currentNode != nullptr) {
         printf("%i, ", currentNode->value);
         currentNode = currentNode->prev; // Knoten zurückgehen, bis zum Anfang der Liste
@@ -128,22 +125,11 @@ void List<T>::printReverse() {
     printf("\n");
 }
 
-template<typename T>
-unsigned int List<T>::length() {
+// Die Länge der Liste berechnen, indem die Liste durchlaufen wird und ein Zähler inkrementiert wird, bis das Ende der Liste erreicht ist
+unsigned int List::length() {
     unsigned int len = 0;
-    for (ListNode<T>* i = first; i != NULL; i = i->next) {
+    for (ListNode* i = first; i != NULL; i = i->next) {
         len++;
     }
     return len;
-
-}
-
-template<typename T>
-ListIterator<T> List<T>::begin() {
-    return ListIterator(first);
-}
-
-template<typename T>
-ListIterator<T> List<T>::end() {
-    return ListIterator<T>(nullptr);
 }
