@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <array>
 #include <ios>
+#include <numeric>
 #include <ostream>
 #include <string>
 #include <iostream>
