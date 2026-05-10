@@ -1,5 +1,4 @@
 #include "solver.hpp"
-
 #include <filesystem>
 #include <fstream>
 

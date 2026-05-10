@@ -22,7 +22,7 @@ int main() {
 }
 
 
-// Zum testen des sudoku creators 
+//Zum testen des sudoku creators 
 // int main() {
 //     Creator creator;
 //     Solver solver;
