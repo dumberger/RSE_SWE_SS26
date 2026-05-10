@@ -6,6 +6,15 @@
 std::size_t Solver::solve(bool write_files) { //gegen viele txt
     solutions = 0; //das auch
     write_files_enabled = write_files; //das auch
+    stop_after_first_solution = false;
+    solve_cell();
+    return solutions;
+}
+
+std::size_t Solver::solveOne() {
+    solutions = 0;
+    write_files_enabled = false;
+    stop_after_first_solution = true;
     solve_cell();
     return solutions;
 }
@@ -32,16 +41,19 @@ bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
 }
 
 bool Solver::solve_cell() {
+    if (!write_files_enabled && solutions > 1) {
+        return true;
+    }
+
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
         solutions++;
         if (write_files_enabled) { //und hier
             write_solution();
+            //return false;
         }
-        else if (solutions>1) {
-            return true;
-        }
-        return false;
+        //return true;
+        return stop_after_first_solution;
     }
     for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
@@ -61,4 +73,8 @@ void Solver::write_solution() {
     solution_name << "results/" << solutions << ".txt";
     std::ofstream file(base_directory / solution_name.str());
     file << sudoku;
+}
+
+Sudoku<9> Solver::getSudoku() {
+    return sudoku;
 }

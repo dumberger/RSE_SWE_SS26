@@ -109,7 +109,10 @@ class SudokuUI:
         print("solving...")
 
         #TODO: call solver to solve the sudoku
-        self.sudoku.solve()
+        solver = sudoku_py.solver()
+        solver.loadSudokuFromObject(self.sudoku, ".")
+        solver.solveOne()
+        self.sudoku= solver.getSudoku()
 
         self.sync_with_sudoku_class()
 
@@ -117,7 +120,8 @@ class SudokuUI:
         print("generating a new Sudoku")
 
         #TODO: call sudoku generator
-        self.sudoku.generate()
+        generator = sudoku_py.generator()
+        self.sudoku = generator.generateSudoku(".")
 
         self.sync_with_sudoku_class()
 
