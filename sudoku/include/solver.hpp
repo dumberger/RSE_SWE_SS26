@@ -5,7 +5,7 @@
 
 class Solver{
     public:
-        bool solve();
+        std::size_t  solve();
         bool LoadSudoku(std::filesystem::path);
         bool LoadSudoku(const Sudoku<9>& reference, std::filesystem::path);
     private:

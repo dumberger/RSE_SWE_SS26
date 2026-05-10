@@ -1,47 +1,46 @@
-# include "solver.hpp"
-# include <filesystem>
-# include <fstream>
+#include "solver.hpp"
 
-// ToDo:
-bool Solver::solve() {
+#include <filesystem>
+#include <fstream>
+
+std::size_t Solver::solve() {
     solve_cell();
-    return solutions > 0;
+    return solutions;
 }
 
-
-bool Solver::LoadSudoku(std::filesystem::path path) {
-    if (!std::filesystem::exists(path)) {
+bool Solver::LoadSudoku(std::filesystem::path file) { 
+    if(!std::filesystem::exists(file)) {
         return false;
     }
-    std::ifstream input(path);
+    std::ifstream input(file);
     input >> sudoku;
-    if(input.good()){
-        base_dir = path.parent_path();
+    if (input.good()) {
+        base_dir = file.parent_path();
+        std::filesystem::create_directory(base_dir / "results");
         return true;
     }
     return false;
-}
+ }
 
-bool Solver::LoadSudoku(const Sudoku<9>& reference, std::filesystem::path path){
+bool Solver::LoadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
+{
     sudoku = reference;
-    base_dir = path.parent_path();
+    base_dir = base_path;
     return true;
 }
 
-
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
-    if (row == 9 || col == 9){
+    if (row == 9 || col == 9) {
         write_solution();
         solutions++;
-        return false; // if on true -> first solution
+        return false;
     }
-
-    for (int i = 0; i < 9; i++){
+    for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
         bool valid = sudoku.set(row, col, symbol);
-        if (valid){
-            if (solve_cell()){ // jede schelife rekursiv, jede rekursion kann schleife sein
+        if(valid) {
+            if (solve_cell()) { // jede schelife rekursiv, jede rekursion kann schleife sein
                 return true;
             }
             sudoku.set(row, col, sudoku.SYMBOLS[0]);

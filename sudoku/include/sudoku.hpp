@@ -7,7 +7,8 @@
 #include <cmath>
 #include <cstddef>
 #include <array>
-#include <cstdio>
+#include <ios>
+#include <numeric>
 #include <ostream>
 #include <string>
 #include <bitset>
@@ -34,7 +35,9 @@ private:
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
     
 public:
-    inline static const std::string SYMBOLS="_123456789";
+    // placeholder symbol is always the first symbol
+    inline static const std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
     Sudoku() {
         // old style ->
         // for (int i = 0; i < field.size(); i++) {

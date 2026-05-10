@@ -1,11 +1,16 @@
 #include "solver.hpp"
+
+#include <cstdlib>
 #include <random>
 
 using namespace std;
 
 int main() {
+    std::filesystem::path directory(__FILE__);
+    directory = directory.parent_path();
     Solver solver;
-    if (solver.LoadSudoku(std::filesystem::path(__FILE__).parent_path() / "input.txt")) {
+    if(solver.LoadSudoku(directory / "input.txt"))
+    {
         solver.solve();
     }
 
