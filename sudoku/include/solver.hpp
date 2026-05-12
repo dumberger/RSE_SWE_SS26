@@ -8,6 +8,7 @@ class Solver {
 public:
     std::size_t solve(int searchLimit);
     std::size_t solve_one();
+    Sudoku<9> solve(const Sudoku<9>& reference);
     bool loadSudoku(std::filesystem::path file);
     bool loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path);
 private:
