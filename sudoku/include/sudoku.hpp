@@ -12,11 +12,16 @@
 #include <string>
 #include <iostream>
 #include <utility>
+#include <random>
+#include <filesystem>
+#include <fstream>
+
 
 // defines a NxN Sudoku
 template<std::size_t N>
 class Sudoku {
 private:
+
 
     std::array<std::array<unsigned int, N>, N> field;
     std::array<std::bitset<N>, N> rows;
@@ -29,7 +34,6 @@ private:
 public:
     // placeholder symbol is always the first symbol
     inline static const std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
     Sudoku() {
         for (auto& row : field) {
             for (auto& cell : row) {
@@ -88,12 +92,19 @@ public:
 
     // get the row and col of the next placeholder in the sodoku
     // get (N,N) when the sudoku is fully solved
-    std::pair<std::size_t, std::size_t> next() {
-        for (int row = 0; row < N; ++row) 
-            for (int col = 0; col < N; ++col)
-                if (field[row][col] == 0)
-                    return {row, col};
-        return {N,N};
+    std::pair<std::size_t, std::size_t> next()
+    {
+        for(std::size_t row = 0; row < N; row++)
+        {
+            for(std::size_t col = 0; col < N; col++)
+            {
+                if(field[row][col] == 0)
+                {
+                    return std::make_pair(row, col);
+                }
+            }
+        }
+        return std::make_pair(N, N);
     }
 
 private:
@@ -165,3 +176,4 @@ std::istream& operator>>(std::istream& stream, Sudoku<N>& sudoku) {
     }
     return stream;
 }
+

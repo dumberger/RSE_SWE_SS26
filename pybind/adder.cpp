@@ -1,15 +1,17 @@
+#include <cstdlib>
+#include <pybind11/detail/common.h>
 #include <pybind11/pybind11.h>
 
-int increment_loop(int start, int end) {
+int increment_loop(int start, int end){
     int n = start;
-    for (int i = start; i < end; i++) {
-        n = n + 1;
+    for (int i=start; i < end; i++) {
+        n = n+1;
     }
-    return n;
+    return end;
 }
 
-PYBIND11_MODULE(adder, m) {
-    m.doc() = "fancy adder module";
+PYBIND11_MODULE(adder, m, pybind11::mod_gil_not_used()){
+    m.doc()="fancy adder module" ;
 
-    m.def("inc", &increment_loop, "add values in a loop");
+    m.def("increment_loop", &increment_loop, "add two variables");
 }
