@@ -3,6 +3,7 @@
 # TKinter is a simple graphics library and should come with the normal python installation. 
 # Otherwise it needs to be installed with "sudo apt install python-tk"
 import tkinter as tk
+import tempfile
 
 import sudoku_py
 
@@ -109,15 +110,9 @@ class SudokuUI:
         #TODO: call solver to solve the sudoku
         solver = sudoku_py.Solver()
 
-        import tempfile
-
-        solver.loadSudoku(
-            self.sudoku,
-            tempfile.gettempdir()
-        )
-
+        solver.loadSudoku(self.sudoku,tempfile.gettempdir())
         solver.solve()
-#ende
+
         self.sync_with_sudoku_class()
 
     def generate(self):
