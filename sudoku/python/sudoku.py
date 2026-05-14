@@ -11,8 +11,10 @@ class SudokuUI:
         # private variables
         self.entries = []
         self.sudoku = sudoku_py.sudoku();
+        self.solver = sudoku_py.solver();
+        self.generator = sudoku_py.generator();
 
-        # draw a window
+        # draw a window 
         self.root = root
         self.root.title("Sudoku")
         frame = tk.Frame(root)
@@ -89,6 +91,8 @@ class SudokuUI:
 
                 #TODO: read a value from the sudoku class and store in value variable
 
+                value = self.sudoku.get(r, c)
+
                 entry.config(bg="white")
                 entry.delete(0, tk.END)
                 if value != '_':
@@ -97,6 +101,8 @@ class SudokuUI:
     def set_cell(self, row, col, value):
 
         #TODO: interact with C++ Sudoku here and set valid variable
+
+        valid = self.sudoku.set(row, col, value)
 
         if not valid:
             entry = self.entries[row][col]
@@ -108,12 +114,22 @@ class SudokuUI:
 
         #TODO: call solver to solve the sudoku
 
+        self.solver.setSudoku(self.sudoku)
+
+        self.solver.solve(True)
+
+        self.sudoku = self.solver.getSudoku()
+
         self.sync_with_sudoku_class()
 
     def generate(self):
         print("generating a new Sudoku")
 
         #TODO: call sudoku generator
+
+        self.generator.generate()
+
+        self.sudoku = self.generator.getSudoku()
 
         self.sync_with_sudoku_class()
 
