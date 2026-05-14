@@ -117,3 +117,7 @@ std::pair<std::size_t, std::size_t> Generator::next(){
     }
     return resultField;
 }
+
+Sudoku<9> Generator::getSudoku(){
+    return sudoku;
+}

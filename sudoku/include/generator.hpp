@@ -5,6 +5,7 @@
 class Generator{
 public:
     bool generate();
+    Sudoku<9> getSudoku();
 private:
     std::filesystem::path base_directory;
     Sudoku<9> sudoku;
