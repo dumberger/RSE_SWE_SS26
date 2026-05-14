@@ -13,32 +13,21 @@ int main() {
     std::filesystem::path directory(__FILE__);
     directory = directory.parent_path();
 
-    string sudoku_file;
-    sudoku_file = directory.string() + "/input.txt";
-
     //generator to generate new sudoku
-    std::mt19937 rand(std::random_device{}());
     Generator generator;
-    generator.generateSudoku(sudoku_file, 42, rand);
-
-    //load sudoku
-    Solver solver;
-    if (!solver.loadSudoku(sudoku_file)) {
-        std::cout << "Failed to load input.txt to solver\n";
-        return -1;
-    }
+    Sudoku<9> new_sudoku = generator.generate(42);
 
     //find all solutions, should be only one due to generator
-    if (!solver.solve(-1)) {
+    Solver solver;
+    auto solved = solver.loadThenSolve(new_sudoku);
+    if (!solved) {
         std::cout << "Keine Lösung gefunden\n";
-        return -2;
+        return -1;
     }
 
     //if solved print to cout
     printf("Mindestens eine Lösung gefunden\n");
-    std::ifstream input(directory.string() + "/results/0.txt");
-    Sudoku<9> sudoku;
-    input >> sudoku;
+    Sudoku<9> sudoku = *solved;
 
     std::cout << "Sudoku Solution:\n" << sudoku << std::endl;
 

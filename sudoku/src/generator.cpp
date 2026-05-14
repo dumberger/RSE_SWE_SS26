@@ -6,9 +6,7 @@
 #include <random>
 
 
-bool Generator::generateSudoku(std::filesystem::path file, int prefilled, std::mt19937& random) {
-
-    auto base_directory = file.parent_path();
+bool Generator::generateSudoku(int prefilled, std::mt19937& random) {
 
     //probably not possible, likely multiple solutions maybe higher lower limit?
     if (prefilled < 17) {
@@ -20,33 +18,18 @@ bool Generator::generateSudoku(std::filesystem::path file, int prefilled, std::m
         return false;
     }
 
-    if(!std::filesystem::exists(base_directory)) {
-        std::cout << "Generator file path does not exist?\n";
-        return false;
-    }
-    file_path = file;
-
     //generate random sudoku then solve
     seed_sudoku(random);
 
     Solver solver;
-    solver.loadSudoku(sudoku,base_directory);
-    if (solver.solve_one() < 1) {
+    auto solved = solver.loadThenSolve(sudoku);
+    if (!solved) {
         std::cout << "Generator seed failed\n";
         return false;
     }
 
-    //std::cout << "Generator Seed \n";
-    //std::cout << sudoku << std::endl;
-
     //load solution into sudoku
-    std::stringstream solution_name;
-    solution_name << "results/0.txt";
-    std::ifstream input(base_directory / solution_name.str());
-    input >> sudoku;
-
-    //std::cout << "Generator found Solution\n";
-    //std::cout << sudoku << std::endl;
+    sudoku = *solved;
 
     //remove number as long as one solution or prefill reached
     std::vector<std::pair<size_t, size_t>> entries;
@@ -63,7 +46,7 @@ bool Generator::generateSudoku(std::filesystem::path file, int prefilled, std::m
         auto value = sudoku.get(r, c);
         sudoku.set(r, c, sudoku.SYMBOLS[0]);
 
-        solver.loadSudoku(sudoku,base_directory);
+        solver.setSudoku(sudoku);
         if (solver.solve(2) >= 2) {
             sudoku.set(r, c, value);
             std::cout << "Generator desired prefill not reached! prefilled " << (82 -i) << "\n" << std::endl;
@@ -74,10 +57,20 @@ bool Generator::generateSudoku(std::filesystem::path file, int prefilled, std::m
     std::cout << "Generated Sudoku:\n" << sudoku << std::endl;
 
     //save
-    std::ofstream out(file);
-    out << sudoku;
+    //std::ofstream out(file);
+    //out << sudoku;
 
     return true;
+}
+
+Sudoku<9> Generator::generate(int prefilled)
+{
+    std::mt19937 random(std::random_device{}());
+    bool ok = generateSudoku( prefilled, random);
+    if (!ok) {
+        throw std::runtime_error("Sudoku generation failed");
+    }
+    return sudoku;
 }
 
 void Generator::seed_sudoku(std::mt19937 &random) {
