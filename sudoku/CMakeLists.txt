@@ -1,4 +1,5 @@
 file(GLOB SOURCES "src/*.cpp")
+
 add_executable(sudoku ${SOURCES})
 target_include_directories(sudoku PRIVATE include)
 
@@ -10,7 +11,11 @@ gtest_discover_tests(test_sudoku)
 find_package(Python COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 REQUIRED CONFIG)
 
-pybind11_add_module(sudoku_py python/python_wrapper.cpp)
+pybind11_add_module(sudoku_py
+        python/python_wrapper.cpp
+        ${SOURCES}
+)
+
 target_include_directories(sudoku_py PRIVATE include)
 
 set_target_properties(sudoku_py PROPERTIES
