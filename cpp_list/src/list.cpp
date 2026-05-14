@@ -6,6 +6,7 @@
 template<typename T>
 List<T>::List() {
     first = nullptr;
+    last = nullptr;
 }
 
 template<typename T>
@@ -32,17 +33,21 @@ void List<T>::push_back(T value) {
         ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
         newNode->value = value;
         newNode->next = nullptr;
+        newNode->prev = nullptr;
+        
         this->first = newNode;
+        this->last = newNode;
         return;
     }
-    while(node->next != nullptr) {
-        node = node->next;
-    }
+
     //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
     ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
     newNode->value = value;
     newNode->next = nullptr;
-    node->next = newNode;
+    
+    newNode->prev = this->last;
+    this->last->next = newNode;
+    this->last = newNode;
     return;
 }
 
