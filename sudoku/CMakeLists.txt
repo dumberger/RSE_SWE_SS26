@@ -8,6 +8,13 @@ target_include_directories(test_sudoku PRIVATE include)
 target_link_libraries(test_sudoku GTest::gtest_main)
 gtest_discover_tests(test_sudoku)
 
+add_executable(test_generator test/generator.cpp
+        src/generator.cpp
+        src/solver.cpp)
+target_include_directories(test_generator PRIVATE include)
+target_link_libraries(test_generator GTest::gtest_main)
+gtest_discover_tests(test_generator)
+
 find_package(Python COMPONENTS Interpreter Development REQUIRED)
 find_package(pybind11 REQUIRED CONFIG)
 

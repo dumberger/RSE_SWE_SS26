@@ -3,6 +3,7 @@
 # TKinter is a simple graphics library and should come with the normal python installation. 
 # Otherwise it needs to be installed with "sudo apt install python-tk"
 import tkinter as tk
+from tkinter import messagebox
 
 import sudoku_py
 
@@ -50,8 +51,20 @@ class SudokuUI:
         generate_btn = tk.Button(btn_frame, text="Generate", command=self.generate)
         generate_btn.grid(row=0, column=1, padx=5)
 
+        # difficulty of game
+        self.difficulty = tk.StringVar(value="medium")
+        difficulty_menu = tk.OptionMenu(
+            btn_frame,
+            self.difficulty,
+            "easy",
+            "medium",
+            "hard"
+        )
+        difficulty_menu.grid(row=0, column=2, padx=5)
+
         solve_btn = tk.Button(btn_frame, text="Solve", command=self.solve)
-        solve_btn.grid(row=0, column=2, padx=5)
+        solve_btn.grid(row=0, column=3, padx=5)
+
 
     # callback to sync UI with backend logic
     def on_cell_change(self, row, col, value):
@@ -60,6 +73,7 @@ class SudokuUI:
 
         # input limited to 1
         if len(value) > 1:
+            print(f"too many imputs ({row}, {col})")
             entry.delete(1, tk.END)
             return
 
@@ -115,16 +129,32 @@ class SudokuUI:
 
         #TODO: call solver to solve the sudoku
         solver = sudoku_py.Solver()
-        self.sudoku = solver.loadThenSolve(self.sudoku)
-
+        solution = solver.loadThenSolve(self.sudoku)
+        if solution is None:
+            print("No solution exists")
+            messagebox.showerror(
+                "Sudoku Solver",
+                "No solution exists for this Sudoku."
+            )
+            return
+        self.sudoku = solution
         self.sync_with_sudoku_class()
 
     def generate(self):
         print("generating a new Sudoku")
 
+        difficulty = self.difficulty.get()
+        print("difficulty =", difficulty)
+        mapping = {
+            "easy": 62,
+            "medium": 42,
+            "hard": 24
+        }
+        prefilled = mapping.get(difficulty, 42)
+
         #TODO: call sudoku generator
         generator = sudoku_py.Generator()
-        self.sudoku = generator.generate(42)
+        self.sudoku = generator.generate(prefilled)
 
         self.sync_with_sudoku_class()
 

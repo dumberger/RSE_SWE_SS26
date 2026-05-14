@@ -40,7 +40,7 @@ public:
     //~Sudoku() = default;
 
     //getter for field to symbol from row and column
-    char get(std::size_t row, std::size_t col) { return SYMBOLS[field[row][col]]; }
+    char get(std::size_t row, std::size_t col) const { return SYMBOLS[field[row][col]]; }
 
     //setter for symbol to value in field based on row and column
     bool set(std::size_t row, std::size_t col, char value) 
