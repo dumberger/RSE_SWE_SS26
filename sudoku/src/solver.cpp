@@ -3,9 +3,9 @@
 #include <filesystem>
 #include <fstream>
 
-std::size_t Solver::solve() {
+std::size_t Solver::solve(bool mode) {
     solutions = 0;
-    solve_cell();
+    solve_cell(mode); // false for generator, true for solving
     return solutions;
 }
 
@@ -30,7 +30,7 @@ bool Solver::LoadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
     return true;
 }
 
-bool Solver::solve_cell() {
+bool Solver::solve_cell(bool mode) {
     if (solutions > 1) {
         return false; 
     }
@@ -45,10 +45,13 @@ bool Solver::solve_cell() {
     for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
         if(sudoku.set(row, col, symbol)) {
-            solve_cell();
 
-            if (solutions > 1) break;
-            // if (solve_cell()) { // jede schelife rekursiv, jede rekursion kann schleife sein
+            bool found = solve_cell(mode);
+
+            if (found && mode) {
+                return true; 
+            }
+            // if (solve_cell() ) { // jede schelife rekursiv, jede rekursion kann schleife sein
             //     return true;
             // }
             sudoku.set(row, col, sudoku.SYMBOLS[0]);

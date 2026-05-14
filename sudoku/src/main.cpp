@@ -34,8 +34,11 @@ int main() {
     Solver solver;
     if(solver.LoadSudoku(directory / "input.txt"))
     {
-        solver.solve();
+        solver.solve(true);
     }
+
+    std::cout << "Solved" << std::endl;
+    std::cout << solver.getSudoku() << std::endl;
 
     
     return 1;

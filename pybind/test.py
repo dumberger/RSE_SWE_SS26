@@ -9,6 +9,6 @@ import adder
 # for i in range(0, 100000000):
 #     n = n + 1
 
-n = adder.increment(0, 100000000) # difference is almost 5 seconds
+n = adder.inc(0, 100000000) # difference is almost 5 seconds
 
 print(n)

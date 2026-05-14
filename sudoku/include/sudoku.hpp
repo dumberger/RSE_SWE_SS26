@@ -36,7 +36,7 @@ private:
     
 public:
     // placeholder symbol is always the first symbol
-    inline static const std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    inline static const std::string SYMBOLS = "_123456789";
 
     Sudoku() {
         // old style ->
