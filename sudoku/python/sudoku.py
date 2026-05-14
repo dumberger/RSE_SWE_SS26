@@ -58,6 +58,11 @@ class SudokuUI:
         entry = self.entries[row][col]
         entry.config(bg="white")
 
+        # input limited to 1
+        if len(value) > 1:
+            entry.delete(1, tk.END)
+            return
+
         # cell should be cleared
         if value == "":
             print(f"clear cell ({row}, {col})")
@@ -98,7 +103,7 @@ class SudokuUI:
     def set_cell(self, row, col, value):
 
         #TODO: interact with C++ Sudoku here and set valid variable
-        self.sudoku.set(row,col,value)
+        valid = self.sudoku.set(row,col,value)
 
         if not valid:
             entry = self.entries[row][col]
