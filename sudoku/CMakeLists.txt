@@ -1,4 +1,5 @@
 file(GLOB SOURCES "src/*.cpp")
+
 add_executable(sudoku ${SOURCES})
 target_include_directories(sudoku PRIVATE include)
 
@@ -7,10 +8,21 @@ target_include_directories(test_sudoku PRIVATE include)
 target_link_libraries(test_sudoku GTest::gtest_main)
 gtest_discover_tests(test_sudoku)
 
-set(PYBIND11 FINDPYTHON ON)
-find_package(pybind11 CONFIG REQUIRED)
+add_executable(test_generator test/generator.cpp
+        src/generator.cpp
+        src/solver.cpp)
+target_include_directories(test_generator PRIVATE include)
+target_link_libraries(test_generator GTest::gtest_main)
+gtest_discover_tests(test_generator)
 
-pybind11_add_module(sudoku_py python/python_wrapper.cpp)
+find_package(Python COMPONENTS Interpreter Development REQUIRED)
+find_package(pybind11 REQUIRED CONFIG)
+
+pybind11_add_module(sudoku_py
+        python/python_wrapper.cpp
+        ${SOURCES}
+)
+
 target_include_directories(sudoku_py PRIVATE include)
 
 set_target_properties(sudoku_py PROPERTIES

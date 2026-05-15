@@ -27,21 +27,22 @@ private:
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
 
 public:
+
     // placeholder symbol is always the first symbol
     inline static const std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     Sudoku() {
         for (auto& row : field) {
-            for (auto& cell : row) {
-                cell = 0;
-            }
+            row.fill(0);
         }
     }
 
     //~Sudoku() = default;
 
-    char get(std::size_t row, std::size_t col) { return SYMBOLS[field[row][col]]; }
+    //getter for field to symbol from row and column
+    char get(std::size_t row, std::size_t col) const { return SYMBOLS[field[row][col]]; }
 
+    //setter for symbol to value in field based on row and column
     bool set(std::size_t row, std::size_t col, char value) 
     {
         if (row >= N || col >= N) {
@@ -97,13 +98,17 @@ public:
     }
 
 private:
+
+    // get block from column and row
     int calculate_block(std::size_t row, std::size_t col)
     {
         std::size_t block_size = sqrt(N);
-        // integer divisions will automatically be rounded down
+        // // integer divisions will automatically be rounded down
+        // return (row / block_size) * block_size + (col / block_size);
         return (row / block_size) * block_size + (col / block_size);
     }
 
+    // is valid sudoku
     bool check_rules(std::size_t row, std::size_t col, int index)
     {
         /*// is index in this line
@@ -128,6 +133,7 @@ private:
         return !result[index-1];
     }
 
+    //removes element from bitsets
     void remove_previous_element(std::size_t row, std::size_t col) {
         std::size_t index = field[row][col];
         if (index == 0) {
@@ -139,6 +145,7 @@ private:
     }
 };
 
+//field to human readable stream
 template<std::size_t N>
 std::ostream& operator<<(std::ostream& stream, Sudoku<N>& sudoku) {
     for (auto& row : sudoku.field) {
@@ -150,6 +157,7 @@ std::ostream& operator<<(std::ostream& stream, Sudoku<N>& sudoku) {
     return stream;
 }
 
+//stream to fields in sudoku
 template<std::size_t N>
 std::istream& operator>>(std::istream& stream, Sudoku<N>& sudoku) {
     for (int row = 0; row < N; ++row) {

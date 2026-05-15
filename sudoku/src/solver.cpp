@@ -2,13 +2,41 @@
 
 #include <filesystem>
 #include <fstream>
+#include <optional>
 
-std::size_t Solver::solve() {
-    solve_cell();
-    return solutions;
+std::optional<Sudoku<9>> Solver::loadThenSolve(const Sudoku<9>& reference) {
+    this->sudoku = reference;
+    solutions.clear();
+    //return null wenn keine solution
+    return solve_one();
 }
 
-bool Solver::loadSudoku(std::filesystem::path file) { 
+std::size_t Solver::solve(int searchLimit, bool writeSolutions) {
+    limit = searchLimit;
+    solve_cell();
+    if (writeSolutions) {
+        for (int i = 0; i < solutions.size(); i++) {
+            write_solution(i);
+        }
+    }
+    return solutions.size();
+}
+
+std::optional<Sudoku<9>> Solver::solve_one() {
+    if (solve(1, false) <= 0) {
+        return std::nullopt;
+    }
+    return solutions[0];
+}
+
+bool Solver::setSudoku(const Sudoku<9>& reference)
+{
+    this->sudoku = reference;
+    solutions.clear();
+    return true;
+}
+
+bool Solver::loadSudoku(std::filesystem::path file) {
     if(!std::filesystem::exists(file)) {
         return false;
     }
@@ -17,23 +45,25 @@ bool Solver::loadSudoku(std::filesystem::path file) {
     if (input.good()) {
         base_directory = file.parent_path();
         std::filesystem::create_directory(base_directory / "results");
+        solutions.clear();
         return true;
     }
     return false;
  }
 
-bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
+bool Solver::setSolutionFolder(std::filesystem::path base_path)
 {
-    sudoku = reference;
     base_directory = base_path;
-    return true;
+    return std::filesystem::exists(base_directory);
 }
 
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
-        write_solution();
-        solutions++;
+        solutions.push_back(sudoku);
+        //write_solution();
+        if (solutions.size() >= limit)
+            return true;
         return false;
     }
     for (int i = 0; i < 9; i++) {
@@ -49,9 +79,9 @@ bool Solver::solve_cell() {
     return false;
 }
 
-void Solver::write_solution() {
+void Solver::write_solution(int i) {
     std::stringstream solution_name;
-    solution_name << "results/" << solutions << ".txt";
+    solution_name << "results/solution_" << (i+1) << ".txt";
     std::ofstream file(base_directory / solution_name.str());
-    file << sudoku;
+    file << solutions[i];
 }
