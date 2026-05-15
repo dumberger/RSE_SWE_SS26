@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.15)
 project(RSE_SWE_SS26)
 
-set(MODULE sudoku)
+set(MODULE singelton)
 
+set(CMAKE_BUILD_TYPE Debug)
 
 include(FetchContent)
 FetchContent_Declare(
