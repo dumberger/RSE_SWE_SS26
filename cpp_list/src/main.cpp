@@ -1,4 +1,5 @@
 #include "list.hpp"
+#include "list.cpp"
 #include <stdio.h>
 #include <array>
 
@@ -19,13 +20,7 @@ int main(int argc, char** argv) {
     } while(num_read > 0);
     /// output list in reverse
     printf("\n\n your numbers in reverse:\n");
-    for (int i = list.length() - 1; i > -1; i--) {
-        // read elements from list
-        int value;
-        if (list.get(i, value)){
-            printf("%i, ", value);
-        }
-    }
+    list.print_reverse();
     printf("\n\n");
 
     // optimized for loops using iterators

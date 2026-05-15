@@ -3,9 +3,15 @@
 #include <filesystem>
 #include <fstream>
 
-std::size_t Solver::solve() {
+std::size_t Solver::solve(const Sudoku<9> Sudoku_1) {
+    sudoku = Sudoku_1;
+    solutions = 0;
     solve_cell();
     return solutions;
+}
+
+Sudoku<9> Solver::getSudoku() const {
+    return solved_sudoku;
 }
 
 bool Solver::loadSudoku(std::filesystem::path file) { 
@@ -32,8 +38,13 @@ bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
 bool Solver::solve_cell() {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
-        write_solution();
+        if(solutions > 1){
+            return true;
+        }
         solutions++;
+        if (solutions == 1) {
+        solved_sudoku = sudoku;
+        }
         return false;
     }
     for (int i = 0; i < 9; i++) {
@@ -55,3 +66,4 @@ void Solver::write_solution() {
     std::ofstream file(base_directory / solution_name.str());
     file << sudoku;
 }
+

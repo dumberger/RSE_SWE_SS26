@@ -2,6 +2,49 @@
 #include <cmath>
 #include <gtest/gtest.h>
 
+TEST(TobiasK, set_value)
+{
+    Sudoku<9> sudoku;
+    EXPECT_TRUE(sudoku.set(1, 5, '2'));
+}
+
+TEST(TobiasK, get_value)
+{
+    Sudoku<9> sudoku;
+    sudoku.set(1, 5, '2');
+    EXPECT_EQ(sudoku.get(1, 5), '2');
+}
+
+TEST(TobiasK, initialize)
+{
+    Sudoku<5> sudoku;
+	for (std::size_t row = 0; row < 5; ++row)
+	{
+		for (std::size_t col = 0; col < 5; ++col)
+		{
+			EXPECT_EQ(sudoku.get(row, col), '_');
+		}
+	}
+}
+TEST(TobiasK, reject_invalid_input) {
+    Sudoku<9> sudoku;
+    EXPECT_FALSE(sudoku.set(1, 5, '{'));
+}
+
+TEST(TobiasK, overwrite) {
+    Sudoku<9> sudoku;
+    sudoku.set(1, 5, '2');
+    sudoku.set(1, 5, '8');
+    EXPECT_EQ(sudoku.get(1, 5), '8');
+}
+
+TEST(TobiasK, index_outside) {
+    Sudoku<5> sudoku;
+    ASSERT_FALSE(sudoku.set(6, 0, '2'));
+    ASSERT_FALSE(sudoku.set(0, 6, '2'));
+}
+
+
 TEST(Halaa222, field_empty_at_first) {
     Sudoku<9> sudoku;
     EXPECT_EQ(sudoku.get(0,0), '_'); //oben

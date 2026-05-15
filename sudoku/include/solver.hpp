@@ -6,12 +6,15 @@
 
 class Solver {
 public:
-    std::size_t solve();
+    std::size_t solve(const Sudoku<9> Sudoku);
     bool loadSudoku(std::filesystem::path file);
     bool loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path);
+    int solutions = 0;
+    Sudoku<9> getSudoku() const;
 private:
     Sudoku<9> sudoku;
-    int solutions = 0;
+    Sudoku<9> solved_sudoku;
+    
     std::filesystem::path base_directory;
     bool solve_cell();
     void write_solution();
