@@ -11,6 +11,7 @@ class Creator{
         Creator(std::filesystem::path base);
         bool create();
         bool trim_Sudoku(int difficulty);
+        Sudoku<9> getSudoku() const;
         Solver solver;
 
     private:
@@ -19,6 +20,7 @@ class Creator{
         bool fill_cell();
         int generate_random_number(int count, std::bitset<9>& bitset);
         std::filesystem::path base_directory;
+        std::pair<std::size_t, std::size_t> pick_random_cell();
 
         std::random_device rd;
         std::mt19937 gen;

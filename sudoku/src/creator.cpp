@@ -14,6 +14,10 @@ bool Creator::create(){
     return true;
 }
 
+Sudoku<9> Creator::getSudoku() const {
+    return sudoku;
+}
+
 bool Creator::fill_cell(){
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
@@ -60,6 +64,7 @@ int Creator::generate_random_number(int count, std::bitset<9>& bitset){
 }
 
 void Creator::write_sudoku() {
+    std::filesystem::create_directories(base_directory / "new_Sudokus");
     std::ofstream file(base_directory / "new_Sudokus/hello.txt");
     file << sudoku;
     std::cout << sudoku << std::endl;
@@ -74,7 +79,7 @@ bool Creator::trim_Sudoku(int difficulty){
     char value = 0;
     int row = 0;
     int col = 0;
-    while(difficulty_score < difficulty*5){
+    while(difficulty_score < 6 + difficulty*5){
         
         std::uniform_int_distribution<>distrib(0, 8);
         row = distrib(gen);
@@ -96,4 +101,33 @@ bool Creator::trim_Sudoku(int difficulty){
     }
     write_sudoku();
     return true;
+}
+
+std::pair<std::size_t, std::size_t> Creator::pick_random_cell(){
+    std::bitset<81> cells;
+    int m = 0;
+    int h = 0;
+    int num_of_picked_cells = cells.count();
+    int picked_cell = 0;
+    std::uniform_int_distribution<>distrib(0, 81-num_of_picked_cells);
+    m = distrib(gen);
+    for ( int i=0; i<81; i++ ){
+        if(!cells[i]){
+            if(h == m){
+                picked_cell = 1;
+            }
+            h++;
+        }
+        
+    }
+    int count = 0;
+    for(int row = 0; row < 9; row++){
+        for(int col = 0; col <9; col++){
+            if(count == picked_cell){
+                return {row,col};
+            }
+            count++;
+        }
+    }
+    return {9,9};
 }

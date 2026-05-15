@@ -10,6 +10,10 @@ std::size_t Solver::solve(const Sudoku<9> Sudoku_1) {
     return solutions;
 }
 
+Sudoku<9> Solver::getSudoku() const {
+    return solved_sudoku;
+}
+
 bool Solver::loadSudoku(std::filesystem::path file) { 
     if(!std::filesystem::exists(file)) {
         return false;
@@ -38,6 +42,9 @@ bool Solver::solve_cell() {
             return true;
         }
         solutions++;
+        if (solutions == 1) {
+        solved_sudoku = sudoku;
+        }
         return false;
     }
     for (int i = 0; i < 9; i++) {
@@ -59,3 +66,4 @@ void Solver::write_solution() {
     std::ofstream file(base_directory / solution_name.str());
     file << sudoku;
 }
+
