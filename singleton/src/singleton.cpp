@@ -1,9 +1,25 @@
 #include "singleton.hpp"
 
-int Singleton::get() const {
-    return item;
+const int& Singleton::get() const
+{
+    return _item;
 }
 
-void Singleton::set(const int& value) {
-    item = value;
+int& Singleton::item() {
+    return _item;
+}
+
+const int& Singleton::item() const {
+    return _item;
+}
+
+Singleton& Singleton::getInstance()
+{
+    static Singleton s{};
+    return s;
+}
+
+std::ostream& operator<<(std::ostream& os, const Singleton& s) {
+    os << s._item;
+    return os;
 }

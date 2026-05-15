@@ -1,10 +1,24 @@
 #pragma once
 
+#include <iostream>
+
 class Singleton {
 public:
-    int get() const;
-    void set(const int& value);
-private:
-    int item;
+    Singleton(const Singleton& other) = delete;
+    Singleton& operator=(const Singleton& other) = delete;
+    Singleton(Singleton&& other) = delete;
+    Singleton& operator=(Singleton&& other) = delete;
 
+    const int& get() const;
+    void set(const int& value) { _item = value; } //automatically inline
+
+    int& item();
+    const int& item() const;
+
+    static Singleton& getInstance();
+
+    friend std::ostream& operator<<(std::ostream& os, const Singleton& s);
+private:
+    Singleton() = default;
+    int _item;
 };
