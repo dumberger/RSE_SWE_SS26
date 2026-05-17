@@ -14,14 +14,24 @@ bool List<T>::get(unsigned int index, T& val) {
     if (node == nullptr) {
         return false;
     }
-    for (int i = 0; i < index; i++) {
-        if (node == nullptr) {
-            return false;
+
+    ListNode<T>* node;
+
+    // Richtung wählen (wie bei remove
+    if(index < length() / 2) {
+        node = this->first;
+        for (int i = 0; i < index; i++) {
+            node = node->next;
         }
-        node = node->next;
+    } else {
+        node = this->last;
+        for (int i = length() - 1; i > index; i--) {
+            node = node->prev;
+        }
     }
     val = node->value;
     return true;
+
 }
 
 template<typename T>
@@ -33,6 +43,7 @@ void List<T>::push_back(T value) {
         newNode->value = value;
         newNode->next = nullptr;
         this->first = newNode;
+        this->last = newNode;
         return;
     }
     while(node->next != nullptr) {
@@ -51,6 +62,9 @@ List<T>::~List() {
     while(length() > 0) {
         remove(0);
     }
+    first = nullptr;
+    last = nullptr;
+
 }
 
 template<typename T>
@@ -66,17 +80,26 @@ void List<T>::remove(unsigned int index){
         delete node; node = nullptr;
         return;
     }
-    for (int i = 0; i < index - 1; i++) {
-        node = node->next;
-        if (node->next == nullptr) {
-            return;
+
+    ListNode<T>* node; 
+
+    if(index < length() / 2) {
+        node = this->first;
+        for (int i = 0; i < index; i++) {
+            node = node->next;
+        }
+    } else {
+        node = this->last;
+        for (int i = length() - 1; i > index; i--) {
+            node = node->prev;
         }
     }
-    tmp = node->next;
-    node->next = tmp->next;
-    //free(tmp); tmp = NULL;
-    delete tmp; tmp = nullptr;
-    return;
+
+    // Verbindung anpassen
+    if(node->prev != nullptr) {
+        node->prev->next = node->next;
+    } else {
+        this->first = node->next;
 }
 
 template<typename T>

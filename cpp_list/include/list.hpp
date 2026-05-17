@@ -1,4 +1,8 @@
 #pragma once
+#include "ListNode.hpp"
+#include "ListIterator.hpp"
+
+template <typename T>
 
 #include "ListNode.hpp"
 #include "ListIterator.hpp"
