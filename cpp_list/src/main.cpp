@@ -6,6 +6,7 @@ int main(int argc, char** argv) {
     // create a list
     List<int> list;
     /// read numbers from user
+    int value;
     int number = 0;
     int num_read = 0;
     do {
@@ -17,7 +18,9 @@ int main(int argc, char** argv) {
         }
         /// until an invalid input
     } while(num_read > 0);
+
     /// output list in reverse
+
     printf("\n\n your numbers in reverse:\n");
     for (int i = list.length() - 1; i > -1; i--) {
         // read elements from list
@@ -26,6 +29,10 @@ int main(int argc, char** argv) {
             printf("%i, ", value);
         }
     }
+    printf("\n\n");
+
+    // numbers in reverse with function:
+    list.printReversed();
     printf("\n\n");
 
     // optimized for loops using iterators

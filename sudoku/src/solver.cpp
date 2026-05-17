@@ -1,10 +1,20 @@
 #include "solver.hpp"
 
+#include <cstddef>
 #include <filesystem>
 #include <fstream>
 
 std::size_t Solver::solve() {
-    solve_cell();
+    solve_cell(false);
+    return solutions;
+}
+
+std::size_t Solver::solve(bool just_one){
+    if(just_one){
+        solve_cell(just_one);
+        return solutions;
+    }
+    solve_cell(false);
     return solutions;
 }
 
@@ -20,7 +30,7 @@ bool Solver::loadSudoku(std::filesystem::path file) {
         return true;
     }
     return false;
- }
+}
 
 bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_path)
 {
@@ -29,18 +39,21 @@ bool Solver::loadSudoku(const Sudoku<9>& reference, std::filesystem::path base_p
     return true;
 }
 
-bool Solver::solve_cell() {
+bool Solver::solve_cell(bool just_one) {
     auto [row, col] = sudoku.next();
     if (row == 9 || col == 9) {
         write_solution();
         solutions++;
+        if(just_one && solutions == 1){
+            return true;
+        }
         return false;
     }
     for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
         bool valid = sudoku.set(row, col, symbol);
         if(valid) {
-            if (solve_cell()) {
+            if (solve_cell(just_one)) {
                 return true;
             }
             sudoku.set(row, col, sudoku.SYMBOLS[0]);
@@ -51,7 +64,12 @@ bool Solver::solve_cell() {
 
 void Solver::write_solution() {
     std::stringstream solution_name;
+    std::filesystem::create_directory(base_directory / "results");
     solution_name << "results/" << solutions << ".txt";
     std::ofstream file(base_directory / solution_name.str());
     file << sudoku;
+}
+
+Sudoku<9> Solver::getSudoku(){
+    return sudoku;
 }
