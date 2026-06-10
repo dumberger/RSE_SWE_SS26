@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.22)
 project(RSE_SWE_SS26)
 
-set(MODULE singleton)
+set(MODULE webshop)
 
 
 include(FetchContent)
