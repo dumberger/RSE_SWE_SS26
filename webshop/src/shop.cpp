@@ -1,4 +1,5 @@
 #include "shop.hpp"
+
 #include <iostream>
 
 void Shop::addProduct(uint32_t id, Product* product)
@@ -19,7 +20,7 @@ Product* Shop::getProduct(uint32_t id)
 
 void Shop::listProducts()
 {
-    for(auto& [id, product] : catalogue){
-        std::cout << id << ": " << product << "\n";
+    for (auto& [id, product] : catalogue) {
+        std::cout << id << ": " << product->getName() << "\n";
     }
 }

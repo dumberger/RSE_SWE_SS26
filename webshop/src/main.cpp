@@ -1,12 +1,10 @@
 #include "fixedPricedProduct.hpp"
-#include "product.hpp"
-
 
 int main() {
     FixedPriceProduct test;
-    Product * prod = &test;
-    test.getName();
     
+    Product* prod = &test;
+
     return 0;
 }
 

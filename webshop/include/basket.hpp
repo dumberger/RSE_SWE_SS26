@@ -1,14 +1,15 @@
 #pragma once
+
 #include "product.hpp"
-#include <vector>
+
 #include <map>
 
 class Basket {
 public:
     void addItem(Product* product, double quantity);
-    void removeitem(Product* product);
+    void removeItem(Product* product);
     [[nodiscard]] const double checkout() const;
-    void printItems() ;
+    void printItems() const;
 private:
     std::map<Product*, double> items;
 };
