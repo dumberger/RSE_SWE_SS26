@@ -2,20 +2,21 @@
 
 #include <iostream>
 
-class Singleton{
+class Singleton {
 public:
     Singleton(const Singleton& other) = delete;
-    Singleton& operator = (const Singleton& other) = delete;
+    Singleton& operator=(const Singleton& other) = delete;
     Singleton(Singleton&& other) = delete;
     Singleton& operator=(Singleton&& other) = delete;
 
-    //const int& get() const();
-    void set(const int& value);
+    const int& get() const;
+    void set(const int& value) { _item = value; } //automatically inline
 
     int& item();
     const int& item() const;
 
     static Singleton& getInstance();
+
     friend std::ostream& operator<<(std::ostream& os, const Singleton& s);
 private:
     Singleton() = default;

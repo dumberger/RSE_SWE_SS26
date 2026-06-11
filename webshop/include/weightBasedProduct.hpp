@@ -1,4 +1,9 @@
-//class weightBasedProduct
-//  public Product
-//  price() override
-//  
+#pragma once
+
+class WeightPriceProduct {
+public:
+    WeightPriceProduct(???);
+    double getPrice() override;
+private:
+    ???
+};
