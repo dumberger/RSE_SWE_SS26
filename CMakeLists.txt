@@ -4,7 +4,7 @@ cmake_policy(SET CMP0135 NEW)
 
 project(RSE_SWE_SS26)
 
-set(MODULE singleton)
+set(MODULE webshop)
 
 include(FetchContent)
 FetchContent_Declare(
