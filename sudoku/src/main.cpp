@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <filesystem>
 #include <iostream>
 #include <ostream>
@@ -30,6 +31,23 @@ int main()
         std::cerr << "error reading file" << std::endl;
     }
 
+=======
+#include "solver.hpp"
+
+#include <cstdlib>
+#include <random>
+
+using namespace std;
+
+int main() {
+    std::filesystem::path directory(__FILE__);
+    directory = directory.parent_path();
+    Solver solver;
+    if(solver.loadSudoku(directory / "input.txt"))
+    {
+        solver.solve();
+    }
+>>>>>>> lecture
     return 0;
 }
 
