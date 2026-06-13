@@ -1,9 +1,15 @@
 #include "fixedPricedProduct.hpp"
+#include "weightBasedProduct.hpp"
+#include "lenghtBasedProduct.hpp"
+#include "shop.hpp"
+#include "basket.hpp"
 
 int main() {
-    FixedPriceProduct test{"test", 1, 1};
+    FixedPriceProduct test1{"test1", 1, 1};
+    WeightBasedProduct test2{"test2", 1, 1};
+    LenghtBasedProduct test3{"test3", 1, 1, 1.000};
     
-    Product* prod = &test;
+    Product* prod = &test1;
 
     return 0;
 }
