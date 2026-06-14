@@ -6,12 +6,15 @@
 // TODO
 
 #pragma once
+
 #include "product.hpp"
 
-class LengthBasedProduct : public Product {
-
+class LenghtBasedProduct : public Product {
 public:
-  LengthBasedProduct(const std::string &name, double pricePerMeter)
-      : Product(name, pricePerMeter, 0.0) {}
-  double getPrice() override { return getUnitprice(); }
+  LenghtBasedProduct(const std::string &name, double unitprice, double weight,
+                     double length);
+  double getPrice() override;
+
+private:
+  double length;
 };
