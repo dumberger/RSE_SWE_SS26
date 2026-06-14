@@ -2,7 +2,6 @@
 
 #include "item.hpp"
 #include "product.hpp"
-#include <sys/types.h>
 
 class WeightBasedItem : public Item {
 public:
