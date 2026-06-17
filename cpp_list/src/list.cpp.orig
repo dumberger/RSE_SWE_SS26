@@ -60,6 +60,7 @@ bool List<T>::get(unsigned int index, T& val) const
 // add a new value to the end of the list
 template<typename T>
 void List<T>::push_back(T value) {
+<<<<<<< HEAD
     // create a new node
     ListNode<T>* newNode = new ListNode<T>;
     // check if malloc succeeded
@@ -71,6 +72,22 @@ void List<T>::push_back(T value) {
     // get the actual last node
     ListNode<T>* nodeLastAct = this->last;
     // set new node values
+=======
+    ListNode<T>* node = this->first;
+    if (node == nullptr) {
+        //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+        ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
+        newNode->value = value;
+        newNode->next = nullptr;
+        this->first = newNode;
+        return;
+    }
+    while(node->next != nullptr) {
+        node = node->next;
+    }
+    //ListNode* newNode = (ListNode*)malloc(sizeof(ListNode));
+    ListNode<T>* newNode = new ListNode<T>; // new throws std::bad_alloc, no need to check pointer
+>>>>>>> lecture
     newNode->value = value;
     newNode->next = nullptr;
 

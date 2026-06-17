@@ -46,3 +46,4 @@
 # custom files
 
 sudoku/src/template.txt
+.vscode/

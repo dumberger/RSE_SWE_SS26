@@ -2,6 +2,7 @@
 
 # TKinter is a simple graphics library and should come with the normal python installation. 
 # Otherwise it needs to be installed with "sudo apt install python-tk"
+import os
 import tkinter as tk
 
 import sudoku_py
@@ -88,7 +89,8 @@ class SudokuUI:
                 entry = self.entries[r][c]
 
                 #TODO: read a value from the sudoku class and store in value variable
-
+                value = self.sudoku.get(r, c)
+                
                 entry.config(bg="white")
                 entry.delete(0, tk.END)
                 if value != '_':
@@ -97,6 +99,7 @@ class SudokuUI:
     def set_cell(self, row, col, value):
 
         #TODO: interact with C++ Sudoku here and set valid variable
+        valid = self.sudoku.set(row, col, value)
 
         if not valid:
             entry = self.entries[row][col]
@@ -107,6 +110,12 @@ class SudokuUI:
         print("solving...")
 
         #TODO: call solver to solve the sudoku
+        solver = sudoku_py.solver();
+        
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        solver.loadSudoku(self.sudoku, current_dir)       
+        solver.solve()
+        self.sudoku = solver.getFirstSolution()
 
         self.sync_with_sudoku_class()
 
@@ -114,6 +123,7 @@ class SudokuUI:
         print("generating a new Sudoku")
 
         #TODO: call sudoku generator
+        self.sudoku = sudoku_py.generate();
 
         self.sync_with_sudoku_class()
 
