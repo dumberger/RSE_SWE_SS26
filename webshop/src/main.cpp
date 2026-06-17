@@ -1,23 +1,9 @@
 #include "base.hpp"
 #include "derived.hpp"
+#include "fixedPricedProduct.hpp"
 
 int main() {
-    Derived derived;
-    Derived *p_derived = &derived;
-
-    p_derived->whoami();
-    p_derived->hello();
-
-    Base *p_base = new Base(); 
-
-    p_base->whoami();
-
-    Derived *maybe = dynamic_cast<Derived*>(p_base);
-    if(maybe == nullptr) {
-        std::cout << "can't convert\n";
-    } else {
-        maybe->hello();
-    }
+    FixedPriceProduct test("Apple", 0.5, 0.2);
     
     return 0;
 }

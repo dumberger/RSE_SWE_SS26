@@ -1,12 +1,16 @@
 #pragma once
 
-#include <vector>
+#include <map>
+#include "product.hpp"
+#include <memory>
 
-class Basket {
+class Basket 
+{
 public:
-    void addItem(???);
-    double checkout();
-    void printItems();
+    void addItem(std::shared_ptr<Product> product, double quantity);
+    void removeItem(std::shared_ptr<Product> product);
+    [[nodiscard]] const double checkout() const;
+    void printItems() const;
 private:
-    std::vector<???> items;
+    std::map<std::shared_ptr<Product>, double> items;
 };
