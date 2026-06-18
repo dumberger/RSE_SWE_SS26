@@ -2,12 +2,12 @@
 
 #include <iostream>
 
-void Basket::addItem(std::shared_ptr<Product> product, double quantity)
+void Basket::addItem(std::shared_ptr<Item> product, double quantity)
 {
     items[product] += quantity;
 }
 
-void Basket::removeItem(std::shared_ptr<Product> product)
+void Basket::removeItem(std::shared_ptr<Item> product)
 {
     items.erase(product);
 }

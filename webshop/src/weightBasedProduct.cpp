@@ -1,11 +1,17 @@
-#include "weightPriceProduct.hpp"
-#include "product.hpp"
+#include "weightBasedProduct.hpp"
+#include "weightBasedItem.hpp"
+#include <memory>
 
-WeightPriceProduct::WeightPriceProduct(const std::string& name, double unitprice, double length)
+WeightBasedProduct::WeightBasedProduct(const std::string& name, double unitprice, double weight)
 : Product(name, unitprice, weight)
 {}
     
-double WeightPriceProduct::getPrice()
+double WeightBasedProduct::getPrice()
 {
-    return getUnitprice();
+    return getUnitprice()/getWeight();
+}
+
+std::unique_ptr<Item> WeightBasedProduct::getItem(double quantity) {
+    auto item = std::make_unique<WeightBasedItem>(shared_from_this(), quantity);
+    return item;
 }

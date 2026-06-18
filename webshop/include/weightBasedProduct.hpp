@@ -2,9 +2,9 @@
 
 #include "product.hpp"
 
-class WeightPriceProduct : public Product {
+class WeightBasedProduct : public Product {
 public:
-    WeightPriceProduct(const std::string& name, double unitprice, double weight);
+    WeightBasedProduct(const std::string& name, double unitprice, double weight);
     double getPrice() override;
-private:
+    std::unique_ptr<Item> getItem(double quantity) override;
 };

@@ -20,7 +20,13 @@ void Shop::removeProduct(uint32_t id)
 
 std::unique_ptr<Item> Shop::getItem(uint32_t id, double quantity)
 {
-    return std::make_unique(catalogue[id]);
+    auto iterator = catalogue.find(id);
+    if(iterator != catalogue.end()) {
+        auto product = iterator->second;
+        return product->getItem(quantity);
+    } else {
+        return nullptr;
+    }
 }
 
 void Shop::listProducts()
