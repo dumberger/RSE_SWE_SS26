@@ -1,22 +1,25 @@
 #pragma once
 
-#include <algorithm>
 #include <bitset>
-#include <cctype>
-#include <cmath>
 #include <cstddef>
 #include <array>
-#include <ios>
 #include <numeric>
 #include <ostream>
 #include <string>
+#include <algorithm>
+#include <cmath>
 #include <iostream>
-#include <utility>
+
+
+
+
+
 
 // defines a NxN Sudoku
 template<std::size_t N>
 class Sudoku {
 private:
+   
 
     std::array<std::array<unsigned int, N>, N> field;
     std::array<std::bitset<N>, N> rows;
@@ -25,10 +28,10 @@ private:
 
     template<std::size_t M>
     friend std::ostream& operator<<(std::ostream&, Sudoku<M>&);
-
 public:
-    // placeholder symbol is always the first symbol
-    inline static const std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ // placeholder symbol is always the first symbol
+    std::string SYMBOLS = "_123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const std::string& getSymbols() const { return SYMBOLS; }
 
     Sudoku() {
         for (auto& row : field) {
@@ -40,7 +43,7 @@ public:
 
     //~Sudoku() = default;
 
-    char get(std::size_t row, std::size_t col) { return SYMBOLS[field[row][col]]; }
+    char get(std::size_t row, std::size_t col) const { return SYMBOLS[field[row][col]]; }
 
     bool set(std::size_t row, std::size_t col, char value) 
     {
@@ -88,13 +91,41 @@ public:
 
     // get the row and col of the next placeholder in the sodoku
     // get (N,N) when the sudoku is fully solved
-    std::pair<std::size_t, std::size_t> next() {
-        for (int row = 0; row < N; ++row) 
-            for (int col = 0; col < N; ++col)
-                if (field[row][col] == 0)
+     std::pair<std::size_t, std::size_t> next()
+    {
+        //select the best the next cell to fill, the one with the least options
+        std::size_t best_row = N;
+        std::size_t best_col = N;
+        std::size_t best_options = N+1;
+        for (std::size_t row = 0; row < N; ++row) {
+            for (std::size_t col = 0; col < N; ++col) {
+                if (field[row][col] != 0) {
+                    continue;
+                }
+                // count the number of valid options for this cell
+                std::size_t options = 0;
+                for (std::size_t i = 1; i <= N; ++i) {
+                    if (check_rules(row, col, i)) {
+                        ++options;
+                    }
+                }
+                 //Optimalfall sofort zurück
+                if (options == 0) {
                     return {row, col};
-        return {N,N};
+                }
+
+
+                if (options < best_options) {
+                    best_options = options;
+                    best_row = row;
+                    best_col = col;
+                }
+            }
+        }
+        return {best_row, best_col};
+
     }
+
 
 private:
     int calculate_block(std::size_t row, std::size_t col)
@@ -165,3 +196,4 @@ std::istream& operator>>(std::istream& stream, Sudoku<N>& sudoku) {
     }
     return stream;
 }
+   

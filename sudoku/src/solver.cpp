@@ -1,5 +1,4 @@
 #include "solver.hpp"
-
 #include <filesystem>
 #include <fstream>
 
@@ -36,7 +35,7 @@ bool Solver::solve_cell() {
         solutions++;
         return false;
     }
-    for (int i = 0; i < 9; i++) {
+      for (int i = 0; i < 9; i++) {
         char symbol = sudoku.SYMBOLS[i+1];
         bool valid = sudoku.set(row, col, symbol);
         if(valid) {
