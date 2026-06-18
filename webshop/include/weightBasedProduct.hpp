@@ -1,9 +1,10 @@
 #pragma once
 
-class WeightPriceProduct {
+#include "product.hpp"
+
+class WeightBasedProduct : public Product {
 public:
-    WeightPriceProduct(???);
+    WeightBasedProduct(const std::string& name, double unitprice, double weight);
     double getPrice() override;
-private:
-    ???
+    std::unique_ptr<Item> getItem(double quantity) override;
 };
