@@ -1,7 +1,7 @@
 #include "fixedPricedProduct.hpp"
 
 int main() {
-    FixedPriceProduct test;
+    FixedPriceProduct test{"test",1,10.0};
     
     Product* prod = &test;
 
