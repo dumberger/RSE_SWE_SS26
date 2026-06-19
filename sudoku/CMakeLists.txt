@@ -10,7 +10,8 @@ gtest_discover_tests(test_sudoku)
 set(PYBIND11 FINDPYTHON ON)
 find_package(pybind11 CONFIG REQUIRED)
 
-pybind11_add_module(sudoku_py python/python_wrapper.cpp)
+# pybind11_add_module(sudoku_py python/python_wrapper.cpp)
+pybind11_add_module(sudoku_py python/python_wrapper.cpp ${SOURCES})
 target_include_directories(sudoku_py PRIVATE include)
 
 set_target_properties(sudoku_py PROPERTIES

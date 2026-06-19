@@ -1,9 +1,11 @@
-#include "../include/list.hpp"
 #include <gtest/gtest.h>
+#include "../include/list.hpp"
+
+
 
 // Test 1: Länge der Liste
 TEST(ListTest, pushAndGetLenght){
-    List<int> list;
+    List list;
     list.push(10);
     list.push(20);
     list.push(30);
@@ -13,27 +15,31 @@ TEST(ListTest, pushAndGetLenght){
 
 // Test 2: Abrufen von Werten (Get) und Out-of-Bounds
 TEST(ListTest, getNumber){
-    List<int> list;
+    List list;
     list.push(10);
     list.push(20);
     list.push(30);
 
     int value;
     // Erste Zahl am Index 0
-    list.get(0, value);
+    list.get(0, &value);
     EXPECT_EQ(value, 10);
     // Zweite Zahl am Index 1
-    list.get(1, value);
+    list.get(1, &value);
     EXPECT_EQ(value, 20);
 
     // Werte außerhalb der Liste
-    EXPECT_FALSE(list.get(3, value)); // Index existiert nicht
+    EXPECT_FALSE(list.get(3, &value)); // Index existiert nicht
 
 }
 
+// neues Kommentar
+
+
+
 // Test 3: Löschen von Elementen (Remove)
 TEST(ListTest, RemoveElements) {
-    List<int> list;
+    List list;
     list.push(1);
     list.push(2);
     list.push(3);
@@ -45,7 +51,7 @@ TEST(ListTest, RemoveElements) {
 
 //Test 4: Testen der Print-Funktion
 TEST(ListTest, printList){
-    List<int> list;
+    List list;
     list.push(1);
     list.push(2);
     list.push(3);
@@ -60,7 +66,7 @@ TEST(ListTest, printList){
 
 //Test 5: Testen der ReversePrint-Funktion
 TEST(ListTest, printReverseList){
-    List<int> list;
+    List list;
     list.push(1);
     list.push(2);
     list.push(3);
