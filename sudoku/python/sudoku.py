@@ -5,6 +5,7 @@
 import tkinter as tk
 
 import sudoku_py
+import os
 
 class SudokuUI:
     def __init__(self, root):
@@ -87,7 +88,8 @@ class SudokuUI:
             for c in range(9):
                 entry = self.entries[r][c]
 
-                #TODO: read a value from the sudoku class and store in value variable
+                #read a value from the sudoku class and store in value variable
+                value = self.sudoku.get(r, c)
 
                 entry.config(bg="white")
                 entry.delete(0, tk.END)
@@ -96,7 +98,9 @@ class SudokuUI:
 
     def set_cell(self, row, col, value):
 
-        #TODO: interact with C++ Sudoku here and set valid variable
+        #interact with C++ Sudoku here and set valid variable
+        # .set() gibt True zurück, wenn die Zahl regelkonform ist
+        valid = self.sudoku.set(row, col, str(value))
 
         if not valid:
             entry = self.entries[row][col]
@@ -106,15 +110,31 @@ class SudokuUI:
     def solve(self):
         print("solving...")
 
-        #TODO: call solver to solve the sudoku
+        #call solver to solve the sudoku
+        current_path = os.getcwd()
 
+        s = sudoku_py.solver()
+        s.loadSudoku(self.sudoku, current_path)
+        s.solve()
+        
+        # Das gelöste Sudoku aus dem Solver in die UI-Klasse übernehmen
+        self.sudoku = s.get_sudoku()
         self.sync_with_sudoku_class()
 
     def generate(self):
         print("generating a new Sudoku")
 
-        #TODO: call sudoku generator
+        current_path = os.getcwd()
 
+        #call sudoku generator
+        gen = sudoku_py.creator()
+        blank_sudoku = sudoku_py.sudoku() # Starte mit einem leeren Feld
+        
+        gen.setupFromReference(blank_sudoku, current_path)
+        gen.build()
+        
+        # Das generierte Sudoku in die UI-Klasse übernehmen
+        self.sudoku = gen.get_grid()
         self.sync_with_sudoku_class()
 
 # generate the UI and start the update loop
