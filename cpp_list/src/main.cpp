@@ -17,31 +17,12 @@ int main(int argc, char** argv) {
         }
         /// until an invalid input
     } while(num_read > 0);
-    /// output list in reverse
-    printf("\n\n your numbers in reverse:\n");
-    for (int i = list.length() - 1; i > -1; i--) {
-        // read elements from list
-        int value;
-        if (list.get(i, value)){
-            printf("%i, ", value);
-        }
-    }
-    printf("\n\n");
 
-    // optimized for loops using iterators
-    // forward for now but reverse is possible in most containers using rbegin() and rend()
-    for (auto i = list.begin(); i != list.end(); ++i) {
-        printf("%i, ", *i);
-    }
-    printf("\n\n");
-
-    // shorthand version of the loop above
-    for (int& i : list) {
-        printf("%i, ", i);
-    }
-    printf("\n\n");
+    printf("\n\nyour numbers in chronological order:\n");
+    list.print();
     
-    // release memory to avoid a memory leak
-    // -> now automatic
+    printf("\n\nyour numbers in reverse:\n");
+    list.printReverse();
+
     return 0;
 }

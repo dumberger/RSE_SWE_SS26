@@ -2,6 +2,6 @@
 
 import adder
 
-n = adder.inc(0, 10_000_000)
+n = adder.inc(0, 10000000)
 
 print(n)
