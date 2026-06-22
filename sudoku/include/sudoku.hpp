@@ -13,6 +13,8 @@
 #include <iostream>
 #include <utility>
 
+#include <fstream>
+
 // defines a NxN Sudoku
 template<std::size_t N>
 class Sudoku {

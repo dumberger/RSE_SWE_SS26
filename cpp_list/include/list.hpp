@@ -7,7 +7,16 @@ template<typename T>
 class List 
 {
 private:
+    /*
+    struct ListNode {
+        int value;
+        struct ListNode* next;
+        struct ListNode* prev;
+    };
+    */
+
     ListNode<T>* first;
+    ListNode<T>* last;
 public:
     List();
     ~List();
@@ -16,6 +25,7 @@ public:
     void push_back(T value);
     void remove(unsigned int index);
     void print();
+    void print_reverse();
     unsigned int length();
 
     ListIterator<T> begin();

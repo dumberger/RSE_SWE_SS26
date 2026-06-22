@@ -1,8 +1,8 @@
 #pragma once
 
-template<typename T> 
-struct ListNode
-{
+template<typename T>
+struct ListNode {
     T value;
-    ListNode* next;
+    ListNode<T>* next;
+    ListNode<T>* prev;
 };

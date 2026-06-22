@@ -3,8 +3,9 @@
 #include "ListNode.hpp"
 
 template<typename T>
-class ListIterator
-{
+
+class ListIterator {
+
 public:
     ListIterator(ListNode<T>* node) : _node(node) {}
     T& operator*() { return _node->value; }
