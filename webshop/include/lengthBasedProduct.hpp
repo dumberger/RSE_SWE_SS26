@@ -4,7 +4,7 @@
 
 class LengthBasedProduct : public Product {
 public:
-    LengthBasedProduct(const std::string& name, double unitprice, double length);
+    LengthBasedProduct(const std::string& name, double unitprice, double weight, double length);
     double getPrice() override;
 private:
     double length;

@@ -1,10 +1,16 @@
 #pragma once
 
-#include <iostream>
+#include "item.hpp"
 
-class Base {
+#include <map>
+#include <memory>
+
+class Basket {
 public:
-    virtual void whoami() { std::cout << "i am Base, my counter is " << internal_counter++ << std::endl;}
-protected:
-    int internal_counter = 0;
+    void addItem(std::shared_ptr<Item> product, double quantity);
+    void removeItem(std::shared_ptr<Item> product);
+    [[nodiscard]] const double checkout() const;
+    void printItems() const;
+private:
+    std::map<std::shared_ptr<Item>, double> items;
 };
