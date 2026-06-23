@@ -12,7 +12,7 @@ double FixedPriceProduct::getPrice()
     return getUnitprice();
 }
 
-std::unique_ptr<Item> FixedPriceProduct::getItem(double quantity) {
-    auto item = std::make_unique<FixedPricedItem>(shared_from_this());
-    return item;
+std::unique_ptr<Item> FixedPriceProduct::getItem(double quantity) { //(2) in class diagram
+    auto item = std::make_unique<FixedPricedItem>(shared_from_this()); //(3) in class diagram
+    return item; //(4) in class diagram
 }

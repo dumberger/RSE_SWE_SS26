@@ -23,7 +23,8 @@ std::unique_ptr<Item> Shop::getItem(uint32_t id, double quantity)
     auto iterator = catalogue.find(id);
     if(iterator != catalogue.end()) {
         auto product = iterator->second;
-        return product->getItem(quantity);
+        auto item = product->getItem(quantity); //(1) in class diagram
+        return item; //(5) in class diagram
     } else {
         return nullptr;
     }

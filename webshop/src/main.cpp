@@ -17,20 +17,21 @@ int main() {
     while(std::cin.good()) {
         uint32_t id;
         double quantity;
+        int amount;
         shop.listProducts();
-        std::cout << "select a product by id and specify quantity:";
-        std::cin >> id >> quantity;
+        std::cout << "select a product by id, then specify quantity (depends on type of product) and an amount:";
+        std::cin >> id >> quantity >> amount;
         if(quantity == 0.0) {
             break;
         }
-        auto item = shop.getItem(id, quantity);
+        auto item = shop.getItem(id, quantity); // blue arrow in class diagram
         if(item) {
-            basket.addItem(std::move(item), quantity);
+            basket.addItem(std::move(item), amount);
         }
     }
     std::cout << "\n\nYour order:\n";
     basket.printItems();
     auto final_price = basket.checkout();
-    std::cout << std::endl;
+    std::cout << "\n\nYour final price: " << final_price << std::endl;
     return 0;
 }
