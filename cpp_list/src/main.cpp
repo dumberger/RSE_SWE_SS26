@@ -36,6 +36,8 @@ int main(int argc, char** argv) {
     printf("\n\n");
 
     // shorthand version of the loop above
+    // Range based for loop ist ab C++11 verfügbar und ermöglicht es, über Container wie Arrays, Vektoren oder Listen zu iterieren, ohne explizit Iteratoren zu verwenden.
+    // ist wie eine for-each Schleife in anderen Programmiersprachen.
     for (int& i : list) {
         printf("%i, ", i);
     }
