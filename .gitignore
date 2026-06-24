@@ -1,5 +1,6 @@
 **/.cache/*
 **/build/
+_deps/
 
 # Prerequisites
 *.d

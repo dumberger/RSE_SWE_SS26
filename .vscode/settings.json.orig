@@ -1,0 +1,10 @@
+{
+<<<<<<< HEAD
+    "cmake.sourceDirectory": "/home/bastian/workspace/RSE_SWE_SS26",
+    "cmake.ctest.testExplorerIntegrationEnabled": true,
+    "cmake.generator": "Unix Makefiles"
+=======
+    "cmake.sourceDirectory": "/home/bastian/RSE_SWE_SS26",
+    "cmake.ctest.testExplorerIntegrationEnabled": true
+>>>>>>> 64a62b4326b0387e61e87dd034e4e4ee3c867577
+}

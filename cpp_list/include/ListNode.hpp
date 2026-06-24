@@ -4,5 +4,6 @@ template<typename T>
 struct ListNode
 {
     T value;
-    ListNode* next;
+    ListNode<T>* prev;
+    ListNode<T>* next;
 };
