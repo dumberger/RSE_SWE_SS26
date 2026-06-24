@@ -1,17 +1,17 @@
 #pragma once
 
-#include <algorithm>
 #include <bitset>
 #include <cctype>
 #include <cmath>
 #include <cstddef>
 #include <array>
+#include <vector>
 #include <ios>
-#include <numeric>
 #include <ostream>
 #include <string>
 #include <iostream>
 #include <utility>
+#include <cstring>
 
 // defines a NxN Sudoku
 template<std::size_t N>
@@ -88,12 +88,50 @@ public:
 
     // get the row and col of the next placeholder in the sodoku
     // get (N,N) when the sudoku is fully solved
-    std::pair<std::size_t, std::size_t> next() {
-        for (int row = 0; row < N; ++row) 
-            for (int col = 0; col < N; ++col)
-                if (field[row][col] == 0)
-                    return {row, col};
-        return {N,N};
+    std::pair<std::size_t, std::size_t> next(){
+        std::pair<std::size_t, std::size_t> resultField = {N,N};
+        std::vector<std::pair<int, int>> missing;
+        std::array<int, N> freeInRows{};
+        std::array<int, N> freeInCols{};
+        std::array<int, N> freeInBlks{};
+        int blkID;
+        int blkSize = std::sqrt(N);
+        unsigned int counter = 0;
+
+        for(int r = 0; r < N; r++){
+            for(int c = 0; c < N; c++){
+                if(this->get(r, c) == '_'){
+                    counter++;
+                    freeInCols[c]++;
+                    blkID = (r / blkSize) * blkSize + (c / blkSize);
+                    freeInBlks[blkID]++;
+                    missing.push_back({r,c});
+                }
+            } 
+            freeInRows[r] = counter;
+            counter = 0;
+        }
+
+        int bestField = N+N+N;
+        for(auto field : missing){
+            int fR = freeInRows[field.first];
+            int fC = freeInCols[field.second];
+            int fB = freeInBlks[(field.first / blkSize) * blkSize + (field.second / blkSize)];
+            int fieldValue = fR + fC + fB;
+            if(fieldValue <= bestField && fieldValue != 0){
+                bestField = fieldValue;
+                resultField = {field.first, field.second};
+            }
+        }
+        return resultField;
+    }
+
+    void clear(){
+        for(int row = 0; row < N; row++){
+            for(int col = 0; col < N; col++){
+                set(row, col, SYMBOLS[0]);
+            }
+        }
     }
 
 private:
