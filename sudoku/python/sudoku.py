@@ -3,6 +3,7 @@
 # TKinter is a simple graphics library and should come with the normal python installation. 
 # Otherwise it needs to be installed with "sudo apt install python-tk"
 import tkinter as tk
+import pathlib
 
 import sudoku_py
 
@@ -10,7 +11,8 @@ class SudokuUI:
     def __init__(self, root):
         # private variables
         self.entries = []
-        self.sudoku = sudoku_py.sudoku();
+        self.sudoku = sudoku_py.sudoku()
+        self._syncing = False
 
         # draw a window
         self.root = root
@@ -55,6 +57,8 @@ class SudokuUI:
 
     # callback to sync UI with backend logic
     def on_cell_change(self, row, col, value):
+        if self._syncing:
+            return
         entry = self.entries[row][col]
         entry.config(bg="white")
 
@@ -76,27 +80,32 @@ class SudokuUI:
     
     # clear the whole Sudoku grid
     def clear(self):
+        self.sudoku = sudoku_py.sudoku()
+        self._syncing = True
         for r in range(9):
             for c in range(9):
-                entry = self.entries[r][c]
-                entry.delete(0, tk.END)
+                self.entries[r][c].delete(0, tk.END)
+        self._syncing = False
 
     # callback to sync the internal sudoku state with the UI
     def sync_with_sudoku_class(self):
+        self._syncing = True
         for r in range(9):
             for c in range(9):
                 entry = self.entries[r][c]
-
-                #TODO: read a value from the sudoku class and store in value variable
-
+                value = self.sudoku.get(r, c)
+                if isinstance(value, int):
+                    value = str(value)
                 entry.config(bg="white")
                 entry.delete(0, tk.END)
                 if value != '_':
                     entry.insert(0, value)
+        self._syncing = False
 
     def set_cell(self, row, col, value):
 
         #TODO: interact with C++ Sudoku here and set valid variable
+        valid = self.sudoku.set(row, col, value)
 
         if not valid:
             entry = self.entries[row][col]
@@ -108,14 +117,24 @@ class SudokuUI:
 
         #TODO: call solver to solve the sudoku
 
+        solver = sudoku_py.solver()
+        solver.target_solutions = 1
+        solver.mute_solver(True)
+        solver.loadSudoku(self.sudoku, ".")
+        solver.solve()
+        self.sudoku = solver.get_sudoku()
         self.sync_with_sudoku_class()
+       
 
     def generate(self):
         print("generating a new Sudoku")
 
-        #TODO: call sudoku generator
-
+        generator = sudoku_py.sudoku_generator()
+        generator.load_sudoku(sudoku_py.sudoku(), ".")
+        generator.generate()
+        self.sudoku = generator.get_sudoku()
         self.sync_with_sudoku_class()
+
 
 # generate the UI and start the update loop
 if __name__ == "__main__":

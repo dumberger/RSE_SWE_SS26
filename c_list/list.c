@@ -15,6 +15,9 @@ bool listGet(List list, unsigned int index, int* val) {
         }
         node = node->next;
     }
+    if (node == NULL) {
+        return false;
+    }
     *val = node->value;
     return true;
 }

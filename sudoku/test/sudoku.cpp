@@ -695,3 +695,42 @@ TYPED_TEST(dumberger_diff_size, solves_correctly) {
         }
     }
 }
+
+TEST(test_next, next_on_empty_sudoku) {
+    Sudoku<9> sudoku;
+    auto [row, col] = sudoku.next();
+    EXPECT_EQ(row, 0);
+    EXPECT_EQ(col, 0);
+}
+
+TEST(test_next, next_on_partially_filled) {
+    Sudoku<9> sudoku;
+    sudoku.set(0, 0, '1');
+    auto [row, col] = sudoku.next();
+    EXPECT_EQ(row, 0);
+    EXPECT_EQ(col, 1);
+}
+
+TEST(test_next, next_on_full_sudoku) {
+    Sudoku<4> sudoku; // Smaller for easier filling
+    // Fill with a valid 4x4 sudoku
+    sudoku.set(0, 0, '1');
+    sudoku.set(0, 1, '2');
+    sudoku.set(0, 2, '3');
+    sudoku.set(0, 3, '4');
+    sudoku.set(1, 0, '3');
+    sudoku.set(1, 1, '4');
+    sudoku.set(1, 2, '1');
+    sudoku.set(1, 3, '2');
+    sudoku.set(2, 0, '2');
+    sudoku.set(2, 1, '1');
+    sudoku.set(2, 2, '4');
+    sudoku.set(2, 3, '3');
+    sudoku.set(3, 0, '4');
+    sudoku.set(3, 1, '3');
+    sudoku.set(3, 2, '2');
+    sudoku.set(3, 3, '1');
+    auto [row, col] = sudoku.next();
+    EXPECT_EQ(row, 4);
+    EXPECT_EQ(col, 4);
+}
